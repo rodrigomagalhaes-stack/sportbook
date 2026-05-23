@@ -41,7 +41,6 @@
   tbody tr:nth-child(even) { background:var(--surface2); }
   tbody tr:hover { background:var(--brand-light); }
   td { padding:.52rem 1rem; vertical-align:middle; }
-  .td-num { text-align:center; color:var(--text-dim); font-size:.73rem; width:34px; }
   .td-player { font-weight:600; }
   .td-market { color:var(--text-muted); font-size:.78rem; }
   .td-odd { text-align:right; font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:1.05rem; color:var(--odd-color); white-space:nowrap; }
@@ -52,37 +51,25 @@
   footer { background:var(--header-bg); border-top:3px solid var(--brand); padding:1.2rem 2rem; text-align:center; font-size:.7rem; color:#666; line-height:1.8; }
   footer strong { color:#aaa; }
   td.td-status { width:130px; padding:.35rem .6rem; }
-  td.td-id     { width:120px; padding:.35rem .6rem; }
-  select.status-sel {
-    width:100%; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:.75rem;
-    border:1px solid var(--border); border-radius:4px; padding:3px 6px; cursor:pointer;
-    outline:none; appearance:none; -webkit-appearance:none;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23aaa'/%3E%3C/svg%3E");
-    background-repeat:no-repeat; background-position:right 6px center; padding-right:20px;
-  }
-  select.status-sel.s-pendente  { background-color:#fef9c3; color:#92400e; border-color:#f0d060; }
-  select.status-sel.s-confirmado{ background-color:#dcfce7; color:#15803d; border-color:#86efac; }
-  select.status-sel.s-negado    { background-color:#fee2e2; color:#dc2626; border-color:#fca5a5; }
-  input.id-input {
-    width:100%; font-family:'Barlow',sans-serif; font-size:.78rem; color:#2563eb;
-    border:1px solid var(--border); border-radius:4px; padding:3px 6px; outline:none;
-    background:#f8faff;
-  }
+  td.td-id { width:120px; padding:.35rem .6rem; }
+  select.status-sel { width:100%; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:.75rem; border:1px solid var(--border); border-radius:4px; padding:3px 6px; cursor:pointer; outline:none; appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23aaa'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 6px center; padding-right:20px; }
+  select.status-sel.s-pendente { background-color:#fef9c3; color:#92400e; border-color:#f0d060; }
+  select.status-sel.s-confirmado { background-color:#dcfce7; color:#15803d; border-color:#86efac; }
+  select.status-sel.s-negado { background-color:#fee2e2; color:#dc2626; border-color:#fca5a5; }
+  input.id-input { width:100%; font-family:'Barlow',sans-serif; font-size:.78rem; color:#2563eb; border:1px solid var(--border); border-radius:4px; padding:3px 6px; outline:none; background:#f8faff; }
   input.id-input:focus { border-color:#93c5fd; background:#eff6ff; }
   input.id-input::placeholder { color:#c0c0c0; font-style:italic; }
   thead th.th-status { width:130px; text-align:center; }
-  thead th.th-id     { width:120px; text-align:center; }
+  thead th.th-id { width:120px; text-align:center; }
 </style>
 </head>
 <body>
-
 <header>
   <div class="logo-mark"></div>
   <div class="header-title">Copa do Mundo <span>2026</span></div>
   <span class="header-pill">Longo Prazo</span>
   <div class="header-meta"><div id="ts"></div><div id="sync-indicator"><span style="color:#888;font-size:.75rem">🔄 Carregando...</span></div></div>
 </header>
-
 <div class="tab-nav-wrap">
   <div class="tab-nav">
     <button class="tab-btn active" onclick="showTab('jogadores',this)">Jogadores</button>
@@ -103,318 +90,67 @@
     <button class="tab-btn" onclick="showTab('gL',this)">Grupo L</button>
   </div>
 </div>
-
 <div class="content">
 
-  <!-- ══════════ JOGADORES ══════════ -->
-  <div class="tab-panel active" id="tab-jogadores">
-    <div class="page-title">Jogadores <span class="accent">/ Prêmios</span></div>
-    <div class="page-subtitle">Artilheiros e Prêmios Individuais</div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Prêmio de Jogador do Torneio</div></div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-premio-jog"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Prêmio de Goleiro do Torneio</div></div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Goleiro</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-premio-gol"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Artilheiro do Torneio (Geral)</div></div>
-      <div class="search-bar"><span>🔍</span><input type="text" placeholder="Buscar jogador..." oninput="ft(this,'tbl-art')"></div>
-      <div class="table-wrap">
-        <table id="tbl-art">
-          <thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-geral"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Vencedor & Artilheiro</div></div>
-      <div class="search-bar"><span>🔍</span><input type="text" placeholder="Buscar seleção ou jogador..." oninput="ft(this,'tbl-combo')"></div>
-      <div class="table-wrap"><table id="tbl-combo"><thead><tr><th>Seleção & Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-combo"></tbody></table></div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Inglaterra: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-ing"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">França: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-fra"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Argentina: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-arg"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Brasil: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-bra"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Espanha: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-esp"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Portugal: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-por"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Alemanha: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-ale"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Bélgica: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-bel"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Suécia: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-sue"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Escócia: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-esc"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Coreia do Sul: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-cor"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Japão: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-jap"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">República Checa: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-rec"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Croácia: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-cro"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Turquia: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-tur"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Tunísia: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-tun"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Bósnia e Herzegovina: Artilheiro (Inc. prorrogação)</div></div>
-      <div class="table-wrap">
-        <table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-art-bos"></tbody>
-        </table>
-      </div>
-    </div>
-
-  </div><!-- /tab-jogadores -->
-
-  <!-- ══════════ EQUIPES ══════════ -->
-  <div class="tab-panel" id="tab-equipes">
-    <div class="page-title">Equipes <span class="accent">/ Vencedor e Desempenho</span></div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Vencedor do Torneio</div></div>
-      <div class="search-bar"><span>🔍</span><input type="text" placeholder="Buscar seleção..." oninput="ft(this,'tbl-venc-geral')"></div>
-      <div class="table-wrap">
-        <table id="tbl-venc-geral">
-          <thead><tr><th>Seleção</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-eq-venc"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Equipes para Chegar à Final</div></div>
-      <div class="search-bar"><span>🔍</span><input type="text" placeholder="Buscar confronto..." oninput="ft(this,'tbl-chegar-final')"></div>
-      <div class="table-wrap">
-        <table id="tbl-chegar-final">
-          <thead><tr><th>Combinação</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-eq-chegar-final"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Vencedor do Grupo & Vencedor do Torneio</div></div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Seleção</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-eq-venc-grupo"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Alcançar a fase X da competição</div></div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Seleção</th><th class="center">Finalista</th><th class="center">Semifinalista</th><th class="center">Quartas de Final</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-eq-fase-x"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Melhor Equipe Classificada por Continente</div></div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Seleção</th><th class="center">Continente</th><th class="right">Odd</th></tr></thead>
-          <tbody id="b-eq-continente"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-accent"></div><div class="section-title">Qualquer Equipe Vence (Dupla Chance)</div></div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Combinação</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead>
-          <tbody id="b-eq-qualquer"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══════════ ELIMINAÇÃO ══════════ -->
-  <div class="tab-panel" id="tab-eliminacao">
-    <div class="page-title">Rodada da <span class="accent">Eliminação</span></div>
-    <div class="page-subtitle">Fase exata em que a seleção sairá da competição</div>
-    <div class="search-bar"><span>🔍</span><input type="text" placeholder="Buscar seleção..." oninput="ft(this,'tbl-elim')"></div>
-    <div class="table-wrap">
-      <table id="tbl-elim">
-        <thead>
-          <tr>
-            <th>Seleção</th><th class="center">Grupos</th><th class="center">32-avos</th>
-            <th class="center">Oitavas</th><th class="center">Quartas</th><th class="center">Semis</th><th class="center">Final</th>
-          </tr>
-        </thead>
-        <tbody id="b-elim"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <div id="groups-container"></div>
-
-  <!-- ══════════ QUEBRA DE RECORDE ══════════ -->
-  <div class="tab-panel" id="tab-recordes">
-    <div class="page-title">Quebra de <span class="accent">Recorde</span></div>
-    <div class="page-subtitle">Mercado: Será que algum recorde histórico da Copa do Mundo será batido em 2026?</div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Recorde</th><th class="center">Atual</th><th class="right">Odd (Sim)</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr>
-        </thead>
-        <tbody id="b-recordes"></tbody>
-      </table>
-    </div>
-    <p style="font-size:.75rem;color:var(--text-dim);margin-top:.75rem;text-align:center">Todos os mercados incluem prorrogação, exceto Gol Mais Rápido, Cartão Vermelho Mais Rápido e Jogador Mais Velho em Final.</p>
-  </div>
-
+<!-- JOGADORES -->
+<div class="tab-panel active" id="tab-jogadores">
+  <div class="page-title">Jogadores <span class="accent">/ Prêmios</span></div>
+  <div class="page-subtitle">Artilheiros e Prêmios Individuais</div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Prêmio de Jogador do Torneio</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-premio-jog"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Prêmio de Goleiro do Torneio</div></div><div class="table-wrap"><table><thead><tr><th>Goleiro</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-premio-gol"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Artilheiro do Torneio (Geral)</div></div><div class="search-bar"><span>🔍</span><input type="text" placeholder="Buscar jogador..." oninput="ft(this,'tbl-art')"></div><div class="table-wrap"><table id="tbl-art"><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-geral"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Vencedor & Artilheiro</div></div><div class="search-bar"><span>🔍</span><input type="text" placeholder="Buscar seleção ou jogador..." oninput="ft(this,'tbl-combo')"></div><div class="table-wrap"><table id="tbl-combo"><thead><tr><th>Seleção & Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-combo"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Inglaterra: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-ing"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">França: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-fra"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Argentina: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-arg"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Brasil: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-bra"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Espanha: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-esp"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Portugal: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-por"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Alemanha: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-ale"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Bélgica: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-bel"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Suécia: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-sue"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Escócia: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-esc"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Coreia do Sul: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-cor"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Japão: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-jap"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">República Checa: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-rec"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Croácia: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-cro"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Turquia: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-tur"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Tunísia: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-tun"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Bósnia e Herzegovina: Artilheiro (Inc. prorrogação)</div></div><div class="table-wrap"><table><thead><tr><th>Jogador</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-art-bos"></tbody></table></div></div>
 </div>
 
-<footer>
-  <strong>Copa do Mundo 2026 — Mercado: Longo Prazo</strong><br>
-  As odds podem variar a qualquer momento. Jogue com responsabilidade. +18 · betblocker.org/br
-</footer>
+<!-- EQUIPES -->
+<div class="tab-panel" id="tab-equipes">
+  <div class="page-title">Equipes <span class="accent">/ Vencedor e Desempenho</span></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Vencedor do Torneio</div></div><div class="search-bar"><span>🔍</span><input type="text" placeholder="Buscar seleção..." oninput="ft(this,'tbl-venc-geral')"></div><div class="table-wrap"><table id="tbl-venc-geral"><thead><tr><th>Seleção</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-eq-venc"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Equipes para Chegar à Final</div></div><div class="search-bar"><span>🔍</span><input type="text" placeholder="Buscar confronto..." oninput="ft(this,'tbl-chegar-final')"></div><div class="table-wrap"><table id="tbl-chegar-final"><thead><tr><th>Combinação</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-eq-chegar-final"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Vencedor do Grupo & Vencedor do Torneio</div></div><div class="table-wrap"><table><thead><tr><th>Seleção</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-eq-venc-grupo"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Alcançar a fase X da competição</div></div><div class="table-wrap"><table><thead><tr><th>Seleção</th><th class="center">Finalista</th><th class="center">Semifinalista</th><th class="center">Quartas de Final</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-eq-fase-x"></tbody></table></div></div>
+  <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Qualquer Equipe Vence (Dupla Chance)</div></div><div class="table-wrap"><table><thead><tr><th>Combinação</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-eq-qualquer"></tbody></table></div></div>
+</div>
 
+<!-- ELIMINAÇÃO -->
+<div class="tab-panel" id="tab-eliminacao">
+  <div class="page-title">Rodada da <span class="accent">Eliminação</span></div>
+  <div class="page-subtitle">Fase exata em que a seleção sairá da competição</div>
+  <div class="search-bar"><span>🔍</span><input type="text" placeholder="Buscar seleção..." oninput="ft(this,'tbl-elim')"></div>
+  <div class="table-wrap"><table id="tbl-elim"><thead><tr><th>Seleção</th><th class="center">Grupos</th><th class="center">32-avos</th><th class="center">Oitavas</th><th class="center">Quartas</th><th class="center">Semis</th><th class="center">Final</th></tr></thead><tbody id="b-elim"></tbody></table></div>
+</div>
+
+<div id="groups-container"></div>
+
+<!-- RECORDES -->
+<div class="tab-panel" id="tab-recordes">
+  <div class="page-title">Quebra de <span class="accent">Recorde</span></div>
+  <div class="page-subtitle">Mercado: Será que algum recorde histórico da Copa do Mundo será batido em 2026?</div>
+  <div class="table-wrap"><table><thead><tr><th>Recorde</th><th class="center">Atual</th><th class="right">Odd (Sim)</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody id="b-recordes"></tbody></table></div>
+  <p style="font-size:.75rem;color:var(--text-dim);margin-top:.75rem;text-align:center">Todos os mercados incluem prorrogação, exceto Gol Mais Rápido, Cartão Vermelho Mais Rápido e Jogador Mais Velho em Final.</p>
+</div>
+
+</div>
+<footer><strong>Copa do Mundo 2026 — Mercado: Longo Prazo</strong><br>As odds podem variar a qualquer momento. Jogue com responsabilidade. +18 · betblocker.org/br</footer>
 <script>
 document.getElementById('ts').textContent = new Date().toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});
-
 function showTab(id,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -428,518 +164,380 @@ function ft(input,tableId){
     r.style.display=r.textContent.toLowerCase().includes(q)?'':'none';
   });
 }
-
-// ============================================
-// SUPABASE
-// ============================================
-const SB_URL  = 'https://uwkjoqkgfzpruwgjzbiw.supabase.co';
-const SB_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3a2pvcWtnZnpwcnV3Z2p6Yml3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0MzkyMjgsImV4cCI6MjA5NTAxNTIyOH0._SsJ3qMfMs19qXt5mHTCmc04a5W4NWofULrqMyLQBvg';
-const TABLE   = 'Mercados_copa2026';
-const HEADERS = { 'Content-Type':'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer '+SB_KEY };
-
-let db = {};
-let saveTimeout = null;
-
-function setIndicator(state) {
-  const el = document.getElementById('sync-indicator');
-  if (!el) return;
-  const map = {
-    loading: ['🔄', '#888',    'Carregando...'],
-    ok:      ['🟢', '#16a34a', 'Sincronizado'],
-    saving:  ['💾', '#d97706', 'Salvando...'],
-    error:   ['🔴', '#dc2626', 'Erro de conexão'],
-  };
-  const [icon, color, text] = map[state] || map.ok;
-  el.innerHTML = `<span style="color:${color};font-size:.75rem;font-weight:600">${icon} ${text}</span>`;
+const SB_URL='https://uwkjoqkgfzpruwgjzbiw.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3a2pvcWtnZnpwcnV3Z2p6Yml3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0MzkyMjgsImV4cCI6MjA5NTAxNTIyOH0._SsJ3qMfMs19qXt5mHTCmc04a5W4NWofULrqMyLQBvg';
+const TABLE='Mercados_copa2026';
+const HEADERS={'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY};
+let db={},saveTimeout=null;
+function setIndicator(state){
+  const el=document.getElementById('sync-indicator');
+  if(!el)return;
+  const map={loading:['🔄','#888','Carregando...'],ok:['🟢','#16a34a','Sincronizado'],saving:['💾','#d97706','Salvando...'],error:['🔴','#dc2626','Erro de conexão']};
+  const[icon,color,text]=map[state]||map.ok;
+  el.innerHTML=`<span style="color:${color};font-size:.75rem;font-weight:600">${icon} ${text}</span>`;
 }
-
-async function loadDb() {
+async function loadDb(){
   setIndicator('loading');
-  try {
-    const res = await fetch(`${SB_URL}/rest/v1/${TABLE}?select=item_key,status,event_id`, { headers: HEADERS });
-    if (!res.ok) throw new Error(res.status);
-    const rows = await res.json();
-    db = {};
-    rows.forEach(r => { db[r.item_key] = { status: r.status || 'pendente', event_id: r.event_id || '' }; });
+  try{
+    const res=await fetch(`${SB_URL}/rest/v1/${TABLE}?select=item_key,status,event_id`,{headers:HEADERS});
+    if(!res.ok)throw new Error(res.status);
+    const rows=await res.json();
+    db={};
+    rows.forEach(r=>{db[r.item_key]={status:r.status||'pendente',event_id:r.event_id||''};});
     setIndicator('ok');
-  } catch(e) {
-    console.error('Supabase load error:', e);
-    setIndicator('error');
-  }
+  }catch(e){console.error('Supabase load error:',e);setIndicator('error');}
   renderAll();
-  setInterval(syncChanges, 5000);
+  setInterval(syncChanges,5000);
 }
-
-async function syncChanges() {
-  try {
-    const since = new Date(Date.now() - 6000).toISOString();
-    const res = await fetch(
-      `${SB_URL}/rest/v1/${TABLE}?select=item_key,status,event_id&updated_at=gte.${since}`,
-      { headers: HEADERS }
-    );
-    if (!res.ok) return;
-    const rows = await res.json();
-    rows.forEach(r => {
-      const old = db[r.item_key] || {};
-      if (old.status !== r.status || old.event_id !== r.event_id) {
-        db[r.item_key] = { status: r.status || 'pendente', event_id: r.event_id || '' };
+async function syncChanges(){
+  try{
+    const since=new Date(Date.now()-6000).toISOString();
+    const res=await fetch(`${SB_URL}/rest/v1/${TABLE}?select=item_key,status,event_id&updated_at=gte.${since}`,{headers:HEADERS});
+    if(!res.ok)return;
+    const rows=await res.json();
+    rows.forEach(r=>{
+      const old=db[r.item_key]||{};
+      if(old.status!==r.status||old.event_id!==r.event_id){
+        db[r.item_key]={status:r.status||'pendente',event_id:r.event_id||''};
         updateRowInDOM(r.item_key);
       }
     });
-    if (rows.length > 0) setIndicator('ok');
-  } catch(e) { setIndicator('error'); }
+    if(rows.length>0)setIndicator('ok');
+  }catch(e){setIndicator('error');}
 }
-
-function updateRowInDOM(key) {
-  const sel = document.querySelector(`select[data-key="${key}"]`);
-  if (sel) { const v = db[key]?.status || 'pendente'; sel.value = v; sel.className = 'status-sel s-'+v; }
-  const inp = document.querySelector(`input[data-key="${key}"]`);
-  if (inp && document.activeElement !== inp) { inp.value = db[key]?.event_id || ''; }
+function updateRowInDOM(key){
+  const sel=document.querySelector(`select[data-key="${key}"]`);
+  if(sel){const v=db[key]?.status||'pendente';sel.value=v;sel.className='status-sel s-'+v;}
+  const inp=document.querySelector(`input[data-key="${key}"]`);
+  if(inp&&document.activeElement!==inp){inp.value=db[key]?.event_id||'';}
 }
-
-async function sbSave(key) {
+async function sbSave(key){
   setIndicator('saving');
-  const row = { item_key: key, status: db[key]?.status || 'pendente', event_id: db[key]?.event_id || '', updated_at: new Date().toISOString() };
-  try {
-    const res = await fetch(`${SB_URL}/rest/v1/${TABLE}`, {
-      method: 'POST',
-      headers: { ...HEADERS, 'Prefer': 'resolution=merge-duplicates' },
-      body: JSON.stringify(row)
-    });
-    if (!res.ok) throw new Error(await res.text());
+  const row={item_key:key,status:db[key]?.status||'pendente',event_id:db[key]?.event_id||'',updated_at:new Date().toISOString()};
+  try{
+    const res=await fetch(`${SB_URL}/rest/v1/${TABLE}`,{method:'POST',headers:{...HEADERS,'Prefer':'resolution=merge-duplicates'},body:JSON.stringify(row)});
+    if(!res.ok)throw new Error(await res.text());
     setIndicator('ok');
-  } catch(e) { console.error('Supabase save error:', e); setIndicator('error'); }
+  }catch(e){console.error('Supabase save error:',e);setIndicator('error');}
 }
-
-function debounceSave(key) { clearTimeout(saveTimeout); saveTimeout = setTimeout(() => sbSave(key), 700); }
-function setStatus(key, sel) { const v = sel.value; if (!db[key]) db[key] = {}; db[key].status = v; sel.className = 'status-sel s-'+v; sbSave(key); }
-function setId(key, inp) { if (!db[key]) db[key] = {}; db[key].event_id = inp.value; debounceSave(key); }
-
-function statusCell(key) {
-  const val = db[key]?.status || 'pendente';
-  return `<td class="td-status"><select class="status-sel s-${val}" data-key="${key}" onchange="setStatus('${key}',this)">
-    <option value="pendente" ${val==='pendente'?'selected':''}>⏳ Pendente</option>
-    <option value="confirmado" ${val==='confirmado'?'selected':''}>✅ Confirmado</option>
-    <option value="negado" ${val==='negado'?'selected':''}>❌ Negado</option>
-  </select></td>`;
+function debounceSave(key){clearTimeout(saveTimeout);saveTimeout=setTimeout(()=>sbSave(key),700);}
+function setStatus(key,sel){const v=sel.value;if(!db[key])db[key]={};db[key].status=v;sel.className='status-sel s-'+v;sbSave(key);}
+function setId(key,inp){if(!db[key])db[key]={};db[key].event_id=inp.value;debounceSave(key);}
+function statusCell(key){
+  const val=db[key]?.status||'pendente';
+  return `<td class="td-status"><select class="status-sel s-${val}" data-key="${key}" onchange="setStatus('${key}',this)"><option value="pendente" ${val==='pendente'?'selected':''}>⏳ Pendente</option><option value="confirmado" ${val==='confirmado'?'selected':''}>✅ Confirmado</option><option value="negado" ${val==='negado'?'selected':''}>❌ Negado</option></select></td>`;
 }
-function idCell(key) {
-  const val = (db[key]?.event_id || '').replace(/"/g,'&quot;');
+function idCell(key){
+  const val=(db[key]?.event_id||'').replace(/"/g,'&quot;');
   return `<td class="td-id"><input class="id-input" type="text" data-key="${key}" placeholder="ID do evento" value="${val}" oninput="setId('${key}',this)"></td>`;
 }
-function k(...parts) { return parts.join('|').replace(/[^a-zA-Z0-9|]/g,'_'); }
+function k(...parts){return parts.join('|').replace(/[^a-zA-Z0-9|]/g,'_');}
+function sec(title){return `<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">${title}</div></div>`;}
+function tbl(thead,tbodyId){return `<div class="table-wrap"><table><thead>${thead}</thead><tbody id="${tbodyId}"></tbody></table></div></div>`;}
+function row2(label,odd,key){return `<tr><td class="td-player">${label}</td><td class="td-odd">${odd}</td>${statusCell(key)}${idCell(key)}</tr>`;}
+function renderAll(){
+// JOGADORES
+const premioJog=[["Harry Kane","8.00"],["Lamine Yamal","9.00"],["Kylian Mbappe","10.00"],["Lionel Messi","12.00"],["Michael Olise","12.00"],["Vinicius Jr.","15.00"],["Bruno Fernandes","22.00"],["Raphinha","22.00"],["Declan Rice","25.00"],["Jude Bellingham","25.00"],["Ousmane Dembele","25.00"],["Pedri","25.00"],["Rayan Cherki","25.00"],["Rodri","25.00"],["Vitinha","25.00"],["Erling Haaland","27.00"],["Mikel Oyarzabal","27.00"],["Bernardo Silva","35.00"],["Cristiano Ronaldo","35.00"],["Fabian Ruiz","35.00"],["Desire Doue","40.00"],["Jeremy Doku","40.00"],["Julian Alvarez","40.00"],["Achraf Hakimi","50.00"],["Bukayo Saka","50.00"],["Cole Palmer","50.00"],["Florian Wirtz","50.00"],["Gabriel Magalhaes","50.00"],["Lautaro Martinez","50.00"],["Virgil van Dijk","50.00"],["William Saliba","50.00"],["Alexander Isak","70.00"],["Dani Olmo","70.00"],["Elliot Anderson","70.00"],["Federico Valverde","70.00"],["Granit Xhaka","70.00"],["Joshua Kimmich","70.00"],["Kevin De Bruyne","70.00"],["Luis Diaz","70.00"],["Marquinhos","70.00"],["Martin Odegaard","70.00"],["Martin Zubimendi","70.00"],["Mohamed Salah","70.00"],["Morgan Rogers","70.00"],["Neymar Jr","70.00"],["Romelu Lukaku","75.00"],["Ruben Dias","75.00"],["Antonio Rudiger","80.00"],["Arda Guler","80.00"],["Hakan Calhanoglu","85.00"],["Kai Havertz","85.00"],["Alexis Mac Allister","100.00"],["Bradley Barcola","100.00"],["Bruno Guimaraes","100.00"],["Casemiro","100.00"],["Cody Gakpo","100.00"],["Dean Hujisen","100.00"],["Enzo Fernandez","100.00"],["Ferran Torres","100.00"],["Frenkie de Jong","100.00"],["Igor Thiago","100.00"],["James Rodrigues","100.00"],["Kenan Yildiz","100.00"],["Leandro Trossard","100.00"],["Lennart Karl","100.00"],["Luis Suarez","100.00"],["Luka Modric","100.00"],["Marc Guehi","100.00"],["Nick Woltemade","100.00"],["Pau Cubarsi","100.00"],["Rafael Leao","100.00"],["Ronald Araujo","100.00"],["Scott McTominay","100.00"],["Youri Tielemans","100.00"],["Christian Pulisic","125.00"],["Manuel Akanji","125.00"],["Pedro Neto","125.00"],["Raul Jimenez","125.00"],["Riyad Mahrez","125.00"],["Ryan Gravenberch","125.00"],["Sadio Mane","125.00"],["Tren Alexander-Arnold","125.00"],["Viktor Gyokeres","125.00"],["Alexander Sorloth","150.00"],["Alphonso Davies","150.00"],["Anthony Gordon","150.00"],["Aurelien Tchouameni","150.00"],["Daniel Munoz","150.00"],["Darwin Nunez","150.00"],["Deniz Undav","150.00"],["Eberechi Eze","150.00"],["Ezri Konsa","150.00"],["Goncalo Ramos","150.00"],["Joao Neves","150.00"],["John McGinn","150.00"],["Jose Maria Gimenez","150.00"],["Jurrien Timber","150.00"],["Kaoru Mitoma","150.00"],["Leroy Sane","175.00"],["Lois Openda","175.00"],["Marcus Thuram","175.00"],["Matheus Cunha","175.00"],["Memphis Depay","175.00"],["Omar Marmoush","175.00"],["Andrew Robertson","200.00"],["Anthony Elanga","200.00"],["Antoine Semenyo","200.00"],["Brahim Diaz","200.00"],["Brian Brobbey","200.00"],["David Alaba","200.00"],["Denzel Dumfries","200.00"],["Edin Dzeko","200.00"],["Folarin Balogun","200.00"],["Jonathan David","200.00"],["Jorgen Larsen","200.00"],["Noa Lang","200.00"],["Omar Alderete","200.00"],["Oscar Bobb","200.00"],["Ricardo Pepi","200.00"],["Amad Diallo","250.00"],["Antonee Robertson","250.00"],["Breel Embolo","250.00"],["Brenden Aaronson","250.00"],["Diego Gomez","250.00"],["Enner Valencia","250.00"],["Giovanni Reyna","250.00"],["Heung-Min Son","250.00"],["Inaki Williams","250.00"],["Kang-In Lee","250.00"],["Kendy Paez","250.00"],["Manuel Ugarte","250.00"],["Tyler Adams","250.00"],["Weston McKennie","250.00"],["Patrik Schick","350.00"],["Abduqodir Khusanov","500.00"],["Tomas Soucek","500.00"]];
+const premioGol=[["Emiliano Martinez","5.00"],["Unai Simon","5.50"],["Alisson Becker","6.00"],["Ederson","7.00"],["Mike Maignan","7.00"],["David Raya","8.00"],["Jordan Pickford","8.00"],["Diogo Costa","12.00"],["Oliver Baumann","12.00"],["Bart Verbruggen","20.00"],["Thibaut Courtois","20.00"],["Senne Lammens","25.00"],["Orjan Nyland","35.00"],["Matt Freese","40.00"],["Camilo Vargas","50.00"],["Gregor Kobel","50.00"],["Sergio Rochet","65.00"],["Hernan Galindez","80.00"],["Luis Malagon","80.00"],["Yassine Bounou","80.00"],["Zion Suzuki","80.00"],["Dominik Livakovic","100.00"],["Ugurcan Cakir","100.00"],["Edouard Mendy","125.00"],["Kristoffer Nordfeldt","125.00"],["Alexander Schlager","150.00"],["Dayne St. Clair","150.00"],["Craig Gordon","250.00"],["Mathew Ryan","250.00"]];
+const artGeral=[["Kylian Mbappe","7.00"],["Harry Kane","8.00"],["Lionel Messi","13.00"],["Erling Haaland","15.00"],["Lamine Yamal","15.00"],["Cristiano Ronaldo","20.00"],["Mikel Oyarzabal","20.00"],["Nick Woltemade","20.00"],["Ousmane Dembele","20.00"],["Lautaro Martinez","25.00"],["Vinicius Jr.","25.00"],["Bukayo Saka","35.00"],["Mikel Merino","35.00"],["Raphinha","35.00"],["Romelu Lukaku","35.00"],["Bruno Fernandes","40.00"],["Cody Gakpo","40.00"],["Cole Palmer","40.00"],["Florian Wirtz","40.00"],["Jude Bellingham","40.00"],["Julian Alvarez","40.00"],["Michael Olise","40.00"],["Neymar Jr","40.00"],["Phil Foden","40.00"],["Dani Olmo","50.00"],["Desire Doue","50.00"],["Ferran Torres","50.00"],["Goncalo Ramos","50.00"],["Jean-Philippe Mateta","50.00"],["Leandro Trossard","50.00"],["Luis Diaz","50.00"],["Marcus Rashford","50.00"],["Memphis Depay","50.00"],["Mohamed Salah","50.00"],["Morgan Rogers","50.00"],["Nico Williams","50.00"],["Serge Gnabry","50.00"],["Alexander Sorloth","75.00"],["Anthony Gordon","75.00"],["Bradley Barcola","75.00"],["Christian Pulisic","75.00"],["Darwin Nunez","75.00"],["Donyell Malen","75.00"],["Eberechi Eze","75.00"],["Jeremy Doku","80.00"],["Jhon Duran","80.00"],["Kevin de Bruyne","80.00"],["Kingsley Coman","80.00"],["Leroy Sane","80.00"],["Lois Openda","80.00"],["Pedro Neto","80.00"],["Rafael Leao","80.00"],["Randal Muani","80.00"],["Sadio Mane","80.00"],["Viktor Gyokeres","80.00"],["Armando Gonzalez","100.00"],["Edin Dzeko","100.00"],["Folarin Balogun","100.00"],["Gabriel Martinelli","100.00"],["Haji Wright","100.00"],["James Rodriguez","100.00"],["Jonathan David","100.00"],["Kerem Aktürkoglu","100.00"],["Matheus Cunha","100.00"],["Nicolas Jackson","100.00"],["Noa Lang","100.00"],["Omar Marmoush","100.00"],["Pedri","100.00"],["Promise David","100.00"],["Raul Gimenez","100.00"],["Ricardo Pepi","100.00"],["Xavi Simons","100.00"],["Arda Guler","125.00"],["Ayase Ueda","125.00"],["Baris Yilmaz","125.00"],["Breel Embolo","125.00"],["Ermedin Demirovic","125.00"],["Heung-Min Son","125.00"],["Kenan Yildiz","125.00"],["Alphonso Davies","150.00"],["Andrej Kramaric","150.00"],["Anthony Elanga","150.00"],["Antonio Nusa","150.00"],["Ayoub El Kaabi","150.00"],["Brian Rodriguez","150.00"],["Cyle Larin","150.00"],["Daizen Maeda","150.00"],["Enzo Fernandez","150.00"],["Granit Xhaka","150.00"],["Hamza Igamane","150.00"],["Hirving Lozano","150.00"],["Jhon Arias","150.00"],["Jorgen Larsen","150.00"],["Kang-In Lee","150.00"],["Orbelin Pineda","150.00"],["Oscar Bobb","150.00"],["Patrik Schick","150.00"],["Riyad Mahrez","150.00"],["Scott McTominay","150.00"],["Tomas Chory","150.00"],["Youssef En Nesyri","150.00"],["Cedric Bakambu","200.00"],["Chris Wood","200.00"],["Facundo Pellistri","200.00"],["Giovanni Reyna","200.00"],["Hee-Chan Hwang","200.00"],["Ismaila Sarr","200.00"],["Martin Odegaard","200.00"],["Nikola Vlasic","200.00"],["Pavel Sulc","200.00"],["Takumi Minamino","200.00"],["Che Adams","250.00"],["Declan Rice","250.00"],["Saleh Al Shehri","250.00"],["Salem Al Dawsari","250.00"],["Yoane Wissa","250.00"],["Daichi Kamada","350.00"],["Julio Enciso","350.00"],["Lyndon Dykes","350.00"],["Ryan Christie","350.00"],["Brenden Aaronson","500.00"],["Eldor Shomurodov","500.00"],["John McGinn","500.00"],["Lyle Foster","500.00"],["Martin Boyle","500.00"],["Nestory Irankunda","500.00"],["Ben Waine","750.00"]];
+const artIng=[["Harry Kane","1.45"],["Bukayo Saka","9.00"],["Anthony Gordon","15.00"],["Cole Palmer","15.00"],["Jude Bellingham","15.00"],["Marcus Rashford","17.00"],["Ollie Watkins","17.00"],["Morgan Rogers","20.00"],["Noni Madueke","20.00"],["Phil Foden","20.00"],["Eberechi Eze","25.00"],["Declan Rice","35.00"]];
+const artFra=[["Kylian Mbappe","1.60"],["Ousmane Dembele","6.00"],["Michael Olise","7.00"],["Desire Doue","11.00"],["Marcus Thuram","13.00"],["Rayan Cherki","15.00"],["Jean-Philippe Mateta","17.00"],["Bradley Barcola","20.00"],["Maghnes Akliouche","25.00"]];
+const artArg=[["Lionel Messi","2.40"],["Julian Alvarez","4.35"],["Lautaro Martinez","4.35"]];
+const artBra=[["Vinicius Jr.","3.50"],["Raphinha","4.35"],["Neymar","6.50"],["Endrick","10.00"],["Matheus Cunha","10.00"],["Igor Thiago","11.00"],["Rayan Vitor","17.00"],["Gabriel Martinelli","20.00"]];
+const artEsp=[["Lamine Yamal","2.80"],["Mikel Oyarzabal","3.00"],["Mikel Merino","7.00"],["Ferran Torres","7.50"],["Dani Olmo","11.00"],["Nico Williams","11.00"],["Alex Baena","20.00"]];
+const artPor=[["Cristiano Ronaldo","3.50"],["Bruno Fernandes","3.75"],["Goncalo Ramos","7.00"],["Bernardo Silva","15.00"],["Joao Neves","15.00"],["Pedro Neto","15.00"],["Rafael Leao","15.00"],["Francisco Conceicao","17.00"],["Francisco Trincao","17.00"],["Joao Felix","17.00"],["Matheus Nunes","17.00"]];
+const artAle=[["Florian Wirtz","6.00"],["Jamal Musiala","6.00"],["Kai Havertz","6.00"],["Nick Woltemade","6.00"],["Deniz Undav","8.00"],["Leroy Sane","10.00"],["Kevin Schade","11.00"],["Lennart Karl","15.00"],["Leon Goretzka","15.00"],["Joshua Kimmich","17.00"],["Jamie Leweling","25.00"]];
+const artBel=[["Romelu Lukaku","3.00"],["Charles de Ketalaere","4.00"],["Jeremy Doku","6.00"],["Leando Trossard","7.00"],["Kevin de Bruyne","9.00"],["Dodi Lukebakio","14.00"],["Hans Vanaken","15.00"],["Youri Tielemans","15.00"],["Alexis Saelemaekers","21.00"],["Axel Witsel","21.00"]];
+const artSue=[["Viktor Gyokeres","2.75"],["Alexander Isak","4.35"],["Benjamin Nygren","11.00"],["Anthony Elanga","13.00"],["Gustaf Nilsson","13.00"],["Alexander Bernhardsson","15.00"],["Taha Ali","16.00"],["Yasin Ayari","23.00"],["Besfort Zeneli","25.00"],["Ken Sema","25.00"]];
+const artEsc=[["Scott McTominay","3.75"],["Che Adams","5.50"],["Ben Doak","9.00"],["Lawrence Shankland","9.00"],["Ryan Christie","9.00"],["John McGinn","11.00"],["Lyndon Dykes","15.00"],["George Hirst","17.00"],["Lewis Ferguson","25.00"]];
+const artCor=[["Heung-Min Son","3.50"],["Hyeon-Gyu Oh","6.00"],["Kang-In Lee","7.50"],["Gue-Sung Cho","8.00"],["Hee-Chan Hwang","10.00"],["Jae-Sung Lee","15.00"],["Jun-ho Bae","17.00"],["Ji-sung Eom","20.00"]];
+const artJap=[["Ayase Ueda","3.75"],["Daizen Maeda","9.00"],["Keito Nakamura","9.00"],["Takefusa Kubo","10.00"],["Koki Ogawa","11.00"],["Ritsu Doan","13.00"],["Daichi Kamada","15.00"],["Junya Ito","15.00"],["Keisuke Goto","15.00"],["Kento Shiogai","15.00"],["Yuito Suzuki","15.00"],["Ao Tanaka","20.00"],["Hiroki Ito","35.00"],["Ko Itakura","35.00"],["Wataru Endo","35.00"],["Yukinari Sugawara","35.00"],["Kaishu Sano","40.00"],["Shogo Taniguchi","40.00"]];
+const artRec=[["Patrik Schick","3.50"],["Mojmir Chytil","8.00"],["Tomas Chory","8.00"],["Pavel Sulc","8.50"],["Jan Kliment","11.00"],["Tomas Soucek","11.00"],["Lukas Cerv","20.00"],["Tomas Ladra","25.00"]];
+const artCro=[["Andrej Kramaric","4.00"],["Ivan Perisic","6.00"],["Luka Modric","6.00"],["Ante Budimir","9.00"],["Igor Matanovic","13.00"],["Marco Pasalic","15.00"],["Mario Pasalic","17.00"],["Mateo Kovacic","17.00"],["Nikola Vlasic","17.00"],["Josko Gvardiol","25.00"]];
+const artTur=[["Arda Guler","5.00"],["Kerem Akturkoglu","5.00"],["Baris Yilmaz","9.00"],["Hakan Calhanoglu","9.00"],["Irfan Can Kahveci","9.00"],["Yunus Akgun","9.00"],["Deniz Gul","11.00"],["Orkun Kokcu","13.00"],["Kaan Ayhan","17.00"],["Merih Demiral","17.00"],["Ferdi Kadioglu","25.00"]];
+const artTun=[["Firas Chaouat","5.00"],["Hazem Mastouri","9.00"],["Elias Achouri","11.00"],["Elias Saad","13.00"],["Rayan Elloumi","13.00"],["Khalil Ayari","15.00"],["Sebastian Tounekti","15.00"],["Ali Abdi","17.00"],["Hannibal Mejbri","17.00"],["Mortadha Ben Ouanes","17.00"],["Anis Ben Slimane","20.00"],["Ismael Gharbi","20.00"]];
+const artBos=[["Edin Dzeko","2.75"],["Ermedin Demirovic","4.50"],["Haris Tabakovic","5.00"],["Esmir Bajraktarevic","9.00"],["Amar Memic","13.00"],["Kerim Alajbegovic","13.00"],["Samed Bazdar","17.00"],["Ivan Basic","20.00"],["Jovo Lukic","23.00"]];
+const combos=[["França","Kylian Mbappe","17.00"],["Inglaterra","Harry Kane","20.00"],["Espanha","Lamine Yamal","35.00"],["Espanha","Harry Kane","40.00"],["Espanha","Kylian Mbappe","40.00"],["Argentina","Lionel Messi","40.00"],["Espanha","Mikel Oyarzabal","40.00"],["França","Harry Kane","50.00"],["Inglaterra","Kylian Mbappe","50.00"],["Argentina","Harry Kane","65.00"],["Brasil","Harry Kane","65.00"],["Argentina","Kylian Mbappe","65.00"],["Brasil","Kylian Mbappe","65.00"],["Espanha","Lionel Messi","65.00"],["França","Ousmane Dembele","65.00"],["Alemanha","Kylian Mbappe","80.00"],["Portugal","Kylian Mbappe","80.00"],["Inglaterra","Lionel Messi","80.00"],["França","Erling Haaland","85.00"],["Espanha","Erling Haaland","85.00"],["França","Lamine Yamal","85.00"],["França","Lionel Messi","85.00"],["Portugal","Cristiano Ronaldo","100.00"],["Inglaterra","Erling Haaland","100.00"],["Noruega","Erling Haaland","100.00"],["Alemanha","Harry Kane","100.00"],["Portugal","Harry Kane","100.00"],["Inglaterra","Lamine Yamal","100.00"],["Argentina","Lautaro Martinez","100.00"],["França","Mikel Oyarzabal","100.00"],["Brasil","Vinicius Jr.","100.00"],["França","Cristiano Ronaldo","125.00"],["Espanha","Cristiano Ronaldo","125.00"],["Argentina","Erling Haaland","125.00"],["Brasil","Erling Haaland","125.00"],["Argentina","Lamine Yamal","125.00"],["Brasil","Lamine Yamal","125.00"],["Brasil","Lionel Messi","125.00"],["Inglaterra","Mikel Oyarzabal","125.00"],["Espanha","Ousmane Dembele","125.00"],["Inglaterra","Bukayo Saka","150.00"],["Inglaterra","Cristiano Ronaldo","150.00"],["Espanha","Dani Olmo","150.00"],["Portugal","Erling Haaland","150.00"],["Espanha","Ferran Torres","150.00"],["Países Baixos","Harry Kane","150.00"],["Inglaterra","Jude Bellingham","150.00"],["Argentina","Julian Alvarez","150.00"],["Países Baixos","Kylian Mbappe","150.00"],["França","Lautaro Martinez","150.00"],["Espanha","Lautaro Martinez","150.00"],["Alemanha","Lionel Messi","150.00"],["Portugal","Lionel Messi","150.00"],["França","Michael Olise","150.00"],["Argentina","Mikel Oyarzabal","150.00"],["Brasil","Mikel Oyarzabal","150.00"],["Brasil","Neymar Jr","150.00"],["Inglaterra","Ousmane Dembele","150.00"],["Brasil","Raphinha","150.00"],["França","Vinicius Jr.","150.00"],["Espanha","Vinicius Jr.","150.00"],["Portugal","Lamine Yamal","175.00"],["Espanha","Bruno Fernandes","200.00"],["França","Bukayo Saka","200.00"],["Espanha","Bukayo Saka","200.00"],["Espanha","Cody Gakpo","200.00"],["Argentina","Cristiano Ronaldo","200.00"],["Brasil","Cristiano Ronaldo","200.00"],["França","Desire Doue","200.00"],["Alemanha","Erling Haaland","200.00"],["Espanha","Florian Wirtz","200.00"],["Espanha","Jude Bellingham","200.00"],["Espanha","Julian Alvarez","200.00"],["Bélgica","Kylian Mbappe","200.00"],["Alemanha","Lamine Yamal","200.00"],["Inglaterra","Lautaro Martinez","200.00"],["Alemanha","Michael Olise","200.00"],["Espanha","Michael Olise","200.00"],["Alemanha","Mikel Oyarzabal","200.00"],["Portugal","Mikel Oyarzabal","200.00"],["Espanha","Neymar Jr","200.00"],["Argentina","Nick Woltemade","200.00"],["Argentina","Ousmane Dembele","200.00"],["Brasil","Ousmane Dembele","200.00"],["França","Raphinha","200.00"],["Espanha","Raphinha","200.00"],["França","Romelu Lukaku","200.00"],["Espanha","Romelu Lukaku","200.00"],["Inglaterra","Vinicius Jr.","200.00"],["França","Bruno Fernandes","250.00"],["Portugal","Bruno Fernandes","250.00"],["França","Cody Gakpo","250.00"],["Alemanha","Cristiano Ronaldo","250.00"],["Espanha","Desire Doue","250.00"],["França","Florian Wirtz","250.00"],["Espanha","Goncalo Ramos","250.00"],["Bélgica","Harry Kane","250.00"],["França","Jude Bellingham","250.00"],["França","Julian Alvarez","250.00"],["Brasil","Lautaro Martinez","250.00"],["Espanha","Leandro Trossard","250.00"],["Países Baixos","Lionel Messi","250.00"],["Inglaterra","Michael Olise","250.00"],["França","Neymar Jr","250.00"],["Alemanha","Nick Woltemade","250.00"],["Portugal","Nick Woltemade","250.00"],["Espanha","Nick Woltemade","250.00"],["Alemanha","Ousmane Dembele","250.00"],["Portugal","Ousmane Dembele","250.00"],["Inglaterra","Raphinha","250.00"],["Inglaterra","Romelu Lukaku","250.00"],["Argentina","Vinicius Jr.","250.00"],["Inglaterra","Bruno Fernandes","300.00"],["Argentina","Bukayo Saka","300.00"],["Brasil","Bukayo Saka","300.00"],["Países Baixos","Erling Haaland","300.00"],["França","Ferran Torres","300.00"],["Alemanha","Florian Wirtz","300.00"],["França","Goncalo Ramos","300.00"],["Inglaterra","Julian Alvarez","300.00"],["Países Baixos","Lamine Yamal","300.00"],["Portugal","Lautaro Martinez","300.00"],["França","Leandro Trossard","300.00"],["França","Memphis Depay","300.00"],["França","Nick Woltemade","300.00"],["Argentina","Raphinha","300.00"],["Brasil","Romelu Lukaku","300.00"],["Portugal","Vinicius Jr.","300.00"],["Inglaterra","Cody Gakpo","350.00"],["Inglaterra","Desire Doue","350.00"],["Inglaterra","Ferran Torres","350.00"],["Inglaterra","Florian Wirtz","350.00"],["Inglaterra","Goncalo Ramos","350.00"],["Portugal","Goncalo Ramos","350.00"],["Espanha","Kevin de Bruyne","350.00"],["Alemanha","Lautaro Martinez","350.00"],["Inglaterra","Leandro Trossard","350.00"],["Espanha","Lois Openda","350.00"],["Brasil","Matheus Cunha","350.00"],["Inglaterra","Memphis Depay","350.00"],["Brasil","Michael Olise","350.00"],["Países Baixos","Mikel Oyarzabal","350.00"],["Inglaterra","Neymar Jr","350.00"],["Inglaterra","Nick Woltemade","350.00"],["Argentina","Romelu Lukaku","350.00"],["Alemanha","Vinicius Jr.","350.00"],["Argentina","Bruno Fernandes","400.00"],["Brasil","Bruno Fernandes","400.00"],["Alemanha","Bukayo Saka","400.00"],["Portugal","Bukayo Saka","400.00"],["Argentina","Cody Gakpo","400.00"],["Países Baixos","Cristiano Ronaldo","400.00"],["Argentina","Florian Wirtz","400.00"],["Brasil","Florian Wirtz","400.00"],["Argentina","Jude Bellingham","400.00"],["Brasil","Jude Bellingham","400.00"],["Brasil","Julian Alvarez","400.00"],["França","Kevin de Bruyne","400.00"],["Bélgica","Lionel Messi","400.00"],["França","Lois Openda","400.00"],["Argentina","Michael Olise","400.00"],["Argentina","Neymar Jr","400.00"],["Países Baixos","Ousmane Dembele","400.00"],["Brasil","Desire Doue","450.00"],["Brasil","Ferran Torres","450.00"],["Inglaterra","Kevin de Bruyne","450.00"],["Brasil","Leandro Trossard","450.00"],["Brasil","Nick Woltemade","450.00"],["Portugal","Raphinha","450.00"],["Portugal","Romelu Lukaku","450.00"],["Países Baixos","Cody Gakpo","500.00"],["Portugal","Cody Gakpo","500.00"],["Argentina","Desire Doue","500.00"],["Bélgica","Erling Haaland","500.00"],["Argentina","Ferran Torres","500.00"],["Portugal","Florian Wirtz","500.00"],["Argentina","Goncalo Ramos","500.00"],["Portugal","Jude Bellingham","500.00"],["Países Baixos","Julian Alvarez","500.00"],["Portugal","Julian Alvarez","500.00"],["Bélgica","Lamine Yamal","500.00"],["Países Baixos","Lautaro Martinez","500.00"],["Argentina","Leandro Trossard","500.00"],["Alemanha","Leroy Sane","500.00"],["Argentina","Memphis Depay","500.00"],["Portugal","Michael Olise","500.00"],["Bélgica","Mikel Oyarzabal","500.00"],["Portugal","Neymar Jr","500.00"],["Portugal","Rafael Leao","500.00"],["Alemanha","Raphinha","500.00"],["Bélgica","Romelu Lukaku","500.00"],["Alemanha","Romelu Lukaku","500.00"],["Países Baixos","Vinicius Jr.","500.00"],["Alemanha","Bruno Fernandes","600.00"],["Alemanha","Cody Gakpo","600.00"],["Alemanha","Jude Bellingham","600.00"],["Alemanha","Julian Alvarez","600.00"],["Brasil","Kevin de Bruyne","600.00"],["Inglaterra","Lois Openda","600.00"],["Países Baixos","Memphis Depay","600.00"],["Alemanha","Neymar Jr","600.00"],["Países Baixos","Neymar Jr","600.00"],["Portugal","Desire Doue","650.00"],["Portugal","Leandro Trossard","650.00"],["Portugal","Memphis Depay","650.00"],["Países Baixos","Bukayo Saka","750.00"],["Bélgica","Cristiano Ronaldo","750.00"],["Alemanha","Desire Doue","750.00"],["Alemanha","Ferran Torres","750.00"],["Alemanha","Goncalo Ramos","750.00"],["Alemanha","Leandro Trossard","750.00"],["Brasil","Lois Openda","750.00"],["Bélgica","Ousmane Dembele","750.00"],["Argentina","Kevin de Bruyne","800.00"],["Argentina","Lois Openda","800.00"],["Países Baixos","Nick Woltemade","800.00"],["Países Baixos","Raphinha","800.00"],["Bélgica","Nick Woltemade","850.00"],["Noruega","Alexander Sorloth","1000.00"],["Croácia","Andrej Kramaric","1000.00"],["Turquia","Arda Guler","1000.00"],["Suíça","Breel Embolo","1000.00"],["Bélgica","Bruno Fernandes","1000.00"],["Bélgica","Bukayo Saka","1000.00"],["EUA","Christian Pulisic","1000.00"],["Bélgica","Cody Gakpo","1000.00"],["Uruguai","Darwin Nunez","1000.00"],["Bélgica","Desire Doue","1000.00"],["Bósnia e Herzegovina","Edin Dzeko","1000.00"],["Bélgica","Ferran Torres","1000.00"],["Bélgica","Florian Wirtz","1000.00"],["Bélgica","Goncalo Ramos","1000.00"],["Marrocos","Hamza Igamane","1000.00"],["Coreia do Sul","Heung-Min Son","1000.00"],["Bélgica","Jude Bellingham","1000.00"],["Bélgica","Julian Alvarez","1000.00"],["Bélgica","Kevin de Bruyne","1000.00"],["Alemanha","Kevin de Bruyne","1000.00"],["Portugal","Kevin de Bruyne","1000.00"],["Bélgica","Lautaro Martinez","1000.00"],["Bélgica","Leandro Trossard","1000.00"],["Bélgica","Lois Openda","1000.00"],["Alemanha","Lois Openda","1000.00"],["Colômbia","Luis Diaz","1000.00"],["Bélgica","Memphis Depay","1000.00"],["Bélgica","Michael Olise","1000.00"],["Egito","Mohamed Salah","1000.00"],["Bélgica","Neymar Jr","1000.00"],["República Checa","Patrik Schick","1000.00"],["Bélgica","Raphinha","1000.00"],["México","Raul Gimenez","1000.00"],["Senegal","Sadio Mane","1000.00"],["Escócia","Scott McTominay","1000.00"],["Suécia","Viktor Gyokeres","1000.00"],["Bélgica","Vinicius Jr.","1000.00"]];
 
-function renderAll() {
-
-// ============================================
-// DADOS ABA JOGADORES
-// ============================================
-
-const premioJog = [
-  ["Harry Kane","8.00"],["Lamine Yamal","9.00"],["Kylian Mbappe","10.00"],["Lionel Messi","12.00"],["Michael Olise","12.00"],["Vinicius Jr.","15.00"],
-  ["Bruno Fernandes","22.00"],["Raphinha","22.00"],["Declan Rice","25.00"],["Jude Bellingham","25.00"],["Ousmane Dembele","25.00"],["Pedri","25.00"],
-  ["Rayan Cherki","25.00"],["Rodri","25.00"],["Vitinha","25.00"],["Erling Haaland","27.00"],["Mikel Oyarzabal","27.00"],["Bernardo Silva","35.00"],
-  ["Cristiano Ronaldo","35.00"],["Fabian Ruiz","35.00"],["Desire Doue","40.00"],["Jeremy Doku","40.00"],["Julian Alvarez","40.00"],
-  ["Achraf Hakimi","50.00"],["Bukayo Saka","50.00"],["Cole Palmer","50.00"],["Florian Wirtz","50.00"],["Gabriel Magalhaes","50.00"],
-  ["Lautaro Martinez","50.00"],["Virgil van Dijk","50.00"],["William Saliba","50.00"],["Alexander Isak","70.00"],["Dani Olmo","70.00"],
-  ["Elliot Anderson","70.00"],["Federico Valverde","70.00"],["Granit Xhaka","70.00"],["Joshua Kimmich","70.00"],["Kevin De Bruyne","70.00"],
-  ["Luis Diaz","70.00"],["Marquinhos","70.00"],["Martin Odegaard","70.00"],["Martin Zubimendi","70.00"],["Mohamed Salah","70.00"],
-  ["Morgan Rogers","70.00"],["Neymar Jr","70.00"],["Romelu Lukaku","75.00"],["Ruben Dias","75.00"],["Antonio Rudiger","80.00"],
-  ["Arda Guler","80.00"],["Hakan Calhanoglu","85.00"],["Kai Havertz","85.00"],["Alexis Mac Allister","100.00"],["Bradley Barcola","100.00"],
-  ["Bruno Guimaraes","100.00"],["Casemiro","100.00"],["Cody Gakpo","100.00"],["Dean Hujisen","100.00"],["Enzo Fernandez","100.00"],
-  ["Ferran Torres","100.00"],["Frenkie de Jong","100.00"],["Igor Thiago","100.00"],["James Rodrigues","100.00"],["Kenan Yildiz","100.00"],
-  ["Leandro Trossard","100.00"],["Lennart Karl","100.00"],["Luis Suarez","100.00"],["Luka Modric","100.00"],["Marc Guehi","100.00"],
-  ["Nick Woltemade","100.00"],["Pau Cubarsi","100.00"],["Rafael Leao","100.00"],["Ronald Araujo","100.00"],["Scott McTominay","100.00"],
-  ["Youri Tielemans","100.00"],["Christian Pulisic","125.00"],["Manuel Akanji","125.00"],["Pedro Neto","125.00"],["Raul Jimenez","125.00"],
-  ["Riyad Mahrez","125.00"],["Ryan Gravenberch","125.00"],["Sadio Mane","125.00"],["Tren Alexander-Arnold","125.00"],["Viktor Gyokeres","125.00"],
-  ["Alexander Sorloth","150.00"],["Alphonso Davies","150.00"],["Anthony Gordon","150.00"],["Aurelien Tchouameni","150.00"],["Daniel Munoz","150.00"],
-  ["Darwin Nunez","150.00"],["Deniz Undav","150.00"],["Eberechi Eze","150.00"],["Ezri Konsa","150.00"],["Goncalo Ramos","150.00"],
-  ["Joao Neves","150.00"],["John McGinn","150.00"],["Jose Maria Gimenez","150.00"],["Jurrien Timber","150.00"],["Kaoru Mitoma","150.00"],
-  ["Leroy Sane","175.00"],["Lois Openda","175.00"],["Marcus Thuram","175.00"],["Matheus Cunha","175.00"],["Memphis Depay","175.00"],
-  ["Omar Marmoush","175.00"],["Andrew Robertson","200.00"],["Anthony Elanga","200.00"],["Antoine Semenyo","200.00"],["Brahim Diaz","200.00"],
-  ["Brian Brobbey","200.00"],["David Alaba","200.00"],["Denzel Dumfries","200.00"],["Edin Dzeko","200.00"],["Folarin Balogun","200.00"],
-  ["Jonathan David","200.00"],["Jorgen Larsen","200.00"],["Noa Lang","200.00"],["Omar Alderete","200.00"],["Oscar Bobb","200.00"],
-  ["Ricardo Pepi","200.00"],["Amad Diallo","250.00"],["Antonee Robertson","250.00"],["Breel Embolo","250.00"],["Brenden Aaronson","250.00"],
-  ["Diego Gomez","250.00"],["Enner Valencia","250.00"],["Giovanni Reyna","250.00"],["Heung-Min Son","250.00"],["Inaki Williams","250.00"],
-  ["Kang-In Lee","250.00"],["Kendy Paez","250.00"],["Manuel Ugarte","250.00"],["Tyler Adams","250.00"],["Weston McKennie","250.00"],
-  ["Patrik Schick","350.00"],["Abduqodir Khusanov","500.00"],["Tomas Soucek","500.00"]
-];
-
-const premioGol = [
-  ["Emiliano Martinez","5.00"],["Unai Simon","5.50"],["Alisson Becker","6.00"],["Ederson","7.00"],["Mike Maignan","7.00"],
-  ["David Raya","8.00"],["Jordan Pickford","8.00"],["Diogo Costa","12.00"],["Oliver Baumann","12.00"],["Bart Verbruggen","20.00"],
-  ["Thibaut Courtois","20.00"],["Senne Lammens","25.00"],["Orjan Nyland","35.00"],["Matt Freese","40.00"],["Camilo Vargas","50.00"],
-  ["Gregor Kobel","50.00"],["Sergio Rochet","65.00"],["Hernan Galindez","80.00"],["Luis Malagon","80.00"],["Yassine Bounou","80.00"],
-  ["Zion Suzuki","80.00"],["Dominik Livakovic","100.00"],["Ugurcan Cakir","100.00"],["Edouard Mendy","125.00"],["Kristoffer Nordfeldt","125.00"],
-  ["Alexander Schlager","150.00"],["Dayne St. Clair","150.00"],["Craig Gordon","250.00"],["Mathew Ryan","250.00"]
-];
-
-const artGeral = [
-  ["Kylian Mbappe","7.00"],["Harry Kane","8.00"],["Lionel Messi","13.00"],["Erling Haaland","15.00"],["Lamine Yamal","15.00"],
-  ["Cristiano Ronaldo","20.00"],["Mikel Oyarzabal","20.00"],["Nick Woltemade","20.00"],["Ousmane Dembele","20.00"],["Lautaro Martinez","25.00"],
-  ["Vinicius Jr.","25.00"],["Bukayo Saka","35.00"],["Mikel Merino","35.00"],["Raphinha","35.00"],["Romelu Lukaku","35.00"],
-  ["Bruno Fernandes","40.00"],["Cody Gakpo","40.00"],["Cole Palmer","40.00"],["Florian Wirtz","40.00"],["Jude Bellingham","40.00"],
-  ["Julian Alvarez","40.00"],["Michael Olise","40.00"],["Neymar Jr","40.00"],["Phil Foden","40.00"],["Dani Olmo","50.00"],
-  ["Desire Doue","50.00"],["Ferran Torres","50.00"],["Goncalo Ramos","50.00"],["Jean-Philippe Mateta","50.00"],["Leandro Trossard","50.00"],
-  ["Luis Diaz","50.00"],["Marcus Rashford","50.00"],["Memphis Depay","50.00"],["Mohamed Salah","50.00"],["Morgan Rogers","50.00"],
-  ["Nico Williams","50.00"],["Serge Gnabry","50.00"],["Alexander Sorloth","75.00"],["Anthony Gordon","75.00"],["Bradley Barcola","75.00"],
-  ["Christian Pulisic","75.00"],["Darwin Nunez","75.00"],["Donyell Malen","75.00"],["Eberechi Eze","75.00"],["Jeremy Doku","80.00"],
-  ["Jhon Duran","80.00"],["Kevin de Bruyne","80.00"],["Kingsley Coman","80.00"],["Leroy Sane","80.00"],["Lois Openda","80.00"],
-  ["Pedro Neto","80.00"],["Rafael Leao","80.00"],["Randal Muani","80.00"],["Sadio Mane","80.00"],["Viktor Gyokeres","80.00"],
-  ["Armando Gonzalez","100.00"],["Edin Dzeko","100.00"],["Folarin Balogun","100.00"],["Gabriel Martinelli","100.00"],["Haji Wright","100.00"],
-  ["James Rodriguez","100.00"],["Jonathan David","100.00"],["Kerem Aktürkoglu","100.00"],["Matheus Cunha","100.00"],["Nicolas Jackson","100.00"],
-  ["Noa Lang","100.00"],["Omar Marmoush","100.00"],["Pedri","100.00"],["Promise David","100.00"],["Raul Gimenez","100.00"],
-  ["Ricardo Pepi","100.00"],["Xavi Simons","100.00"],["Arda Guler","125.00"],["Ayase Ueda","125.00"],["Baris Yilmaz","125.00"],
-  ["Breel Embolo","125.00"],["Ermedin Demirovic","125.00"],["Heung-Min Son","125.00"],["Kenan Yildiz","125.00"],["Alphonso Davies","150.00"],
-  ["Andrej Kramaric","150.00"],["Anthony Elanga","150.00"],["Antonio Nusa","150.00"],["Ayoub El Kaabi","150.00"],["Brian Rodriguez","150.00"],
-  ["Cyle Larin","150.00"],["Daizen Maeda","150.00"],["Enzo Fernandez","150.00"],["Granit Xhaka","150.00"],["Hamza Igamane","150.00"],
-  ["Hirving Lozano","150.00"],["Jhon Arias","150.00"],["Jorgen Larsen","150.00"],["Kang-In Lee","150.00"],["Orbelin Pineda","150.00"],
-  ["Oscar Bobb","150.00"],["Patrik Schick","150.00"],["Riyad Mahrez","150.00"],["Scott McTominay","150.00"],["Tomas Chory","150.00"],
-  ["Youssef En Nesyri","150.00"],["Cedric Bakambu","200.00"],["Chris Wood","200.00"],["Facundo Pellistri","200.00"],["Giovanni Reyna","200.00"],
-  ["Hee-Chan Hwang","200.00"],["Ismaila Sarr","200.00"],["Martin Odegaard","200.00"],["Nikola Vlasic","200.00"],["Pavel Sulc","200.00"],
-  ["Takumi Minamino","200.00"],["Che Adams","250.00"],["Declan Rice","250.00"],["Saleh Al Shehri","250.00"],["Salem Al Dawsari","250.00"],
-  ["Yoane Wissa","250.00"],["Daichi Kamada","350.00"],["Julio Enciso","350.00"],["Lyndon Dykes","350.00"],["Ryan Christie","350.00"],
-  ["Brenden Aaronson","500.00"],["Eldor Shomurodov","500.00"],["John McGinn","500.00"],["Lyle Foster","500.00"],["Martin Boyle","500.00"],
-  ["Nestory Irankunda","500.00"],["Ben Waine","750.00"]
-];
-
-const artIng = [
-  ["Harry Kane","1.45"],["Bukayo Saka","9.00"],["Anthony Gordon","15.00"],["Cole Palmer","15.00"],["Jude Bellingham","15.00"],
-  ["Marcus Rashford","17.00"],["Ollie Watkins","17.00"],["Morgan Rogers","20.00"],["Noni Madueke","20.00"],["Phil Foden","20.00"],
-  ["Eberechi Eze","25.00"],["Declan Rice","35.00"]
-];
-
-const artFra = [
-  ["Kylian Mbappe","1.60"],["Ousmane Dembele","6.00"],["Michael Olise","7.00"],["Desire Doue","11.00"],["Marcus Thuram","13.00"],
-  ["Rayan Cherki","15.00"],["Jean-Philippe Mateta","17.00"],["Bradley Barcola","20.00"],["Maghnes Akliouche","25.00"]
-];
-
-const artArg = [
-  ["Lionel Messi","2.40"],["Julian Alvarez","4.35"],["Lautaro Martinez","4.35"]
-];
-
-const artBra = [
-  ["Vinicius Jr.","3.50"],["Raphinha","4.35"],["Neymar","6.50"],["Endrick","10.00"],["Matheus Cunha","10.00"],
-  ["Igor Thiago","11.00"],["Rayan Vitor","17.00"],["Gabriel Martinelli","20.00"]
-];
-
-const artEsp = [
-  ["Lamine Yamal","2.80"],["Mikel Oyarzabal","3.00"],["Mikel Merino","7.00"],["Ferran Torres","7.50"],
-  ["Dani Olmo","11.00"],["Nico Williams","11.00"],["Alex Baena","20.00"]
-];
-
-const artPor = [
-  ["Cristiano Ronaldo","3.50"],["Bruno Fernandes","3.75"],["Goncalo Ramos","7.00"],["Bernardo Silva","15.00"],
-  ["Joao Neves","15.00"],["Pedro Neto","15.00"],["Rafael Leao","15.00"],["Francisco Conceicao","17.00"],
-  ["Francisco Trincao","17.00"],["Joao Felix","17.00"],["Matheus Nunes","17.00"]
-];
-
-const artAle = [
-  ["Florian Wirtz","6.00"],["Jamal Musiala","6.00"],["Kai Havertz","6.00"],["Nick Woltemade","6.00"],
-  ["Deniz Undav","8.00"],["Leroy Sane","10.00"],["Kevin Schade","11.00"],["Lennart Karl","15.00"],
-  ["Leon Goretzka","15.00"],["Joshua Kimmich","17.00"],["Jamie Leweling","25.00"]
-];
-
-const artBel = [
-  ["Romelu Lukaku","3.00"],["Charles de Ketalaere","4.00"],["Jeremy Doku","6.00"],["Leando Trossard","7.00"],
-  ["Kevin de Bruyne","9.00"],["Dodi Lukebakio","14.00"],["Hans Vanaken","15.00"],["Youri Tielemans","15.00"],
-  ["Alexis Saelemaekers","21.00"],["Axel Witsel","21.00"]
-];
-
-const artSue = [
-  ["Viktor Gyokeres","2.75"],["Alexander Isak","4.35"],["Benjamin Nygren","11.00"],["Anthony Elanga","13.00"],
-  ["Gustaf Nilsson","13.00"],["Alexander Bernhardsson","15.00"],["Taha Ali","16.00"],["Yasin Ayari","23.00"],
-  ["Besfort Zeneli","25.00"],["Ken Sema","25.00"]
-];
-
-const artEsc = [
-  ["Scott McTominay","3.75"],["Che Adams","5.50"],["Ben Doak","9.00"],["Lawrence Shankland","9.00"],
-  ["Ryan Christie","9.00"],["John McGinn","11.00"],["Lyndon Dykes","15.00"],["George Hirst","17.00"],
-  ["Lewis Ferguson","25.00"]
-];
-
-const artCor = [
-  ["Heung-Min Son","3.50"],["Hyeon-Gyu Oh","6.00"],["Kang-In Lee","7.50"],["Gue-Sung Cho","8.00"],
-  ["Hee-Chan Hwang","10.00"],["Jae-Sung Lee","15.00"],["Jun-ho Bae","17.00"],["Ji-sung Eom","20.00"]
-];
-
-const artJap = [
-  ["Ayase Ueda","3.75"],["Daizen Maeda","9.00"],["Keito Nakamura","9.00"],["Takefusa Kubo","10.00"],
-  ["Koki Ogawa","11.00"],["Ritsu Doan","13.00"],["Daichi Kamada","15.00"],["Junya Ito","15.00"],
-  ["Keisuke Goto","15.00"],["Kento Shiogai","15.00"],["Yuito Suzuki","15.00"],["Ao Tanaka","20.00"],
-  ["Hiroki Ito","35.00"],["Ko Itakura","35.00"],["Wataru Endo","35.00"],["Yukinari Sugawara","35.00"],
-  ["Kaishu Sano","40.00"],["Shogo Taniguchi","40.00"]
-];
-
-const artRec = [
-  ["Patrik Schick","3.50"],["Mojmir Chytil","8.00"],["Tomas Chory","8.00"],["Pavel Sulc","8.50"],
-  ["Jan Kliment","11.00"],["Tomas Soucek","11.00"],["Lukas Cerv","20.00"],["Tomas Ladra","25.00"]
-];
-
-const artCro = [
-  ["Andrej Kramaric","4.00"],["Ivan Perisic","6.00"],["Luka Modric","6.00"],["Ante Budimir","9.00"],
-  ["Igor Matanovic","13.00"],["Marco Pasalic","15.00"],["Mario Pasalic","17.00"],["Mateo Kovacic","17.00"],
-  ["Nikola Vlasic","17.00"],["Josko Gvardiol","25.00"]
-];
-
-const artTur = [
-  ["Arda Guler","5.00"],["Kerem Akturkoglu","5.00"],["Baris Yilmaz","9.00"],["Hakan Calhanoglu","9.00"],
-  ["Irfan Can Kahveci","9.00"],["Yunus Akgun","9.00"],["Deniz Gul","11.00"],["Orkun Kokcu","13.00"],
-  ["Kaan Ayhan","17.00"],["Merih Demiral","17.00"],["Ferdi Kadioglu","25.00"]
-];
-
-const artTun = [
-  ["Firas Chaouat","5.00"],["Hazem Mastouri","9.00"],["Elias Achouri","11.00"],["Elias Saad","13.00"],
-  ["Rayan Elloumi","13.00"],["Khalil Ayari","15.00"],["Sebastian Tounekti","15.00"],["Ali Abdi","17.00"],
-  ["Hannibal Mejbri","17.00"],["Mortadha Ben Ouanes","17.00"],["Anis Ben Slimane","20.00"],["Ismael Gharbi","20.00"]
-];
-
-const artBos = [
-  ["Edin Dzeko","2.75"],["Ermedin Demirovic","4.50"],["Haris Tabakovic","5.00"],["Esmir Bajraktarevic","9.00"],
-  ["Amar Memic","13.00"],["Kerim Alajbegovic","13.00"],["Samed Bazdar","17.00"],["Ivan Basic","20.00"],["Jovo Lukic","23.00"]
-];
-
-const combos = [
-  ["França","Kylian Mbappe","17.00"],["Inglaterra","Harry Kane","20.00"],["Espanha","Lamine Yamal","35.00"],["Espanha","Harry Kane","40.00"],["Espanha","Kylian Mbappe","40.00"],["Argentina","Lionel Messi","40.00"],["Espanha","Mikel Oyarzabal","40.00"],["França","Harry Kane","50.00"],["Inglaterra","Kylian Mbappe","50.00"],["Argentina","Harry Kane","65.00"],["Brasil","Harry Kane","65.00"],["Argentina","Kylian Mbappe","65.00"],["Brasil","Kylian Mbappe","65.00"],["Espanha","Lionel Messi","65.00"],["França","Ousmane Dembele","65.00"],["Alemanha","Kylian Mbappe","80.00"],["Portugal","Kylian Mbappe","80.00"],["Inglaterra","Lionel Messi","80.00"],["França","Erling Haaland","85.00"],["Espanha","Erling Haaland","85.00"],["França","Lamine Yamal","85.00"],["França","Lionel Messi","85.00"],["Portugal","Cristiano Ronaldo","100.00"],["Inglaterra","Erling Haaland","100.00"],["Noruega","Erling Haaland","100.00"],["Alemanha","Harry Kane","100.00"],["Portugal","Harry Kane","100.00"],["Inglaterra","Lamine Yamal","100.00"],["Argentina","Lautaro Martinez","100.00"],["França","Mikel Oyarzabal","100.00"],["Brasil","Vinicius Jr.","100.00"],["França","Cristiano Ronaldo","125.00"],["Espanha","Cristiano Ronaldo","125.00"],["Argentina","Erling Haaland","125.00"],["Brasil","Erling Haaland","125.00"],["Argentina","Lamine Yamal","125.00"],["Brasil","Lamine Yamal","125.00"],["Brasil","Lionel Messi","125.00"],["Inglaterra","Mikel Oyarzabal","125.00"],["Espanha","Ousmane Dembele","125.00"],["Inglaterra","Bukayo Saka","150.00"],["Inglaterra","Cristiano Ronaldo","150.00"],["Espanha","Dani Olmo","150.00"],["Portugal","Erling Haaland","150.00"],["Espanha","Ferran Torres","150.00"],["Países Baixos","Harry Kane","150.00"],["Inglaterra","Jude Bellingham","150.00"],["Argentina","Julian Alvarez","150.00"],["Países Baixos","Kylian Mbappe","150.00"],["França","Lautaro Martinez","150.00"],["Espanha","Lautaro Martinez","150.00"],["Alemanha","Lionel Messi","150.00"],["Portugal","Lionel Messi","150.00"],["França","Michael Olise","150.00"],["Argentina","Mikel Oyarzabal","150.00"],["Brasil","Mikel Oyarzabal","150.00"],["Brasil","Neymar Jr","150.00"],["Inglaterra","Ousmane Dembele","150.00"],["Brasil","Raphinha","150.00"],["França","Vinicius Jr.","150.00"],["Espanha","Vinicius Jr.","150.00"],["Portugal","Lamine Yamal","175.00"],["Espanha","Bruno Fernandes","200.00"],["França","Bukayo Saka","200.00"],["Espanha","Bukayo Saka","200.00"],["Espanha","Cody Gakpo","200.00"],["Argentina","Cristiano Ronaldo","200.00"],["Brasil","Cristiano Ronaldo","200.00"],["França","Desire Doue","200.00"],["Alemanha","Erling Haaland","200.00"],["Espanha","Florian Wirtz","200.00"],["Espanha","Jude Bellingham","200.00"],["Espanha","Julian Alvarez","200.00"],["Bélgica","Kylian Mbappe","200.00"],["Alemanha","Lamine Yamal","200.00"],["Inglaterra","Lautaro Martinez","200.00"],["Alemanha","Michael Olise","200.00"],["Espanha","Michael Olise","200.00"],["Alemanha","Mikel Oyarzabal","200.00"],["Portugal","Mikel Oyarzabal","200.00"],["Espanha","Neymar Jr","200.00"],["Argentina","Nick Woltemade","200.00"],["Argentina","Ousmane Dembele","200.00"],["Brasil","Ousmane Dembele","200.00"],["França","Raphinha","200.00"],["Espanha","Raphinha","200.00"],["França","Romelu Lukaku","200.00"],["Espanha","Romelu Lukaku","200.00"],["Inglaterra","Vinicius Jr.","200.00"],["França","Bruno Fernandes","250.00"],["Portugal","Bruno Fernandes","250.00"],["França","Cody Gakpo","250.00"],["Alemanha","Cristiano Ronaldo","250.00"],["Espanha","Desire Doue","250.00"],["França","Florian Wirtz","250.00"],["Espanha","Goncalo Ramos","250.00"],["Bélgica","Harry Kane","250.00"],["França","Jude Bellingham","250.00"],["França","Julian Alvarez","250.00"],["Brasil","Lautaro Martinez","250.00"],["Espanha","Leandro Trossard","250.00"],["Países Baixos","Lionel Messi","250.00"],["Inglaterra","Michael Olise","250.00"],["França","Neymar Jr","250.00"],["Alemanha","Nick Woltemade","250.00"],["Portugal","Nick Woltemade","250.00"],["Espanha","Nick Woltemade","250.00"],["Alemanha","Ousmane Dembele","250.00"],["Portugal","Ousmane Dembele","250.00"],["Inglaterra","Raphinha","250.00"],["Inglaterra","Romelu Lukaku","250.00"],["Argentina","Vinicius Jr.","250.00"],["Inglaterra","Bruno Fernandes","300.00"],["Argentina","Bukayo Saka","300.00"],["Brasil","Bukayo Saka","300.00"],["Países Baixos","Erling Haaland","300.00"],["França","Ferran Torres","300.00"],["Alemanha","Florian Wirtz","300.00"],["França","Goncalo Ramos","300.00"],["Inglaterra","Julian Alvarez","300.00"],["Países Baixos","Lamine Yamal","300.00"],["Portugal","Lautaro Martinez","300.00"],["França","Leandro Trossard","300.00"],["França","Memphis Depay","300.00"],["França","Nick Woltemade","300.00"],["Argentina","Raphinha","300.00"],["Brasil","Romelu Lukaku","300.00"],["Portugal","Vinicius Jr.","300.00"],["Inglaterra","Cody Gakpo","350.00"],["Inglaterra","Desire Doue","350.00"],["Inglaterra","Ferran Torres","350.00"],["Inglaterra","Florian Wirtz","350.00"],["Inglaterra","Goncalo Ramos","350.00"],["Portugal","Goncalo Ramos","350.00"],["Espanha","Kevin de Bruyne","350.00"],["Alemanha","Lautaro Martinez","350.00"],["Inglaterra","Leandro Trossard","350.00"],["Espanha","Lois Openda","350.00"],["Brasil","Matheus Cunha","350.00"],["Inglaterra","Memphis Depay","350.00"],["Brasil","Michael Olise","350.00"],["Países Baixos","Mikel Oyarzabal","350.00"],["Inglaterra","Neymar Jr","350.00"],["Inglaterra","Nick Woltemade","350.00"],["Argentina","Romelu Lukaku","350.00"],["Alemanha","Vinicius Jr.","350.00"],["Argentina","Bruno Fernandes","400.00"],["Brasil","Bruno Fernandes","400.00"],["Alemanha","Bukayo Saka","400.00"],["Portugal","Bukayo Saka","400.00"],["Argentina","Cody Gakpo","400.00"],["Países Baixos","Cristiano Ronaldo","400.00"],["Argentina","Florian Wirtz","400.00"],["Brasil","Florian Wirtz","400.00"],["Argentina","Jude Bellingham","400.00"],["Brasil","Jude Bellingham","400.00"],["Brasil","Julian Alvarez","400.00"],["França","Kevin de Bruyne","400.00"],["Bélgica","Lionel Messi","400.00"],["França","Lois Openda","400.00"],["Argentina","Michael Olise","400.00"],["Argentina","Neymar Jr","400.00"],["Países Baixos","Ousmane Dembele","400.00"],["Brasil","Desire Doue","450.00"],["Brasil","Ferran Torres","450.00"],["Inglaterra","Kevin de Bruyne","450.00"],["Brasil","Leandro Trossard","450.00"],["Brasil","Nick Woltemade","450.00"],["Portugal","Raphinha","450.00"],["Portugal","Romelu Lukaku","450.00"],["Países Baixos","Cody Gakpo","500.00"],["Portugal","Cody Gakpo","500.00"],["Argentina","Desire Doue","500.00"],["Bélgica","Erling Haaland","500.00"],["Argentina","Ferran Torres","500.00"],["Portugal","Florian Wirtz","500.00"],["Argentina","Goncalo Ramos","500.00"],["Portugal","Jude Bellingham","500.00"],["Países Baixos","Julian Alvarez","500.00"],["Portugal","Julian Alvarez","500.00"],["Bélgica","Lamine Yamal","500.00"],["Países Baixos","Lautaro Martinez","500.00"],["Argentina","Leandro Trossard","500.00"],["Alemanha","Leroy Sane","500.00"],["Argentina","Memphis Depay","500.00"],["Portugal","Michael Olise","500.00"],["Bélgica","Mikel Oyarzabal","500.00"],["Portugal","Neymar Jr","500.00"],["Portugal","Rafael Leao","500.00"],["Alemanha","Raphinha","500.00"],["Bélgica","Romelu Lukaku","500.00"],["Alemanha","Romelu Lukaku","500.00"],["Países Baixos","Vinicius Jr.","500.00"],["Alemanha","Bruno Fernandes","600.00"],["Alemanha","Cody Gakpo","600.00"],["Alemanha","Jude Bellingham","600.00"],["Alemanha","Julian Alvarez","600.00"],["Brasil","Kevin de Bruyne","600.00"],["Inglaterra","Lois Openda","600.00"],["Países Baixos","Memphis Depay","600.00"],["Alemanha","Neymar Jr","600.00"],["Países Baixos","Neymar Jr","600.00"],["Portugal","Desire Doue","650.00"],["Portugal","Leandro Trossard","650.00"],["Portugal","Memphis Depay","650.00"],["Países Baixos","Bukayo Saka","750.00"],["Bélgica","Cristiano Ronaldo","750.00"],["Alemanha","Desire Doue","750.00"],["Alemanha","Ferran Torres","750.00"],["Alemanha","Goncalo Ramos","750.00"],["Alemanha","Leandro Trossard","750.00"],["Brasil","Lois Openda","750.00"],["Bélgica","Ousmane Dembele","750.00"],["Argentina","Kevin de Bruyne","800.00"],["Argentina","Lois Openda","800.00"],["Países Baixos","Nick Woltemade","800.00"],["Países Baixos","Raphinha","800.00"],["Bélgica","Nick Woltemade","850.00"],["Noruega","Alexander Sorloth","1000.00"],["Croácia","Andrej Kramaric","1000.00"],["Turquia","Arda Guler","1000.00"],["Suíça","Breel Embolo","1000.00"],["Bélgica","Bruno Fernandes","1000.00"],["Bélgica","Bukayo Saka","1000.00"],["EUA","Christian Pulisic","1000.00"],["Bélgica","Cody Gakpo","1000.00"],["Uruguai","Darwin Nunez","1000.00"],["Bélgica","Desire Doue","1000.00"],["Bósnia e Herzegovina","Edin Dzeko","1000.00"],["Bélgica","Ferran Torres","1000.00"],["Bélgica","Florian Wirtz","1000.00"],["Bélgica","Goncalo Ramos","1000.00"],["Marrocos","Hamza Igamane","1000.00"],["Coreia do Sul","Heung-Min Son","1000.00"],["Bélgica","Jude Bellingham","1000.00"],["Bélgica","Julian Alvarez","1000.00"],["Bélgica","Kevin de Bruyne","1000.00"],["Alemanha","Kevin de Bruyne","1000.00"],["Portugal","Kevin de Bruyne","1000.00"],["Bélgica","Lautaro Martinez","1000.00"],["Bélgica","Leandro Trossard","1000.00"],["Bélgica","Lois Openda","1000.00"],["Alemanha","Lois Openda","1000.00"],["Colômbia","Luis Diaz","1000.00"],["Bélgica","Memphis Depay","1000.00"],["Bélgica","Michael Olise","1000.00"],["Egito","Mohamed Salah","1000.00"],["Bélgica","Neymar Jr","1000.00"],["República Checa","Patrik Schick","1000.00"],["Bélgica","Raphinha","1000.00"],["México","Raul Gimenez","1000.00"],["Senegal","Sadio Mane","1000.00"],["Escócia","Scott McTominay","1000.00"],["Suécia","Viktor Gyokeres","1000.00"],["Bélgica","Vinicius Jr.","1000.00"]
-];
-
-// Render jogadores
-premioJog.forEach(c => { document.getElementById('b-premio-jog').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('pjog',c[0]))}${idCell(k('pjog',c[0]))}</tr>`; });
-premioGol.forEach(c => { document.getElementById('b-premio-gol').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('pgol',c[0]))}${idCell(k('pgol',c[0]))}</tr>`; });
-artGeral.forEach(c => { document.getElementById('b-art-geral').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artger',c[0]))}${idCell(k('artger',c[0]))}</tr>`; });
-combos.forEach(([s,p,o])=>{ document.getElementById('b-combo').innerHTML+=`<tr><td><span class="sel">${s}</span> & ${p}</td><td class="td-odd">${o}</td>${statusCell(k('combo',s,p))}${idCell(k('combo',s,p))}</tr>`; });
-artIng.forEach(c => { document.getElementById('b-art-ing').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('arting',c[0]))}${idCell(k('arting',c[0]))}</tr>`; });
-artFra.forEach(c => { document.getElementById('b-art-fra').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artfra',c[0]))}${idCell(k('artfra',c[0]))}</tr>`; });
-artArg.forEach(c => { document.getElementById('b-art-arg').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artarg',c[0]))}${idCell(k('artarg',c[0]))}</tr>`; });
-artBra.forEach(c => { document.getElementById('b-art-bra').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artbra',c[0]))}${idCell(k('artbra',c[0]))}</tr>`; });
-artEsp.forEach(c => { document.getElementById('b-art-esp').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artesp',c[0]))}${idCell(k('artesp',c[0]))}</tr>`; });
-artPor.forEach(c => { document.getElementById('b-art-por').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artpor',c[0]))}${idCell(k('artpor',c[0]))}</tr>`; });
-artAle.forEach(c => { document.getElementById('b-art-ale').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artale',c[0]))}${idCell(k('artale',c[0]))}</tr>`; });
-artBel.forEach(c => { document.getElementById('b-art-bel').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artbel',c[0]))}${idCell(k('artbel',c[0]))}</tr>`; });
-artSue.forEach(c => { document.getElementById('b-art-sue').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artsue',c[0]))}${idCell(k('artsue',c[0]))}</tr>`; });
-artEsc.forEach(c => { document.getElementById('b-art-esc').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artesc',c[0]))}${idCell(k('artesc',c[0]))}</tr>`; });
-artCor.forEach(c => { document.getElementById('b-art-cor').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artcor',c[0]))}${idCell(k('artcor',c[0]))}</tr>`; });
-artJap.forEach(c => { document.getElementById('b-art-jap').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artjap',c[0]))}${idCell(k('artjap',c[0]))}</tr>`; });
-artRec.forEach(c => { document.getElementById('b-art-rec').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artrec',c[0]))}${idCell(k('artrec',c[0]))}</tr>`; });
-artCro.forEach(c => { document.getElementById('b-art-cro').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artcro',c[0]))}${idCell(k('artcro',c[0]))}</tr>`; });
-artTur.forEach(c => { document.getElementById('b-art-tur').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('arttur',c[0]))}${idCell(k('arttur',c[0]))}</tr>`; });
-artTun.forEach(c => { document.getElementById('b-art-tun').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('arttun',c[0]))}${idCell(k('arttun',c[0]))}</tr>`; });
-artBos.forEach(c => { document.getElementById('b-art-bos').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('artbos',c[0]))}${idCell(k('artbos',c[0]))}</tr>`; });
-
-// ============================================
-// DADOS ABA EQUIPES
-// ============================================
-const eqVenc = [
-  ["Espanha","5.50"],["França","6.00"],["Inglaterra","8.00"],["Brasil","9.00"],["Argentina","9.50"],["Portugal","12.00"],["Alemanha","14.00"],["Países Baixos","20.00"],["Noruega","35.00"],["Bélgica","40.00"],["Colômbia","45.00"],["Japão","65.00"],["Marrocos","65.00"],["EUA","65.00"],["México","75.00"],["Uruguai","75.00"],["Croácia","100.00"],["Equador","100.00"],["Suíça","100.00"],["Turquia","100.00"],["Áustria","150.00"],["Senegal","150.00"],["Suécia","150.00"],["Paraguai","200.00"],["Canadá","250.00"],["Egito","250.00"],["Costa do Marfim","250.00"],["Escócia","250.00"],["República Checa","350.00"],["Gana","350.00"],["Bósnia e Herzegovina","475.00"],["Argélia","500.00"],["Austrália","500.00"],["Irã","500.00"],["Coreia do Sul","500.00"],["Tunísia","500.00"],["RD do Congo","750.00"],["Iraque","1000.00"],["Nova Zelândia","1000.00"],["Panamá","1000.00"],["Catar","1000.00"],["Arábia Saudita","1000.00"],["África do Sul","1000.00"],["Cabo Verde","2000.00"],["Curacao","2000.00"],["Haiti","2000.00"],["Jordânia","2000.00"],["Uzbequistão","2000.00"]
-];
-const eqChegarFinal = [
-  ["Argentina & Espanha","25.00"],["Inglaterra & Espanha","25.00"],["Brasil & Espanha","33.00"],["Argentina & França","35.00"],["Inglaterra & França","35.00"],["Portugal & Espanha","35.00"],["Argentina & Alemanha","40.00"],["Brasil & França","40.00"],["Inglaterra & Alemanha","45.00"],["França & Portugal","50.00"],["França & Espanha","50.00"],["Brasil & Alemanha","55.00"],["Brasil & Inglaterra","65.00"],["Brasil & Países Baixos","70.00"],["Inglaterra & Países Baixos","70.00"],["Alemanha & Portugal","70.00"],["Argentina & Países Baixos","75.00"],["França & Alemanha","75.00"],["Argentina & Bélgica","80.00"],["Argentina & Inglaterra","80.00"],["Bélgica & Inglaterra","80.00"],["Bélgica & Brasil","90.00"],["Inglaterra & Portugal","90.00"],["Alemanha & Espanha","90.00"],["Argentina & Brasil","100.00"],["Argentina & Portugal","100.00"],["Países Baixos & Portugal","100.00"],["Bélgica & França","125.00"],["Bélgica & Portugal","125.00"],["Bélgica & Espanha","125.00"],["Brasil & Portugal","125.00"],["França & Países Baixos","125.00"],["França & Noruega","125.00"],["Países Baixos & Espanha","125.00"],["Espanha & Uruguai","125.00"]
-];
-const eqVencGrupo = [
-  ["Espanha","6.50"],["França","7.50"],["Inglaterra","10.00"],["Argentina","12.00"],["Brasil","12.00"],["Alemanha","14.00"]
-];
-const eqFaseX = [
-  ["Espanha","3.25","2.25","1.75"],["França","3.75","2.60","1.87"],["Inglaterra","4.25","3.00","1.87"],["Brasil","4.75","3.30","2.15"],["Argentina","5.00","3.20","2.05"],["Portugal","5.25","3.40","2.10"]
-];
-const eqContinente = [
-  ["EUA","Am. Norte","2.50"],["México","Am. Norte","2.55"],["Canadá","Am. Norte","3.70"],["Panamá","Am. Norte","40.00"],["Curacao","Am. Norte","50.00"],["Haiti","Am. Norte","50.00"],
-  ["Argentina","Am. Sul","2.50"],["Brasil","Am. Sul","2.50"],["Colômbia","Am. Sul","7.00"],["Uruguai","Am. Sul","9.00"],["Equador","Am. Sul","17.00"],["Paraguai","Am. Sul","25.00"],
-  ["Japão","Ásia/Oceania","2.60"],["Coreia do Sul","Ásia/Oceania","4.25"],["Irã","Ásia/Oceania","6.00"],["Austrália","Ásia/Oceania","9.00"],["Arábia Saudita","Ásia/Oceania","13.00"],["Nova Zelândia","Ásia/Oceania","17.00"],["Jordânia","Ásia/Oceania","20.00"],["Catar","Ásia/Oceania","20.00"],["Uzbequistão","Ásia/Oceania","20.00"],["Iraque","Ásia/Oceania","30.00"],
-  ["Marrocos","África","3.50"],["Senegal","África","5.00"],["Costa do Marfim","África","6.75"],["Egito","África","7.00"],["Argélia","África","10.00"],["Gana","África","12.00"],["Rep. Dem. do Congo","África","20.00"],["África do Sul","África","20.00"],["Tunísia","África","20.00"],["Cabo Verde","África","50.00"],
-  ["Espanha","Europa","4.00"],["França","Europa","4.25"],["Inglaterra","Europa","6.00"],["Portugal","Europa","8.50"],["Alemanha","Europa","10.00"],["Países Baixos","Europa","13.00"],["Bélgica","Europa","17.00"],["Noruega","Europa","20.00"],["Suíça","Europa","40.00"],["Croácia","Europa","50.00"],["Turquia","Europa","50.00"],["Suécia","Europa","70.00"],["Áustria","Europa","80.00"],["Escócia","Europa","80.00"],["Bósnia e Herzegovina","Europa","100.00"],["República Checa","Europa","100.00"]
-];
-const eqQualquer = [
-  ["Inglaterra ou Espanha","3.10"],["França ou Espanha","3.10"],["Inglaterra ou França","3.50"],["Espanha ou Portugal","3.75"],["Espanha ou Alemanha","3.85"],["Espanha ou Países Baixos","4.30"],["Inglaterra ou Alemanha","4.50"],["Inglaterra ou Portugal","4.50"],["França ou Alemanha","4.50"],["França ou Portugal","4.50"],["Bélgica ou Espanha","4.75"],["Inglaterra ou Países Baixos","5.20"],["França ou Países Baixos","5.20"],["Inglaterra ou Bélgica","5.75"],["França ou Bélgica","5.75"],["Alemanha ou Portugal","6.20"],["Portugal ou Países Baixos","7.50"],["Alemanha ou Países Baixos","7.80"],["Bélgica ou Portugal","9.20"],["Bélgica ou Alemanha","9.70"],["Bélgica ou Países Baixos","13.00"]
-];
-
-eqVenc.forEach(c => { document.getElementById('b-eq-venc').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('eqvenc',c[0]))}${idCell(k('eqvenc',c[0]))}</tr>`; });
-eqChegarFinal.forEach(c => { document.getElementById('b-eq-chegar-final').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('eqfinal',c[0]))}${idCell(k('eqfinal',c[0]))}</tr>`; });
-eqVencGrupo.forEach(c => { document.getElementById('b-eq-venc-grupo').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('eqvgrup',c[0]))}${idCell(k('eqvgrup',c[0]))}</tr>`; });
-eqFaseX.forEach(c => { document.getElementById('b-eq-fase-x').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd-c">${c[1]}</td><td class="td-odd-c">${c[2]}</td><td class="td-odd-c">${c[3]}</td>${statusCell(k('eqfasex',c[0]))}${idCell(k('eqfasex',c[0]))}</tr>`; });
-eqContinente.forEach(c => { document.getElementById('b-eq-continente').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="center td-market">${c[1]}</td><td class="td-odd">${c[2]}</td></tr>`; });
-eqQualquer.forEach(c => { document.getElementById('b-eq-qualquer').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(k('eqqual',c[0]))}${idCell(k('eqqual',c[0]))}</tr>`; });
-
-// ============================================
-// DADOS ABA ELIMINAÇÃO
-// ============================================
-const elim = [
-  ["Argélia","2.70","2.15","7.50","20.00","60.00","225.00"],["Argentina","35.00","2.85","5.50","5.75","7.00","10.50"],["Austrália","1.90","3.20","7.50","20.00","90.00","350.00"],["Áustria","5.25","1.90","5.50","11.00","22.00","65.00"],["Bélgica","18.00","3.20","3.60","4.50","10.00","20.00"],["Bósnia e Herzegovina","3.75","2.45","4.00","11.00","40.00","150.00"],["Brasil","70.00","3.00","4.50","6.50","6.75","12.00"],["Canadá","4.10","2.55","3.70","9.50","33.00","100.00"],["Cabo Verde","1.18","6.80","50.00","250.00","500.00","500.00"],["Colômbia","8.50","2.55","3.75","7.00","12.00","28.00"],["Croácia","6.50","2.30","4.00","8.00","17.00","45.00"],["Curacao","1.01","60.00","500.00","500.00","500.00","500.00"],["República Checa","3.40","2.70","4.10","10.00","35.00","110.00"],["RD do Congo","1.80","2.80","11.00","40.00","150.00","500.00"],["Equador","15.00","1.90","3.80","8.00","22.00","75.00"],["Egito","4.00","2.20","4.30","12.00","45.00","150.00"],["Inglaterra","45.00","4.00","4.50","4.50","7.50","10.50"],["França","33.00","4.30","5.25","5.00","7.00","9.50"],["Alemanha","90.00","3.20","4.50","4.50","7.00","13.00"],["Gana","1.97","2.60","9.50","30.00","110.00","500.00"],["Haiti","1.05","17.00","250.00","500.00","500.00","500.00"],["Irã","2.60","2.40","5.75","20.00","80.00","450.00"],["Iraque","1.16","7.00","35.00","225.00","500.00","500.00"],["Costa do Marfim","8.50","1.72","4.30","11.00","45.00","175.00"],["Japão","4.00","2.30","5.00","12.00","20.00","50.00"],["Jordânia","1.22","5.75","40.00","250.00","500.00","500.00"],["México","6.00","2.75","3.30","7.00","20.00","35.00"],["Marrocos","13.00","1.95","3.70","9.50","18.00","55.00"],["Países Baixos","7.50","2.50","4.30","8.50","10.50","22.00"],["Nova Zelândia","1.40","4.00","17.00","125.00","500.00","500.00"],["Noruega","5.75","2.75","3.50","8.50","17.00","35.00"],["Panamá","1.28","4.75","28.00","150.00","500.00","500.00"],["Paraguai","3.00","2.70","5.00","10.50","40.00","110.00"],["Portugal","28.00","3.50","4.10","5.25","7.50","12.00"],["Catar","1.42","4.10","14.00","80.00","500.00","500.00"],["Arábia Saudita","1.95","2.55","10.00","35.00","175.00","500.00"],["Escócia","3.50","1.90","6.25","18.00","70.00","325.00"],["Senegal","3.20","2.50","4.75","12.00","35.00","100.00"],["África do Sul","1.75","3.30","8.00","30.00","175.00","500.00"],["Coreia do Sul","3.25","2.65","4.30","10.00","40.00","125.00"],["Espanha","100.00","3.90","4.75","7.00","7.00","8.00"],["Suécia","2.90","2.35","6.00","15.00","28.00","90.00"],["Suíça","8.00","2.90","3.10","6.75","14.00","40.00"],["Tunísia","1.60","3.30","13.00","50.00","125.00","400.00"],["Turquia","4.30","2.90","4.10","6.75","18.00","50.00"],["EUA","4.30","3.00","4.30","6.50","15.00","35.00"],["Uruguai","8.50","1.95","5.00","8.50","15.00","45.00"],["Uzbequistão","1.35","4.20","22.00","100.00","500.00","500.00"]
-];
-elim.forEach(d => { document.getElementById('b-elim').innerHTML+=`<tr><td class="td-player">${d[0]}</td><td class="td-odd-c">${d[1]}</td><td class="td-odd-c">${d[2]}</td><td class="td-odd-c">${d[3]}</td><td class="td-odd-c">${d[4]}</td><td class="td-odd-c">${d[5]}</td><td class="td-odd-c">${d[6]}</td>${statusCell(k('elim',d[0]))}${idCell(k('elim',d[0]))}</tr>`; });
-
-// ============================================
-// DADOS GRUPOS A-L
-// ============================================
-const groupData = {
-  "A": {
-    teams: [
-      {nome:"México",vence:"2.00",ultimo:"8.00",top2:"1.28",top3:"1.08",classifica:"1.12",nclassifica:"6.00"},
-      {nome:"República Checa",vence:"3.50",ultimo:"4.00",top2:"1.85",top3:"1.22",classifica:"1.35",nclassifica:"3.30"},
-      {nome:"Coreia do Sul",vence:"3.75",ultimo:"4.00",top2:"2.00",top3:"1.25",classifica:"1.40",nclassifica:"3.10"},
-      {nome:"África do Sul",vence:"12.00",ultimo:"2.05",top2:"3.75",top3:"1.95",classifica:"2.35",nclassifica:"1.70"}
-    ],
-    e12:[["1º México - 2º República Checa","4.50"],["1º México - 2º Coreia do Sul","4.75"],["1º República Checa - 2º México","6.00"],["1º Coreia do Sul - 2º México","7.00"],["1º México - 2º África do Sul","8.00"],["1º República Checa - 2º Coreia do Sul","9.00"],["1º Coreia do Sul - 2º República Checa","9.00"],["1º África do Sul - 2º México","17.00"],["1º República Checa - 2º África do Sul","18.00"],["1º Coreia do Sul - 2º África do Sul","18.00"],["1º África do Sul - 2º República Checa","25.00"],["1º África do Sul - 2º Coreia do Sul","25.00"]],
-    e14:[["1º México - 4º África do Sul","4.00"],["1º República Checa - 4º África do Sul","6.00"],["1º México - 4º República Checa","6.50"],["1º México - 4º Coreia do Sul","6.50"],["1º Coreia do Sul - 4º África do Sul","6.50"],["1º República Checa - 4º Coreia do Sul","10.00"],["1º Coreia do Sul - 4º República Checa","12.00"],["1º República Checa - 4º México","17.00"],["1º Coreia do Sul - 4º México","17.00"],["1º África do Sul - 4º Coreia do Sul","19.00"],["1º África do Sul - 4º República Checa","20.00"],["1º África do Sul - 4º México","33.00"]]
-  },
-  "B": {
-    teams: [
-      {nome:"Suíça",vence:"1.90",ultimo:"11.00",top2:"1.20",top3:"1.07",classifica:"1.12",nclassifica:"7.00"},
-      {nome:"Canadá",vence:"3.50",ultimo:"7.00",top2:"1.50",top3:"1.14",classifica:"1.25",nclassifica:"4.50"},
-      {nome:"Bósnia e Herzegovina",vence:"3.60",ultimo:"4.75",top2:"2.30",top3:"1.18",classifica:"1.35",nclassifica:"3.50"},
-      {nome:"Catar",vence:"25.00",ultimo:"1.55",top2:"6.00",top3:"2.35",classifica:"3.10",nclassifica:"1.40"}
-    ],
-    e12:[["1º Suíça - 2º Canadá","4.00"],["1º Canadá - 2º Suíça","5.00"],["1º Suíça - 2º Bósnia","5.00"],["1º Bósnia - 2º Suíça","6.50"],["1º Canadá - 2º Bósnia","7.00"],["1º Bósnia - 2º Canadá","8.00"],["1º Suíça - 2º Catar","12.00"],["1º Canadá - 2º Catar","24.00"],["1º Bósnia - 2º Catar","28.00"],["1º Catar - 2º Suíça","33.00"],["1º Catar - 2º Canadá","50.00"],["1º Catar - 2º Bósnia","55.00"]],
-    e14:[["1º Suíça - 4º Catar","3.30"],["1º Canadá - 4º Catar","4.75"],["1º Bósnia - 4º Catar","5.50"],["1º Suíça - 4º Bósnia","8.00"],["1º Suíça - 4º Canadá","9.50"],["1º Canadá - 4º Bósnia","10.00"],["1º Bósnia - 4º Canadá","14.00"],["1º Canadá - 4º Suíça","18.00"],["1º Bósnia - 4º Suíça","20.00"],["1º Catar - 4º Bósnia","38.00"],["1º Catar - 4º Canadá","40.00"],["1º Catar - 4º Suíça","60.00"]]
-  },
-  "C": {
-    teams: [
-      {nome:"Brasil",vence:"1.25",ultimo:"50.00",top2:"1.06",top3:"1.001",classifica:"1.01",nclassifica:"50.00"},
-      {nome:"Marrocos",vence:"6.00",ultimo:"22.00",top2:"1.40",top3:"1.02",classifica:"1.07",nclassifica:"10.00"},
-      {nome:"Escócia",vence:"9.00",ultimo:"7.50",top2:"2.75",top3:"1.10",classifica:"1.35",nclassifica:"3.40"},
-      {nome:"Haiti",vence:"50.00",ultimo:"1.14",top2:"38.00",top3:"6.00",classifica:"12.00",nclassifica:"1.05"}
-    ],
-    e12:[["1º Brasil - 2º Marrocos","2.05"],["1º Brasil - 2º Escócia","4.00"],["1º Marrocos - 2º Brasil","4.50"],["1º Escócia - 2º Brasil","13.00"],["1º Marrocos - 2º Escócia","16.00"],["1º Escócia - 2º Marrocos","28.00"],["1º Brasil - 2º Haiti","45.00"],["1º Marrocos - 2º Haiti","175.00"],["1º Haiti - 2º Brasil","375.00"],["1º Haiti - 2º Marrocos","500.00"],["1º Haiti - 2º Escócia","500.00"],["1º Escócia - 2º Haiti","500.00"]],
-    e14:[["1º Brasil - 4º Haiti","1.60"],["1º Marrocos - 4º Haiti","4.50"],["1º Brasil - 4º Escócia","9.00"],["1º Escócia - 4º Haiti","9.50"],["1º Brasil - 4º Marrocos","24.00"],["1º Marrocos - 4º Escócia","24.00"],["1º Escócia - 4º Marrocos","125.00"],["1º Marrocos - 4º Brasil","150.00"],["1º Escócia - 4º Brasil","250.00"],["1º Haiti - 4º Escócia","350.00"],["1º Haiti - 4º Marrocos","700.00"],["1º Haiti - 4º Brasil","800.00"]]
-  },
-  "D": {
-    teams: [
-      {nome:"EUA",vence:"2.40",ultimo:"6.00",top2:"1.40",top3:"1.14",classifica:"1.20",nclassifica:"4.75"},
-      {nome:"Turquia",vence:"2.75",ultimo:"5.50",top2:"1.55",top3:"1.16",classifica:"1.25",nclassifica:"4.50"},
-      {nome:"Paraguai",vence:"4.75",ultimo:"3.25",top2:"2.15",top3:"1.40",classifica:"1.55",nclassifica:"2.50"},
-      {nome:"Austrália",vence:"8.00",ultimo:"2.25",top2:"3.40",top3:"1.65",classifica:"1.95",nclassifica:"1.90"}
-    ],
-    e12:[["1º EUA - 2º Turquia","4.75"],["1º Turquia - 2º EUA","5.00"],["1º EUA - 2º Paraguai","6.50"],["1º Turquia - 2º Paraguai","7.50"],["1º EUA - 2º Austrália","8.50"],["1º Paraguai - 2º EUA","9.00"],["1º Paraguai - 2º Turquia","10.00"],["1º Turquia - 2º Austrália","10.00"],["1º Austrália - 2º EUA","15.00"],["1º Austrália - 2º Turquia","16.00"],["1º Paraguai - 2º Austrália","22.00"],["1º Austrália - 2º Paraguai","24.00"]],
-    e14:[["1º EUA - 4º Austrália","4.75"],["1º Turquia - 4º Austrália","5.00"],["1º EUA - 4º Paraguai","6.00"],["1º Turquia - 4º Paraguai","6.50"],["1º Paraguai - 4º Austrália","8.00"],["1º EUA - 4º Turquia","9.00"],["1º Turquia - 4º EUA","10.00"],["1º Austrália - 4º Paraguai","13.00"],["1º Paraguai - 4º Turquia","16.00"],["1º Paraguai - 4º EUA","17.00"],["1º Austrália - 4º Turquia","20.00"],["1º Austrália - 4º EUA","22.00"]]
-  },
-  "E": {
-    teams: [
-      {nome:"Alemanha",vence:"1.30",ultimo:"50.00",top2:"1.09",top3:"1.001",classifica:"1.001",nclassifica:"50.00"},
-      {nome:"Equador",vence:"6.00",ultimo:"33.00",top2:"1.55",top3:"1.01",classifica:"1.06",nclassifica:"11.00"},
-      {nome:"Costa do Marfim",vence:"7.50",ultimo:"22.00",top2:"2.05",top3:"1.02",classifica:"1.12",nclassifica:"7.00"},
-      {nome:"Curacao",vence:"50.00",ultimo:"1.05",top2:"50.00",top3:"13.00",classifica:"33.00",nclassifica:"1.02"}
-    ],
-    e12:[["1º Alemanha - 2º Equador","2.45"],["1º Alemanha - 2º Costa do Marfim","3.25"],["1º Equador - 2º Alemanha","5.50"],["1º Costa do Marfim - 2º Alemanha","7.50"],["1º Equador - 2º Costa do Marfim","12.00"],["1º Costa do Marfim - 2º Equador","15.00"],["1º Alemanha - 2º Curacao","125.00"],["1º Equador - 2º Curacao","450.00"],["1º Curacao - 2º Equador","500.00"],["1º Curacao - 2º Alemanha","500.00"],["1º Curacao - 2º Costa do Marfim","500.00"],["1º Costa do Marfim - 2º Curacao","500.00"]],
-    e14:[["1º Alemanha - 4º Curacao","1.55"],["1º Equador - 4º Curacao","4.50"],["1º Costa do Marfim - 4º Curacao","6.00"],["1º Alemanha - 4º Costa do Marfim","28.00"],["1º Alemanha - 4º Equador","40.00"],["1º Equador - 4º Costa do Marfim","85.00"],["1º Costa do Marfim - 4º Equador","125.00"],["1º Equador - 4º Alemanha","250.00"],["1º Costa do Marfim - 4º Alemanha","250.00"],["1º Curacao - 4º Equador","900.00"],["1º Curacao - 4º Costa do Marfim","999.00"],["1º Curacao - 4º Alemanha","1500.00"]]
-  },
-  "F": {
-    teams: [
-      {nome:"Países Baixos",vence:"1.75",ultimo:"13.00",top2:"1.28",top3:"1.07",classifica:"1.10",nclassifica:"7.50"},
-      {nome:"Japão",vence:"4.15",ultimo:"4.75",top2:"1.80",top3:"1.20",classifica:"1.33",nclassifica:"3.60"},
-      {nome:"Suécia",vence:"5.00",ultimo:"4.00",top2:"2.10",top3:"1.28",classifica:"1.48",nclassifica:"2.85"},
-      {nome:"Tunísia",vence:"13.00",ultimo:"1.75",top2:"4.00",top3:"1.95",classifica:"2.40",nclassifica:"1.60"}
-    ],
-    e12:[["1º Países Baixos - 2º Japão","4.00"],["1º Países Baixos - 2º Suécia","4.75"],["1º Japão - 2º Países Baixos","6.00"],["1º Países Baixos - 2º Tunísia","7.50"],["1º Suécia - 2º Países Baixos","7.50"],["1º Japão - 2º Suécia","10.00"],["1º Suécia - 2º Japão","11.00"],["1º Japão - 2º Tunísia","18.00"],["1º Tunísia - 2º Países Baixos","18.00"],["1º Suécia - 2º Tunísia","24.00"],["1º Tunísia - 2º Japão","30.00"],["1º Tunísia - 2º Suécia","38.00"]],
-    e14:[["1º Países Baixos - 4º Tunísia","3.60"],["1º Japão - 4º Tunísia","6.00"],["1º Países Baixos - 4º Suécia","6.00"],["1º Países Baixos - 4º Japão","7.00"],["1º Suécia - 4º Tunísia","7.00"],["1º Japão - 4º Suécia","9.00"],["1º Suécia - 4º Japão","12.00"],["1º Japão - 4º Países Baixos","20.00"],["1º Tunísia - 4º Suécia","20.00"],["1º Tunísia - 4º Japão","24.00"],["1º Suécia - 4º Países Baixos","25.00"],["1º Tunísia - 4º Países Baixos","40.00"]]
-  },
-  "G": {
-    teams: [
-      {nome:"Bélgica",vence:"1.28",ultimo:"30.00",top2:"1.10",top3:"1.02",classifica:"1.03",nclassifica:"19.00"},
-      {nome:"Egito",vence:"7.00",ultimo:"5.75",top2:"1.75",top3:"1.16",classifica:"1.30",nclassifica:"3.75"},
-      {nome:"Irã",vence:"8.00",ultimo:"3.75",top2:"2.35",top3:"1.30",classifica:"1.55",nclassifica:"2.50"},
-      {nome:"Nova Zelândia",vence:"25.00",ultimo:"1.62",top2:"5.75",top3:"2.20",classifica:"3.10",nclassifica:"1.40"}
-    ],
-    e12:[["1º Bélgica - 2º Egito","2.75"],["1º Bélgica - 2º Irã","3.60"],["1º Egito - 2º Bélgica","6.00"],["1º Bélgica - 2º Nova Zelândia","7.50"],["1º Irã - 2º Bélgica","9.00"],["1º Egito - 2º Irã","17.00"],["1º Irã - 2º Egito","20.00"],["1º Nova Zelândia - 2º Bélgica","35.00"],["1º Egito - 2º Nova Zelândia","45.00"],["1º Irã - 2º Nova Zelândia","50.00"],["1º Nova Zelândia - 2º Egito","50.00"],["1º Nova Zelândia - 2º Irã","50.00"]],
-    e14:[["1º Bélgica - 4º Nova Zelândia","2.45"],["1º Bélgica - 4º Irã","4.75"],["1º Bélgica - 4º Egito","6.50"],["1º Egito - 4º Nova Zelândia","6.50"],["1º Irã - 4º Nova Zelândia","9.00"],["1º Egito - 4º Irã","12.00"],["1º Irã - 4º Egito","25.00"],["1º Nova Zelândia - 4º Irã","45.00"],["1º Egito - 4º Bélgica","50.00"],["1º Irã - 4º Bélgica","50.00"],["1º Nova Zelândia - 4º Bélgica","50.00"],["1º Nova Zelândia - 4º Egito","50.00"]]
-  },
-  "H": {
-    teams: [
-      {nome:"Espanha",vence:"1.25",ultimo:"125.00",top2:"1.03",top3:"1.001",classifica:"1.01",nclassifica:"90.00"},
-      {nome:"Uruguai",vence:"4.60",ultimo:"12.00",top2:"1.33",top3:"1.07",classifica:"1.14",nclassifica:"6.20"},
-      {nome:"Arábia Saudita",vence:"25.00",ultimo:"2.20",top2:"4.50",top3:"1.60",classifica:"2.10",nclassifica:"1.53"},
-      {nome:"Cabo Verde",vence:"50.00",ultimo:"1.80",top2:"7.00",top3:"1.90",classifica:"3.50",nclassifica:"1.35"}
-    ],
-    e12:[["1º Espanha - 2º Uruguai","1.80"],["1º Espanha - 2º Arábia Saudita","4.50"],["1º Uruguai - 2º Espanha","4.75"],["1º Espanha - 2º Cabo Verde","16.00"],["1º Arábia Saudita - 2º Espanha","22.00"],["1º Uruguai - 2º Arábia Saudita","28.00"],["1º Arábia Saudita - 2º Uruguai","50.00"],["1º Uruguai - 2º Cabo Verde","100.00"],["1º Cabo Verde - 2º Espanha","125.00"],["1º Cabo Verde - 2º Uruguai","325.00"],["1º Arábia Saudita - 2º Cabo Verde","375.00"],["1º Cabo Verde - 2º Arábia Saudita","500.00"]],
-    e14:[["1º Espanha - 4º Cabo Verde","1.80"],["1º Espanha - 4º Arábia Saudita","4.75"],["1º Uruguai - 4º Cabo Verde","5.50"],["1º Uruguai - 4º Arábia Saudita","13.00"],["1º Espanha - 4º Uruguai","15.00"],["1º Arábia Saudita - 4º Cabo Verde","16.00"],["1º Arábia Saudita - 4º Uruguai","125.00"],["1º Cabo Verde - 4º Arábia Saudita","150.00"],["1º Uruguai - 4º Espanha","175.00"],["1º Cabo Verde - 4º Uruguai","250.00"],["1º Arábia Saudita - 4º Espanha","300.00"],["1º Cabo Verde - 4º Espanha","600.00"]]
-  },
-  "I": {
-    teams: [
-      {nome:"França",vence:"1.35",ultimo:"33.00",top2:"1.10",top3:"1.01",classifica:"1.03",nclassifica:"25.00"},
-      {nome:"Noruega",vence:"5.00",ultimo:"8.50",top2:"1.55",top3:"1.08",classifica:"1.18",nclassifica:"5.50"},
-      {nome:"Senegal",vence:"7.50",ultimo:"4.75",top2:"2.40",top3:"1.20",classifica:"1.45",nclassifica:"3.00"},
-      {nome:"Iraque",vence:"30.00",ultimo:"1.40",top2:"9.00",top3:"3.00",classifica:"4.50",nclassifica:"1.18"}
-    ],
-    e12:[["1º França - 2º Noruega","2.60"],["1º França - 2º Senegal","4.00"],["1º Noruega - 2º França","5.00"],["1º Senegal - 2º França","9.00"],["1º França - 2º Iraque","12.00"],["1º Noruega - 2º Senegal","12.00"],["1º Senegal - 2º Noruega","18.00"],["1º Noruega - 2º Iraque","50.00"],["1º Iraque - 2º França","65.00"],["1º Iraque - 2º Noruega","100.00"],["1º Senegal - 2º Iraque","100.00"],["1º Iraque - 2º Senegal","175.00"]],
-    e14:[["1º França - 4º Iraque","2.20"],["1º Noruega - 4º Iraque","4.75"],["1º França - 4º Senegal","6.00"],["1º Senegal - 4º Iraque","7.50"],["1º França - 4º Noruega","10.00"],["1º Noruega - 4º Senegal","13.00"],["1º Senegal - 4º Noruega","38.00"],["1º Noruega - 4º França","60.00"],["1º Iraque - 4º Senegal","65.00"],["1º Senegal - 4º França","80.00"],["1º Iraque - 4º Noruega","100.00"],["1º Iraque - 4º França","200.00"]]
-  },
-  "J": {
-    teams: [
-      {nome:"Argentina",vence:"1.28",ultimo:"45.00",top2:"1.07",top3:"1.01",classifica:"1.02",nclassifica:"35.00"},
-      {nome:"Áustria",vence:"5.50",ultimo:"7.80",top2:"1.55",top3:"1.10",classifica:"1.20",nclassifica:"4.75"},
-      {nome:"Argélia",vence:"9.00",ultimo:"4.50",top2:"2.60",top3:"1.25",classifica:"1.55",nclassifica:"2.60"},
-      {nome:"Jordânia",vence:"40.00",ultimo:"1.40",top2:"8.00",top3:"2.75",classifica:"4.25",nclassifica:"1.25"}
-    ],
-    e12:[["1º Argentina - 2º Áustria","2.30"],["1º Argentina - 2º Argélia","3.60"],["1º Áustria - 2º Argentina","5.50"],["1º Argentina - 2º Jordânia","9.50"],["1º Argélia - 2º Argentina","12.00"],["1º Áustria - 2º Argélia","19.00"],["1º Argélia - 2º Áustria","28.00"],["1º Áustria - 2º Jordânia","60.00"],["1º Jordânia - 2º Argentina","65.00"],["1º Argélia - 2º Jordânia","125.00"],["1º Jordânia - 2º Áustria","125.00"],["1º Jordânia - 2º Argélia","225.00"]],
-    e14:[["1º Argentina - 4º Jordânia","2.05"],["1º Argentina - 4º Argélia","5.00"],["1º Áustria - 4º Jordânia","6.00"],["1º Argentina - 4º Áustria","8.50"],["1º Argélia - 4º Jordânia","10.00"],["1º Áustria - 4º Argélia","13.00"],["1º Argélia - 4º Áustria","40.00"],["1º Jordânia - 4º Argélia","70.00"],["1º Áustria - 4º Argentina","85.00"],["1º Argélia - 4º Argentina","125.00"],["1º Jordânia - 4º Áustria","125.00"],["1º Jordânia - 4º Argentina","250.00"]]
-  },
-  "K": {
-    teams: [
-      {nome:"Portugal",vence:"1.45",ultimo:"35.00",top2:"1.10",top3:"1.01",classifica:"1.03",nclassifica:"22.00"},
-      {nome:"Colômbia",vence:"3.25",ultimo:"13.00",top2:"1.30",top3:"1.05",classifica:"1.09",nclassifica:"8.50"},
-      {nome:"RD do Congo",vence:"11.00",ultimo:"3.25",top2:"3.60",top3:"1.35",classifica:"1.85",nclassifica:"2.00"},
-      {nome:"Uzbequistão",vence:"40.00",ultimo:"1.55",top2:"8.50",top3:"2.60",classifica:"4.00",nclassifica:"1.25"}
-    ],
-    e12:[["1º Portugal - 2º Colômbia","2.30"],["1º Colômbia - 2º Portugal","3.60"],["1º Portugal - 2º RD do Congo","6.00"],["1º Portugal - 2º Uzbequistão","12.00"],["1º Colômbia - 2º RD do Congo","13.00"],["1º RD do Congo - 2º Portugal","18.00"],["1º RD do Congo - 2º Colômbia","25.00"],["1º Colômbia - 2º Uzbequistão","33.00"],["1º Uzbequistão - 2º Portugal","70.00"],["1º Uzbequistão - 2º Colômbia","85.00"],["1º RD do Congo - 2º Uzbequistão","175.00"],["1º Uzbequistão - 2º RD do Congo","200.00"]],
-    e14:[["1º Portugal - 4º Uzbequistão","2.45"],["1º Colômbia - 4º Uzbequistão","4.00"],["1º Portugal - 4º RD do Congo","4.75"],["1º Colômbia - 4º RD do Congo","7.50"],["1º RD do Congo - 4º Uzbequistão","13.00"],["1º Portugal - 4º Colômbia","17.00"],["1º Colômbia - 4º Portugal","50.00"],["1º Uzbequistão - 4º RD do Congo","60.00"],["1º RD do Congo - 4º Colômbia","70.00"],["1º RD do Congo - 4º Portugal","100.00"],["1º Uzbequistão - 4º Colômbia","100.00"],["1º Uzbequistão - 4º Portugal","200.00"]]
-  },
-  "L": {
-    teams: [
-      {nome:"Inglaterra",vence:"1.30",ultimo:"55.00",top2:"1.05",top3:"1.01",classifica:"1.01",nclassifica:"50.00"},
-      {nome:"Croácia",vence:"5.00",ultimo:"10.00",top2:"1.35",top3:"1.06",classifica:"1.12",nclassifica:"7.00"},
-      {nome:"Gana",vence:"10.00",ultimo:"3.00",top2:"4.00",top3:"1.40",classifica:"2.00",nclassifica:"1.90"},
-      {nome:"Panamá",vence:"40.00",ultimo:"1.55",top2:"8.50",top3:"2.50",classifica:"4.25",nclassifica:"1.25"}
-    ],
-    e12:[["1º Inglaterra - 2º Croácia","1.90"],["1º Croácia - 2º Inglaterra","4.50"],["1º Inglaterra - 2º Gana","5.00"],["1º Inglaterra - 2º Panamá","9.50"],["1º Croácia - 2º Gana","24.00"],["1º Gana - 2º Inglaterra","24.00"],["1º Gana - 2º Croácia","50.00"],["1º Croácia - 2º Panamá","60.00"],["1º Panamá - 2º Inglaterra","75.00"],["1º Panamá - 2º Croácia","175.00"],["1º Gana - 2º Panamá","275.00"],["1º Panamá - 2º Gana","375.00"]],
-    e14:[["1º Inglaterra - 4º Panamá","2.15"],["1º Inglaterra - 4º Gana","4.00"],["1º Croácia - 4º Panamá","5.50"],["1º Croácia - 4º Gana","9.00"],["1º Inglaterra - 4º Croácia","12.00"],["1º Gana - 4º Panamá","19.00"],["1º Panamá - 4º Gana","80.00"],["1º Croácia - 4º Inglaterra","100.00"],["1º Gana - 4º Croácia","100.00"],["1º Panamá - 4º Croácia","175.00"],["1º Gana - 4º Inglaterra","225.00"],["1º Panamá - 4º Inglaterra","325.00"]]
-  }
+premioJog.forEach(c=>{document.getElementById('b-premio-jog').innerHTML+=row2(c[0],c[1],k('pjog',c[0]));});
+premioGol.forEach(c=>{document.getElementById('b-premio-gol').innerHTML+=row2(c[0],c[1],k('pgol',c[0]));});
+artGeral.forEach(c=>{document.getElementById('b-art-geral').innerHTML+=row2(c[0],c[1],k('artger',c[0]));});
+combos.forEach(([s,p,o])=>{document.getElementById('b-combo').innerHTML+=`<tr><td><span class="sel">${s}</span> & ${p}</td><td class="td-odd">${o}</td>${statusCell(k('combo',s,p))}${idCell(k('combo',s,p))}</tr>`;});
+artIng.forEach(c=>{document.getElementById('b-art-ing').innerHTML+=row2(c[0],c[1],k('arting',c[0]));});
+artFra.forEach(c=>{document.getElementById('b-art-fra').innerHTML+=row2(c[0],c[1],k('artfra',c[0]));});
+artArg.forEach(c=>{document.getElementById('b-art-arg').innerHTML+=row2(c[0],c[1],k('artarg',c[0]));});
+artBra.forEach(c=>{document.getElementById('b-art-bra').innerHTML+=row2(c[0],c[1],k('artbra',c[0]));});
+artEsp.forEach(c=>{document.getElementById('b-art-esp').innerHTML+=row2(c[0],c[1],k('artesp',c[0]));});
+artPor.forEach(c=>{document.getElementById('b-art-por').innerHTML+=row2(c[0],c[1],k('artpor',c[0]));});
+artAle.forEach(c=>{document.getElementById('b-art-ale').innerHTML+=row2(c[0],c[1],k('artale',c[0]));});
+artBel.forEach(c=>{document.getElementById('b-art-bel').innerHTML+=row2(c[0],c[1],k('artbel',c[0]));});
+artSue.forEach(c=>{document.getElementById('b-art-sue').innerHTML+=row2(c[0],c[1],k('artsue',c[0]));});
+artEsc.forEach(c=>{document.getElementById('b-art-esc').innerHTML+=row2(c[0],c[1],k('artesc',c[0]));});
+artCor.forEach(c=>{document.getElementById('b-art-cor').innerHTML+=row2(c[0],c[1],k('artcor',c[0]));});
+artJap.forEach(c=>{document.getElementById('b-art-jap').innerHTML+=row2(c[0],c[1],k('artjap',c[0]));});
+artRec.forEach(c=>{document.getElementById('b-art-rec').innerHTML+=row2(c[0],c[1],k('artrec',c[0]));});
+artCro.forEach(c=>{document.getElementById('b-art-cro').innerHTML+=row2(c[0],c[1],k('artcro',c[0]));});
+artTur.forEach(c=>{document.getElementById('b-art-tur').innerHTML+=row2(c[0],c[1],k('arttur',c[0]));});
+artTun.forEach(c=>{document.getElementById('b-art-tun').innerHTML+=row2(c[0],c[1],k('arttun',c[0]));});
+artBos.forEach(c=>{document.getElementById('b-art-bos').innerHTML+=row2(c[0],c[1],k('artbos',c[0]));});
+// EQUIPES
+const eqVenc=[["Espanha","5.50"],["França","6.00"],["Inglaterra","8.00"],["Brasil","9.00"],["Argentina","9.50"],["Portugal","12.00"],["Alemanha","14.00"],["Países Baixos","20.00"],["Noruega","35.00"],["Bélgica","40.00"],["Colômbia","45.00"],["Japão","65.00"],["Marrocos","65.00"],["EUA","65.00"],["México","75.00"],["Uruguai","75.00"],["Croácia","100.00"],["Equador","100.00"],["Suíça","100.00"],["Turquia","100.00"],["Áustria","150.00"],["Senegal","150.00"],["Suécia","150.00"],["Paraguai","200.00"],["Canadá","250.00"],["Egito","250.00"],["Costa do Marfim","250.00"],["Escócia","250.00"],["República Checa","350.00"],["Gana","350.00"],["Bósnia e Herzegovina","475.00"],["Argélia","500.00"],["Austrália","500.00"],["Irã","500.00"],["Coreia do Sul","500.00"],["Tunísia","500.00"],["RD do Congo","750.00"],["Iraque","1000.00"],["Nova Zelândia","1000.00"],["Panamá","1000.00"],["Catar","1000.00"],["Arábia Saudita","1000.00"],["África do Sul","1000.00"],["Cabo Verde","2000.00"],["Curacao","2000.00"],["Haiti","2000.00"],["Jordânia","2000.00"],["Uzbequistão","2000.00"]];
+const eqChegarFinal=[["Argentina & Espanha","25.00"],["Inglaterra & Espanha","25.00"],["Brasil & Espanha","33.00"],["Argentina & França","35.00"],["Inglaterra & França","35.00"],["Portugal & Espanha","35.00"],["Argentina & Alemanha","40.00"],["Brasil & França","40.00"],["Inglaterra & Alemanha","45.00"],["França & Portugal","50.00"],["França & Espanha","50.00"],["Brasil & Alemanha","55.00"],["Brasil & Inglaterra","65.00"],["Brasil & Países Baixos","70.00"],["Inglaterra & Países Baixos","70.00"],["Alemanha & Portugal","70.00"],["Argentina & Países Baixos","75.00"],["França & Alemanha","75.00"],["Argentina & Bélgica","80.00"],["Argentina & Inglaterra","80.00"],["Bélgica & Inglaterra","80.00"],["Bélgica & Brasil","90.00"],["Inglaterra & Portugal","90.00"],["Alemanha & Espanha","90.00"],["Argentina & Brasil","100.00"],["Argentina & Portugal","100.00"],["Países Baixos & Portugal","100.00"],["Bélgica & França","125.00"],["Bélgica & Portugal","125.00"],["Bélgica & Espanha","125.00"],["Brasil & Portugal","125.00"],["França & Países Baixos","125.00"],["França & Noruega","125.00"],["Países Baixos & Espanha","125.00"],["Espanha & Uruguai","125.00"]];
+const eqVencGrupo=[["Espanha","6.50"],["França","7.50"],["Inglaterra","10.00"],["Argentina","12.00"],["Brasil","12.00"],["Alemanha","14.00"]];
+const eqFaseX=[["Espanha","3.25","2.25","1.75"],["França","3.75","2.60","1.87"],["Inglaterra","4.25","3.00","1.87"],["Brasil","4.75","3.30","2.15"],["Argentina","5.00","3.20","2.05"],["Portugal","5.25","3.40","2.10"]];
+const eqQualquer=[["Inglaterra ou Espanha","3.10"],["França ou Espanha","3.10"],["Inglaterra ou França","3.50"],["Espanha ou Portugal","3.75"],["Espanha ou Alemanha","3.85"],["Espanha ou Países Baixos","4.30"],["Inglaterra ou Alemanha","4.50"],["Inglaterra ou Portugal","4.50"],["França ou Alemanha","4.50"],["França ou Portugal","4.50"],["Bélgica ou Espanha","4.75"],["Inglaterra ou Países Baixos","5.20"],["França ou Países Baixos","5.20"],["Inglaterra ou Bélgica","5.75"],["França ou Bélgica","5.75"],["Alemanha ou Portugal","6.20"],["Portugal ou Países Baixos","7.50"],["Alemanha ou Países Baixos","7.80"],["Bélgica ou Portugal","9.20"],["Bélgica ou Alemanha","9.70"],["Bélgica ou Países Baixos","13.00"]];
+eqVenc.forEach(c=>{document.getElementById('b-eq-venc').innerHTML+=row2(c[0],c[1],k('eqvenc',c[0]));});
+eqChegarFinal.forEach(c=>{document.getElementById('b-eq-chegar-final').innerHTML+=row2(c[0],c[1],k('eqfinal',c[0]));});
+eqVencGrupo.forEach(c=>{document.getElementById('b-eq-venc-grupo').innerHTML+=row2(c[0],c[1],k('eqvgrup',c[0]));});
+eqFaseX.forEach(c=>{document.getElementById('b-eq-fase-x').innerHTML+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd-c">${c[1]}</td><td class="td-odd-c">${c[2]}</td><td class="td-odd-c">${c[3]}</td>${statusCell(k('eqfasex',c[0]))}${idCell(k('eqfasex',c[0]))}</tr>`;});
+eqQualquer.forEach(c=>{document.getElementById('b-eq-qualquer').innerHTML+=row2(c[0],c[1],k('eqqual',c[0]));});
+// ELIMINAÇÃO
+const elim=[["Argélia","2.70","2.15","7.50","20.00","60.00","225.00"],["Argentina","35.00","2.85","5.50","5.75","7.00","10.50"],["Austrália","1.90","3.20","7.50","20.00","90.00","350.00"],["Áustria","5.25","1.90","5.50","11.00","22.00","65.00"],["Bélgica","18.00","3.20","3.60","4.50","10.00","20.00"],["Bósnia e Herzegovina","3.75","2.45","4.00","11.00","40.00","150.00"],["Brasil","70.00","3.00","4.50","6.50","6.75","12.00"],["Canadá","4.10","2.55","3.70","9.50","33.00","100.00"],["Cabo Verde","1.18","6.80","50.00","250.00","500.00","500.00"],["Colômbia","8.50","2.55","3.75","7.00","12.00","28.00"],["Croácia","6.50","2.30","4.00","8.00","17.00","45.00"],["Curacao","1.01","60.00","500.00","500.00","500.00","500.00"],["República Checa","3.40","2.70","4.10","10.00","35.00","110.00"],["RD do Congo","1.80","2.80","11.00","40.00","150.00","500.00"],["Equador","15.00","1.90","3.80","8.00","22.00","75.00"],["Egito","4.00","2.20","4.30","12.00","45.00","150.00"],["Inglaterra","45.00","4.00","4.50","4.50","7.50","10.50"],["França","33.00","4.30","5.25","5.00","7.00","9.50"],["Alemanha","90.00","3.20","4.50","4.50","7.00","13.00"],["Gana","1.97","2.60","9.50","30.00","110.00","500.00"],["Haiti","1.05","17.00","250.00","500.00","500.00","500.00"],["Irã","2.60","2.40","5.75","20.00","80.00","450.00"],["Iraque","1.16","7.00","35.00","225.00","500.00","500.00"],["Costa do Marfim","8.50","1.72","4.30","11.00","45.00","175.00"],["Japão","4.00","2.30","5.00","12.00","20.00","50.00"],["Jordânia","1.22","5.75","40.00","250.00","500.00","500.00"],["México","6.00","2.75","3.30","7.00","20.00","35.00"],["Marrocos","13.00","1.95","3.70","9.50","18.00","55.00"],["Países Baixos","7.50","2.50","4.30","8.50","10.50","22.00"],["Nova Zelândia","1.40","4.00","17.00","125.00","500.00","500.00"],["Noruega","5.75","2.75","3.50","8.50","17.00","35.00"],["Panamá","1.28","4.75","28.00","150.00","500.00","500.00"],["Paraguai","3.00","2.70","5.00","10.50","40.00","110.00"],["Portugal","28.00","3.50","4.10","5.25","7.50","12.00"],["Catar","1.42","4.10","14.00","80.00","500.00","500.00"],["Arábia Saudita","1.95","2.55","10.00","35.00","175.00","500.00"],["Escócia","3.50","1.90","6.25","18.00","70.00","325.00"],["Senegal","3.20","2.50","4.75","12.00","35.00","100.00"],["África do Sul","1.75","3.30","8.00","30.00","175.00","500.00"],["Coreia do Sul","3.25","2.65","4.30","10.00","40.00","125.00"],["Espanha","100.00","3.90","4.75","7.00","7.00","8.00"],["Suécia","2.90","2.35","6.00","15.00","28.00","90.00"],["Suíça","8.00","2.90","3.10","6.75","14.00","40.00"],["Tunísia","1.60","3.30","13.00","50.00","125.00","400.00"],["Turquia","4.30","2.90","4.10","6.75","18.00","50.00"],["EUA","4.30","3.00","4.30","6.50","15.00","35.00"],["Uruguai","8.50","1.95","5.00","8.50","15.00","45.00"],["Uzbequistão","1.35","4.20","22.00","100.00","500.00","500.00"]];
+elim.forEach(d=>{document.getElementById('b-elim').innerHTML+=`<tr><td class="td-player">${d[0]}</td><td class="td-odd-c">${d[1]}</td><td class="td-odd-c">${d[2]}</td><td class="td-odd-c">${d[3]}</td><td class="td-odd-c">${d[4]}</td><td class="td-odd-c">${d[5]}</td><td class="td-odd-c">${d[6]}</td>${statusCell(k('elim',d[0]))}${idCell(k('elim',d[0]))}</tr>`;});
+// RECORDES
+const recordes=[["Mais Gols por uma Equipe no Torneio","27","30.00"],["Maior Margem de Vitória em uma Partida","9","30.00"],["Mais Gols por um Jogador em uma Partida","5","50.00"],["Mais Assistências por um Jogador em uma Partida","3","30.00"],["Mais Defesas por um Goleiro em uma Partida","16","50.00"],["Número de Assistências do Melhor Assistente","6","7.00"],["Mais Gols em Uma Única Partida","12","100.00"],["Gol Mais Rápido","11s","20.00"],["Cartão Vermelho Mais Rápido","56s","12.00"],["Jogador Mais Velho em uma Final","40a 133d","4.00"],["Artilheiro Mais Velho em uma Final","35a 263d","4.00"],["Empate com Mais Gols","4-4","100.00"],["Jogador Mais Velho a Marcar um Hat-trick","33a 130d","3.00"],["Número de Gols do Artilheiro","13","30.00"],["Mais Gols por um Jogador em uma Final","3","50.00"],["Mais Gols Sofridos por uma Equipe em uma Partida","10","30.00"],["Maior Margem de Vitória em uma Final","3","18.00"],["Hat-trick Mais Rápido","7m","100.00"]];
+recordes.forEach(r=>{const kr=k('rec',r[0]);document.getElementById('b-recordes').innerHTML+=`<tr><td class="td-player">${r[0]}</td><td style="text-align:center;color:var(--text-muted);font-size:.82rem">${r[1]}</td><td class="td-odd">${r[2]}</td>${statusCell(kr)}${idCell(kr)}</tr>`;});
+// GRUPOS - nova estrutura com todos os mercados separados
+const groupData={
+"A":{
+  teams:[{n:"México",v:"2.00",u:"8.00",t2:"1.28",t3:"1.07",sc:"1.09",nsc:"8.50"},{n:"República Checa",v:"3.50",u:"4.00",t2:"1.85",t3:"1.22",sc:"1.40",nsc:"2.80"},{n:"Coreia do Sul",v:"3.75",u:"4.00",t2:"2.00",t3:"1.25",sc:"1.40",nsc:"2.80"},{n:"África do Sul",v:"12.00",u:"2.05",t2:"3.70",t3:"1.95",sc:"2.15",nsc:"1.65"}],
+  e12:[["1º México - 2º República Checa","4.45"],["1º México - 2º Coreia do Sul","4.70"],["1º República Checa - 2º México","5.90"],["1º Coreia do Sul - 2º México","6.90"],["1º México - 2º África do Sul","7.90"],["1º República Checa - 2º Coreia do Sul","8.90"],["1º Coreia do Sul - 2º República Checa","8.90"],["1º República Checa - 2º África do Sul","16.00"],["1º África do Sul - 2º México","16.00"],["1º Coreia do Sul - 2º África do Sul","16.00"],["1º África do Sul - 2º República Checa","24.00"],["1º África do Sul - 2º Coreia do Sul","24.00"]],
+  e14:[["1º México - 4º África do Sul","3.90"],["1º República Checa - 4º África do Sul","5.90"],["1º México - 4º República Checa","6.40"],["1º México - 4º Coreia do Sul","6.40"],["1º Coreia do Sul - 4º África do Sul","6.40"],["1º República Checa - 4º Coreia do Sul","9.90"],["1º Coreia do Sul - 4º República Checa","11.00"],["1º República Checa - 4º México","16.00"],["1º Coreia do Sul - 4º México","16.00"],["1º África do Sul - 4º Coreia do Sul","18.00"],["1º África do Sul - 4º República Checa","19.00"],["1º África do Sul - 4º México","32.00"]],
+  ecl:[["1º México - 2º Coreia do Sul - 3º República Checa - 4º África do Sul","6.20"],["1º México - 2º República Checa - 3º Coreia do Sul - 4º África do Sul","6.40"],["1º México - 2º República Checa - 3º África do Sul - 4º Coreia do Sul","9.10"],["1º México - 2º Coreia do Sul - 3º África do Sul - 4º República Checa","9.40"],["1º Coreia do Sul - 2º México - 3º República Checa - 4º África do Sul","10.00"],["1º República Checa - 2º México - 3º Coreia do Sul - 4º África do Sul","11.00"],["1º México - 2º África do Sul - 3º Coreia do Sul - 4º República Checa","12.00"],["1º México - 2º África do Sul - 3º República Checa - 4º Coreia do Sul","13.00"],["1º República Checa - 2º México - 3º África do Sul - 4º Coreia do Sul","16.00"],["1º Coreia do Sul - 2º México - 3º África do Sul - 4º República Checa","16.00"],["1º República Checa - 2º Coreia do Sul - 3º México - 4º África do Sul","17.00"],["1º Coreia do Sul - 2º República Checa - 3º México - 4º África do Sul","18.00"],["1º África do Sul - 2º México - 3º República Checa - 4º Coreia do Sul","34.00"],["1º África do Sul - 2º México - 3º Coreia do Sul - 4º República Checa","34.00"],["1º Coreia do Sul - 2º África do Sul - 3º México - 4º República Checa","34.00"],["1º República Checa - 2º África do Sul - 3º México - 4º Coreia do Sul","39.00"],["1º República Checa - 2º Coreia do Sul - 3º África do Sul - 4º México","40.00"],["1º Coreia do Sul - 2º República Checa - 3º África do Sul - 4º México","40.00"],["1º África do Sul - 2º Coreia do Sul - 3º México - 4º República Checa","45.00"],["1º África do Sul - 2º República Checa - 3º México - 4º Coreia do Sul","50.00"],["1º República Checa - 2º África do Sul - 3º Coreia do Sul - 4º México","55.00"],["1º Coreia do Sul - 2º África do Sul - 3º República Checa - 4º México","55.00"],["1º África do Sul - 2º Coreia do Sul - 3º República Checa - 4º México","75.00"],["1º África do Sul - 2º República Checa - 3º Coreia do Sul - 4º México","85.00"]],
+  evnp:[["República Checa - Sim","1.32"],["República Checa - Não","3.10"],["México - Sim","1.05"],["México - Não","7.80"],["África do Sul - Sim","1.83"],["África do Sul - Não","1.87"],["Coreia do Sul - Sim","1.32"],["Coreia do Sul - Não","3.10"]],
+  einv:[["México","1.80"],["Coreia do Sul","3.00"],["República Checa","3.30"],["África do Sul","6.00"]],
+  tgols:["14.5","1.90","1.80"],
+  emais:[["México","1.83"],["Coreia do Sul","4.10"],["República Checa","4.35"],["África do Sul","8.90"]],
+  emenos:[["África do Sul","2.10"],["República Checa","3.45"],["Coreia do Sul","3.70"],["México","8.90"]],
+  e9p:["4.10","1.20"],e0p:["4.10","1.20"]
+},
+"B":{
+  teams:[{n:"Suíça",v:"1.90",u:"10.00",t2:"1.20",t3:"1.07",sc:"1.12",nsc:"7.00"},{n:"Canadá",v:"3.50",u:"7.00",t2:"1.50",t3:"1.14",sc:"1.25",nsc:"4.50"},{n:"Bósnia e Herzegovina",v:"3.60",u:"4.75",t2:"2.30",t3:"1.18",sc:"1.35",nsc:"3.50"},{n:"Catar",v:"25.00",u:"1.55",t2:"6.00",t3:"2.35",sc:"3.10",nsc:"1.40"}],
+  e12:[["1º Suíça - 2º Canadá","3.90"],["1º Canadá - 2º Suíça","4.90"],["1º Suíça - 2º Bósnia e Herzegovina","4.90"],["1º Bósnia e Herzegovina - 2º Suíça","6.40"],["1º Canadá - 2º Bósnia e Herzegovina","6.90"],["1º Bósnia e Herzegovina - 2º Canadá","7.90"],["1º Suíça - 2º Catar","11.00"],["1º Canadá - 2º Catar","24.00"],["1º Bósnia e Herzegovina - 2º Catar","26.00"],["1º Catar - 2º Suíça","31.00"],["1º Catar - 2º Canadá","40.00"],["1º Catar - 2º Bósnia e Herzegovina","45.00"]],
+  e14:[["1º Suíça - 4º Catar","3.20"],["1º Canadá - 4º Catar","4.65"],["1º Bósnia e Herzegovina - 4º Catar","5.45"],["1º Suíça - 4º Bósnia e Herzegovina","7.90"],["1º Suíça - 4º Canadá","9.40"],["1º Canadá - 4º Bósnia e Herzegovina","9.90"],["1º Bósnia e Herzegovina - 4º Canadá","13.00"],["1º Canadá - 4º Suíça","17.00"],["1º Bósnia e Herzegovina - 4º Suíça","19.00"],["1º Catar - 4º Bósnia e Herzegovina","37.00"],["1º Catar - 4º Canadá","39.00"],["1º Catar - 4º Suíça","50.00"]],
+  ecl:[["1º Suíça - 2º Canadá - 3º Bósnia e Herzegovina - 4º Catar","3.90"],["1º Canadá - 2º Suíça - 3º Bósnia e Herzegovina - 4º Catar","5.90"],["1º Suíça - 2º Bósnia e Herzegovina - 3º Canadá - 4º Catar","6.90"],["1º Suíça - 2º Canadá - 3º Catar - 4º Bósnia e Herzegovina","7.90"],["1º Canadá - 2º Suíça - 3º Catar - 4º Bósnia e Herzegovina","11.00"],["1º Canadá - 2º Bósnia e Herzegovina - 3º Suíça - 4º Catar","12.00"],["1º Bósnia e Herzegovina - 2º Suíça - 3º Canadá - 4º Catar","14.00"],["1º Suíça - 2º Bósnia e Herzegovina - 3º Catar - 4º Canadá","15.00"],["1º Suíça - 2º Catar - 3º Canadá - 4º Bósnia e Herzegovina","16.00"],["1º Bósnia e Herzegovina - 2º Canadá - 3º Suíça - 4º Catar","19.00"],["1º Suíça - 2º Catar - 3º Bósnia e Herzegovina - 4º Canadá","27.00"],["1º Bósnia e Herzegovina - 2º Suíça - 3º Catar - 4º Canadá","39.00"],["1º Canadá - 2º Catar - 3º Suíça - 4º Bósnia e Herzegovina","39.00"],["1º Canadá - 2º Bósnia e Herzegovina - 3º Catar - 4º Suíça","40.00"],["1º Catar - 2º Suíça - 3º Canadá - 4º Bósnia e Herzegovina","55.00"],["1º Bósnia e Herzegovina - 2º Canadá - 3º Catar - 4º Suíça","70.00"],["1º Canadá - 2º Catar - 3º Bósnia e Herzegovina - 4º Suíça","70.00"],["1º Catar - 2º Canadá - 3º Suíça - 4º Bósnia e Herzegovina","75.00"],["1º Catar - 2º Suíça - 3º Bósnia e Herzegovina - 4º Canadá","90.00"],["1º Bósnia e Herzegovina - 2º Catar - 3º Canadá - 4º Suíça","100.00"],["1º Bósnia e Herzegovina - 2º Catar - 3º Suíça - 4º Canadá","100.00"],["1º Catar - 2º Canadá - 3º Bósnia e Herzegovina - 4º Suíça","125.00"],["1º Catar - 2º Bósnia e Herzegovina - 3º Suíça - 4º Canadá","175.00"],["1º Catar - 2º Bósnia e Herzegovina - 3º Canadá - 4º Suíça","225.00"]],
+  evnp:[["Bósnia e Herzegovina - Sim","1.35"],["Bósnia e Herzegovina - Não","2.95"],["Canadá - Sim","1.11"],["Canadá - Não","5.60"],["Catar - Sim","2.40"],["Catar - Não","1.51"],["Suíça - Sim","1.03"],["Suíça - Não","9.20"]],
+  einv:[["Suíça","1.60"],["Bósnia e Herzegovina","3.00"],["Canadá","3.00"],["Catar","9.50"]],
+  tgols:["16.5","2.05","1.70"],
+  emais:[["Suíça","1.74"],["Canadá","3.25"],["Bósnia e Herzegovina","6.20"],["Catar","17.00"]],
+  emenos:[["Catar","1.70"],["Bósnia e Herzegovina","3.25"],["Canadá","5.80"],["Suíça","12.00"]],
+  e9p:["3.55","1.25"],e0p:["2.95","1.35"]
+},
+"C":{
+  teams:[{n:"Brasil",v:"1.20",u:"45.00",t2:"1.05",t3:"1.001",sc:"1.01",nsc:"50.00"},{n:"Marrocos",v:"6.00",u:"20.00",t2:"1.40",t3:"1.01",sc:"1.13",nsc:"6.50"},{n:"Escócia",v:"9.00",u:"7.50",t2:"2.75",t3:"1.10",sc:"1.35",nsc:"3.05"},{n:"Haiti",v:"50.00",u:"1.12",t2:"40.00",t3:"6.00",sc:"9.00",nsc:"1.07"}],
+  e12:[["1º Brasil - 2º Marrocos","2.02"],["1º Brasil - 2º Escócia","3.90"],["1º Marrocos - 2º Brasil","4.45"],["1º Escócia - 2º Brasil","11.00"],["1º Marrocos - 2º Escócia","14.00"],["1º Escócia - 2º Marrocos","26.00"],["1º Brasil - 2º Haiti","39.00"],["1º Marrocos - 2º Haiti","125.00"],["1º Haiti - 2º Brasil","325.00"],["1º Haiti - 2º Marrocos","475.00"],["1º Haiti - 2º Escócia","475.00"],["1º Escócia - 2º Haiti","475.00"]],
+  e14:[["1º Brasil - 4º Haiti","1.40"],["1º Marrocos - 4º Haiti","4.45"],["1º Brasil - 4º Escócia","8.90"],["1º Escócia - 4º Haiti","9.40"],["1º Brasil - 4º Marrocos","22.00"],["1º Marrocos - 4º Escócia","22.00"],["1º Escócia - 4º Marrocos","90.00"],["1º Marrocos - 4º Brasil","100.00"],["1º Escócia - 4º Brasil","200.00"],["1º Haiti - 4º Escócia","300.00"],["1º Haiti - 4º Marrocos","600.00"],["1º Haiti - 4º Brasil","700.00"]],
+  ecl:[["1º Brasil - 2º Marrocos - 3º Escócia - 4º Haiti","2.47"],["1º Brasil - 2º Escócia - 3º Marrocos - 4º Haiti","3.90"],["1º Marrocos - 2º Brasil - 3º Escócia - 4º Haiti","6.70"],["1º Brasil - 2º Marrocos - 3º Haiti - 4º Escócia","9.40"],["1º Escócia - 2º Brasil - 3º Marrocos - 4º Haiti","14.00"],["1º Brasil - 2º Escócia - 3º Haiti - 4º Marrocos","18.00"],["1º Marrocos - 2º Escócia - 3º Brasil - 4º Haiti","22.00"],["1º Marrocos - 2º Brasil - 3º Haiti - 4º Escócia","27.00"],["1º Escócia - 2º Marrocos - 3º Brasil - 4º Haiti","30.00"],["1º Brasil - 2º Haiti - 3º Marrocos - 4º Escócia","34.00"],["1º Brasil - 2º Haiti - 3º Escócia - 4º Marrocos","50.00"],["1º Escócia - 2º Brasil - 3º Haiti - 4º Marrocos","70.00"],["1º Marrocos - 2º Haiti - 3º Brasil - 4º Escócia","275.00"],["1º Marrocos - 2º Escócia - 3º Haiti - 4º Brasil","275.00"],["1º Haiti - 2º Brasil - 3º Marrocos - 4º Escócia","375.00"],["1º Escócia - 2º Marrocos - 3º Haiti - 4º Brasil","400.00"],["1º Haiti - 2º Brasil - 3º Escócia - 4º Marrocos","475.00"],["1º Haiti - 2º Marrocos - 3º Brasil - 4º Escócia","475.00"],["1º Haiti - 2º Marrocos - 3º Escócia - 4º Brasil","475.00"],["1º Haiti - 2º Escócia - 3º Brasil - 4º Marrocos","475.00"],["1º Haiti - 2º Escócia - 3º Marrocos - 4º Brasil","475.00"],["1º Marrocos - 2º Haiti - 3º Escócia - 4º Brasil","475.00"],["1º Escócia - 2º Haiti - 3º Brasil - 4º Marrocos","475.00"],["1º Escócia - 2º Haiti - 3º Marrocos - 4º Brasil","475.00"]],
+  evnp:[["Brasil - Sim","1.001"],["Brasil - Não","12.00"],["Haiti - Sim","4.30"],["Haiti - Não","1.18"],["Marrocos - Sim","1.08"],["Marrocos - Não","6.50"],["Escócia - Sim","1.21"],["Escócia - Não","3.90"]],
+  einv:[["Brasil","1.25"],["Marrocos","2.75"],["Escócia","5.25"],["Haiti","100.00"]],
+  tgols:["17.5","1.75","2.00"],
+  emais:[["Brasil","1.29"],["Marrocos","5.20"],["Escócia","9.40"],["Haiti","90.00"]],
+  emenos:[["Haiti","1.32"],["Escócia","4.90"],["Marrocos","7.90"],["Brasil","55.00"]],
+  e9p:["2.02","1.70"],e0p:["1.60","2.20"]
+},
+"D":{
+  teams:[{n:"EUA",v:"2.40",u:"6.00",t2:"1.40",t3:"1.13",sc:"1.20",nsc:"4.70"},{n:"Turquia",v:"2.75",u:"5.50",t2:"1.55",t3:"1.15",sc:"1.25",nsc:"4.50"},{n:"Paraguai",v:"4.75",u:"3.20",t2:"2.15",t3:"1.40",sc:"1.55",nsc:"2.50"},{n:"Austrália",v:"8.00",u:"2.25",t2:"3.40",t3:"1.65",sc:"1.95",nsc:"1.90"}],
+  e12:[["1º EUA - 2º Turquia","4.65"],["1º Turquia - 2º EUA","4.90"],["1º EUA - 2º Paraguai","6.40"],["1º Turquia - 2º Paraguai","7.40"],["1º EUA - 2º Austrália","8.40"],["1º Paraguai - 2º EUA","8.90"],["1º Paraguai - 2º Turquia","9.90"],["1º Turquia - 2º Austrália","9.90"],["1º Austrália - 2º Turquia","14.00"],["1º Austrália - 2º EUA","14.00"],["1º Paraguai - 2º Austrália","21.00"],["1º Austrália - 2º Paraguai","22.00"]],
+  e14:[["1º EUA - 4º Austrália","4.65"],["1º Turquia - 4º Austrália","4.90"],["1º EUA - 4º Paraguai","5.90"],["1º Turquia - 4º Paraguai","6.40"],["1º Paraguai - 4º Austrália","7.90"],["1º EUA - 4º Turquia","8.90"],["1º Turquia - 4º EUA","9.90"],["1º Austrália - 4º Paraguai","11.00"],["1º Paraguai - 4º Turquia","14.00"],["1º Paraguai - 4º EUA","16.00"],["1º Austrália - 4º Turquia","19.00"],["1º Austrália - 4º EUA","21.00"]],
+  ecl:[["1º EUA - 2º Turquia - 3º Paraguai - 4º Austrália","7.10"],["1º Turquia - 2º EUA - 3º Paraguai - 4º Austrália","7.50"],["1º EUA - 2º Paraguai - 3º Turquia - 4º Austrália","9.90"],["1º Turquia - 2º Paraguai - 3º EUA - 4º Austrália","10.00"],["1º Turquia - 2º EUA - 3º Austrália - 4º Paraguai","10.00"],["1º EUA - 2º Turquia - 3º Austrália - 4º Paraguai","10.00"],["1º Paraguai - 2º EUA - 3º Turquia - 4º Austrália","14.00"],["1º Paraguai - 2º Turquia - 3º EUA - 4º Austrália","15.00"],["1º Turquia - 2º Austrália - 3º EUA - 4º Paraguai","17.00"],["1º EUA - 2º Austrália - 3º Turquia - 4º Paraguai","17.00"],["1º Turquia - 2º Paraguai - 3º Austrália - 4º EUA","18.00"],["1º EUA - 2º Paraguai - 3º Austrália - 4º Turquia","18.00"],["1º EUA - 2º Austrália - 3º Paraguai - 4º Turquia","23.00"],["1º Paraguai - 2º Turquia - 3º Austrália - 4º EUA","25.00"],["1º Turquia - 2º Austrália - 3º Paraguai - 4º EUA","25.00"],["1º Paraguai - 2º EUA - 3º Austrália - 4º Turquia","27.00"],["1º Austrália - 2º EUA - 3º Turquia - 4º Paraguai","32.00"],["1º Austrália - 2º Turquia - 3º EUA - 4º Paraguai","34.00"],["1º Austrália - 2º EUA - 3º Paraguai - 4º Turquia","40.00"],["1º Paraguai - 2º Austrália - 3º Turquia - 4º EUA","40.00"],["1º Paraguai - 2º Austrália - 3º EUA - 4º Turquia","40.00"],["1º Austrália - 2º Turquia - 3º Paraguai - 4º EUA","45.00"],["1º Austrália - 2º Paraguai - 3º Turquia - 4º EUA","50.00"],["1º Austrália - 2º Paraguai - 3º EUA - 4º Turquia","50.00"]],
+  evnp:[["Austrália - Sim","1.82"],["Austrália - Não","1.88"],["Paraguai - Sim","1.36"],["Paraguai - Não","2.90"],["Turquia - Sim","1.14"],["Turquia - Não","4.90"],["EUA - Sim","1.13"],["EUA - Não","5.15"]],
+  einv:[["Turquia","2.45"],["EUA","2.45"],["Paraguai","3.30"],["Austrália","5.50"]],
+  tgols:["14.5","1.85","1.85"],
+  emais:[["EUA","2.32"],["Turquia","2.62"],["Paraguai","4.90"],["Austrália","7.90"]],
+  emenos:[["Austrália","2.12"],["Paraguai","2.95"],["Turquia","5.20"],["EUA","5.90"]],
+  e9p:["4.30","1.18"],e0p:["4.10","1.20"]
+},
+"E":{
+  teams:[{n:"Alemanha",v:"1.28",u:"50.00",t2:"1.08",t3:"1.001",sc:"1.001",nsc:"50.00"},{n:"Equador",v:"6.00",u:"33.00",t2:"1.55",t3:"1.01",sc:"1.15",nsc:"6.00"},{n:"Costa do Marfim",v:"7.50",u:"22.00",t2:"2.10",t3:"1.02",sc:"1.15",nsc:"6.00"},{n:"Curacao",v:"50.00",u:"1.05",t2:"55.00",t3:"13.00",sc:"20.00",nsc:"1.02"}],
+  e12:[["1º Alemanha - 2º Equador","2.42"],["1º Alemanha - 2º Costa do Marfim","3.15"],["1º Equador - 2º Alemanha","5.45"],["1º Costa do Marfim - 2º Alemanha","7.40"],["1º Equador - 2º Costa do Marfim","11.00"],["1º Costa do Marfim - 2º Equador","14.00"],["1º Alemanha - 2º Curacao","90.00"],["1º Equador - 2º Curacao","375.00"],["1º Curacao - 2º Equador","450.00"],["1º Curacao - 2º Alemanha","450.00"],["1º Curacao - 2º Costa do Marfim","450.00"],["1º Costa do Marfim - 2º Curacao","450.00"]],
+  e14:[["1º Alemanha - 4º Curacao","1.40"],["1º Equador - 4º Curacao","4.45"],["1º Costa do Marfim - 4º Curacao","5.90"],["1º Alemanha - 4º Costa do Marfim","27.00"],["1º Alemanha - 4º Equador","39.00"],["1º Equador - 4º Costa do Marfim","75.00"],["1º Costa do Marfim - 4º Equador","90.00"],["1º Equador - 4º Alemanha","225.00"],["1º Costa do Marfim - 4º Alemanha","225.00"],["1º Curacao - 4º Equador","800.00"],["1º Curacao - 4º Costa do Marfim","900.00"],["1º Curacao - 4º Alemanha","1000.00"]],
+  ecl:[["1º Alemanha - 2º Equador - 3º Costa do Marfim - 4º Curacao","2.62"],["1º Alemanha - 2º Costa do Marfim - 3º Equador - 4º Curacao","2.87"],["1º Costa do Marfim - 2º Alemanha - 3º Equador - 4º Curacao","8.40"],["1º Equador - 2º Alemanha - 3º Costa do Marfim - 4º Curacao","8.90"],["1º Equador - 2º Costa do Marfim - 3º Alemanha - 4º Curacao","19.00"],["1º Alemanha - 2º Costa do Marfim - 3º Curacao - 4º Equador","19.00"],["1º Alemanha - 2º Equador - 3º Curacao - 4º Costa do Marfim","22.00"],["1º Costa do Marfim - 2º Equador - 3º Alemanha - 4º Curacao","22.00"],["1º Costa do Marfim - 2º Alemanha - 3º Curacao - 4º Equador","60.00"],["1º Equador - 2º Alemanha - 3º Curacao - 4º Costa do Marfim","85.00"],["1º Alemanha - 2º Curacao - 3º Equador - 4º Costa do Marfim","90.00"],["1º Alemanha - 2º Curacao - 3º Costa do Marfim - 4º Equador","90.00"],["1º Equador - 2º Costa do Marfim - 3º Curacao - 4º Alemanha","375.00"],["1º Costa do Marfim - 2º Equador - 3º Curacao - 4º Alemanha","400.00"],["1º Curacao - 2º Equador - 3º Alemanha - 4º Costa do Marfim","475.00"],["1º Curacao - 2º Equador - 3º Costa do Marfim - 4º Alemanha","475.00"],["1º Curacao - 2º Alemanha - 3º Equador - 4º Costa do Marfim","475.00"],["1º Curacao - 2º Alemanha - 3º Costa do Marfim - 4º Equador","475.00"],["1º Curacao - 2º Costa do Marfim - 3º Equador - 4º Alemanha","475.00"],["1º Curacao - 2º Costa do Marfim - 3º Alemanha - 4º Equador","475.00"],["1º Equador - 2º Curacao - 3º Alemanha - 4º Costa do Marfim","475.00"],["1º Equador - 2º Curacao - 3º Costa do Marfim - 4º Alemanha","475.00"],["1º Costa do Marfim - 2º Curacao - 3º Equador - 4º Alemanha","475.00"],["1º Costa do Marfim - 2º Curacao - 3º Alemanha - 4º Equador","475.00"]],
+  evnp:[["Curacao - Sim","7.60"],["Curacao - Não","1.05"],["Equador - Sim","1.08"],["Equador - Não","6.50"],["Alemanha - Sim","1.001"],["Alemanha - Não","12.00"],["Costa do Marfim - Sim","1.06"],["Costa do Marfim - Não","7.30"]],
+  einv:[["Alemanha","1.25"],["Equador","3.00"],["Costa do Marfim","4.00"],["Curacao","500.00"]],
+  tgols:["19.5","1.90","1.80"],
+  emais:[["Alemanha","1.27"],["Costa do Marfim","6.40"],["Equador","7.40"],["Curacao","375.00"]],
+  emenos:[["Curacao","1.10"],["Equador","8.90"],["Costa do Marfim","10.00"],["Alemanha","100.00"]],
+  e9p:["2.12","1.65"],e0p:["1.28","3.35"]
+},
+"F":{
+  teams:[{n:"Países Baixos",v:"1.75",u:"12.00",t2:"1.27",t3:"1.07",sc:"1.10",nsc:"7.50"},{n:"Japão",v:"4.15",u:"4.75",t2:"1.80",t3:"1.20",sc:"1.32",nsc:"3.55"},{n:"Suécia",v:"5.00",u:"4.00",t2:"2.10",t3:"1.28",sc:"1.48",nsc:"2.85"},{n:"Tunísia",v:"12.00",u:"1.75",t2:"4.00",t3:"1.95",sc:"2.40",nsc:"1.60"}],
+  e12:[["1º Países Baixos - 2º Japão","3.90"],["1º Países Baixos - 2º Suécia","4.65"],["1º Japão - 2º Países Baixos","5.90"],["1º Países Baixos - 2º Tunísia","7.40"],["1º Suécia - 2º Países Baixos","7.40"],["1º Japão - 2º Suécia","9.90"],["1º Suécia - 2º Japão","9.90"],["1º Japão - 2º Tunísia","16.00"],["1º Tunísia - 2º Países Baixos","16.00"],["1º Suécia - 2º Tunísia","22.00"],["1º Tunísia - 2º Japão","29.00"],["1º Tunísia - 2º Suécia","36.00"]],
+  e14:[["1º Países Baixos - 4º Tunísia","3.55"],["1º Japão - 4º Tunísia","5.90"],["1º Países Baixos - 4º Suécia","5.90"],["1º Países Baixos - 4º Japão","6.90"],["1º Suécia - 4º Tunísia","6.90"],["1º Japão - 4º Suécia","8.90"],["1º Suécia - 4º Japão","11.00"],["1º Japão - 4º Países Baixos","19.00"],["1º Tunísia - 4º Suécia","19.00"],["1º Tunísia - 4º Japão","22.00"],["1º Suécia - 4º Países Baixos","24.00"],["1º Tunísia - 4º Países Baixos","39.00"]],
+  ecl:[["1º Países Baixos - 2º Japão - 3º Suécia - 4º Tunísia","5.20"],["1º Países Baixos - 2º Suécia - 3º Japão - 4º Tunísia","6.10"],["1º Japão - 2º Países Baixos - 3º Suécia - 4º Tunísia","8.20"],["1º Países Baixos - 2º Japão - 3º Tunísia - 4º Suécia","8.50"],["1º Países Baixos - 2º Suécia - 3º Tunísia - 4º Japão","11.00"],["1º Suécia - 2º Países Baixos - 3º Japão - 4º Tunísia","11.00"],["1º Japão - 2º Países Baixos - 3º Tunísia - 4º Suécia","13.00"],["1º Japão - 2º Suécia - 3º Países Baixos - 4º Tunísia","14.00"],["1º Países Baixos - 2º Tunísia - 3º Japão - 4º Suécia","14.00"],["1º Suécia - 2º Japão - 3º Países Baixos - 4º Tunísia","16.00"],["1º Países Baixos - 2º Tunísia - 3º Suécia - 4º Japão","17.00"],["1º Suécia - 2º Países Baixos - 3º Tunísia - 4º Japão","22.00"],["1º Japão - 2º Tunísia - 3º Países Baixos - 4º Suécia","39.00"],["1º Suécia - 2º Japão - 3º Tunísia - 4º Países Baixos","40.00"],["1º Tunísia - 2º Países Baixos - 3º Japão - 4º Suécia","40.00"],["1º Japão - 2º Suécia - 3º Tunísia - 4º Países Baixos","50.00"],["1º Suécia - 2º Tunísia - 3º Países Baixos - 4º Japão","50.00"],["1º Japão - 2º Tunísia - 3º Suécia - 4º Países Baixos","55.00"],["1º Tunísia - 2º Países Baixos - 3º Suécia - 4º Japão","55.00"],["1º Tunísia - 2º Japão - 3º Países Baixos - 4º Suécia","60.00"],["1º Suécia - 2º Tunísia - 3º Japão - 4º Países Baixos","80.00"],["1º Tunísia - 2º Suécia - 3º Países Baixos - 4º Japão","80.00"],["1º Tunísia - 2º Japão - 3º Suécia - 4º Países Baixos","100.00"],["1º Tunísia - 2º Suécia - 3º Japão - 4º Países Baixos","100.00"]],
+  evnp:[["Japão - Sim","1.21"],["Japão - Não","3.90"],["Países Baixos - Sim","1.04"],["Países Baixos - Não","8.40"],["Suécia - Sim","1.32"],["Suécia - Não","3.10"],["Tunísia - Sim","2.12"],["Tunísia - Não","1.64"]],
+  einv:[["Países Baixos","1.70"],["Japão","2.80"],["Suécia","3.75"],["Tunísia","8.00"]],
+  tgols:["15.5","2.00","1.75"],
+  emais:[["Países Baixos","1.74"],["Japão","3.80"],["Suécia","4.70"],["Tunísia","14.00"]],
+  emenos:[["Tunísia","1.72"],["Suécia","3.80"],["Japão","4.70"],["Países Baixos","11.00"]],
+  e9p:["3.55","1.25"],e0p:["3.55","1.25"]
+},
+"G":{
+  teams:[{n:"Bélgica",v:"1.28",u:"30.00",t2:"1.10",t3:"1.01",sc:"1.02",nsc:"18.00"},{n:"Egito",v:"7.00",u:"5.70",t2:"1.75",t3:"1.15",sc:"1.30",nsc:"3.70"},{n:"Irã",v:"8.00",u:"3.70",t2:"2.35",t3:"1.32",sc:"1.55",nsc:"2.50"},{n:"Nova Zelândia",v:"25.00",u:"1.62",t2:"5.70",t3:"2.20",sc:"3.05",nsc:"1.40"}],
+  e12:[["1º Bélgica - 2º Egito","2.72"],["1º Bélgica - 2º Irã","3.50"],["1º Egito - 2º Bélgica","5.90"],["1º Bélgica - 2º Nova Zelândia","7.40"],["1º Irã - 2º Bélgica","8.90"],["1º Egito - 2º Irã","16.00"],["1º Irã - 2º Egito","19.00"],["1º Nova Zelândia - 2º Bélgica","34.00"],["1º Egito - 2º Nova Zelândia","39.00"],["1º Irã - 2º Nova Zelândia","40.00"],["1º Nova Zelândia - 2º Egito","40.00"],["1º Nova Zelândia - 2º Irã","40.00"]],
+  e14:[["1º Bélgica - 4º Nova Zelândia","2.20"],["1º Bélgica - 4º Irã","4.65"],["1º Bélgica - 4º Egito","6.40"],["1º Egito - 4º Nova Zelândia","6.40"],["1º Irã - 4º Nova Zelândia","8.90"],["1º Egito - 4º Irã","11.00"],["1º Irã - 4º Egito","24.00"],["1º Nova Zelândia - 4º Irã","39.00"],["1º Egito - 4º Bélgica","40.00"],["1º Irã - 4º Bélgica","40.00"],["1º Nova Zelândia - 4º Bélgica","40.00"],["1º Nova Zelândia - 4º Egito","40.00"]],
+  ecl:[["1º Bélgica - 2º Egito - 3º Irã - 4º Nova Zelândia","3.75"],["1º Bélgica - 2º Irã - 3º Egito - 4º Nova Zelândia","4.75"],["1º Bélgica - 2º Egito - 3º Nova Zelândia - 4º Irã","6.90"],["1º Egito - 2º Bélgica - 3º Irã - 4º Nova Zelândia","8.40"],["1º Bélgica - 2º Irã - 3º Nova Zelândia - 4º Egito","10.00"],["1º Bélgica - 2º Nova Zelândia - 3º Egito - 4º Irã","13.00"],["1º Irã - 2º Bélgica - 3º Egito - 4º Nova Zelândia","15.00"],["1º Egito - 2º Bélgica - 3º Nova Zelândia - 4º Irã","16.00"],["1º Bélgica - 2º Nova Zelândia - 3º Irã - 4º Egito","17.00"],["1º Egito - 2º Irã - 3º Bélgica - 4º Nova Zelândia","23.00"],["1º Irã - 2º Egito - 3º Bélgica - 4º Nova Zelândia","27.00"],["1º Irã - 2º Bélgica - 3º Nova Zelândia - 4º Egito","34.00"],["1º Egito - 2º Nova Zelândia - 3º Bélgica - 4º Irã","65.00"],["1º Nova Zelândia - 2º Bélgica - 3º Egito - 4º Irã","70.00"],["1º Nova Zelândia - 2º Bélgica - 3º Irã - 4º Egito","85.00"],["1º Egito - 2º Irã - 3º Nova Zelândia - 4º Bélgica","90.00"],["1º Egito - 2º Nova Zelândia - 3º Irã - 4º Bélgica","100.00"],["1º Irã - 2º Egito - 3º Nova Zelândia - 4º Bélgica","100.00"],["1º Nova Zelândia - 2º Egito - 3º Bélgica - 4º Irã","100.00"],["1º Irã - 2º Nova Zelândia - 3º Bélgica - 4º Egito","125.00"],["1º Nova Zelândia - 2º Irã - 3º Bélgica - 4º Egito","175.00"],["1º Irã - 2º Nova Zelândia - 3º Egito - 4º Bélgica","225.00"],["1º Nova Zelândia - 2º Egito - 3º Irã - 4º Bélgica","275.00"],["1º Nova Zelândia - 2º Irã - 3º Egito - 4º Bélgica","325.00"]],
+  evnp:[["Bélgica - Sim","1.002"],["Bélgica - Não","12.00"],["Egito - Sim","1.20"],["Egito - Não","4.10"],["Irã - Sim","1.36"],["Irã - Não","2.90"],["Nova Zelândia - Sim","2.40"],["Nova Zelândia - Não","1.51"]],
+  einv:[["Bélgica","1.35"],["Egito","3.30"],["Irã","4.50"],["Nova Zelândia","15.00"]],
+  tgols:["15.5","1.80","1.90"],
+  emais:[["Bélgica","1.39"],["Egito","4.80"],["Irã","7.40"],["Nova Zelândia","21.00"]],
+  emenos:[["Nova Zelândia","1.72"],["Irã","3.35"],["Egito","4.90"],["Bélgica","21.00"]],
+  e9p:["2.35","1.53"],e0p:["2.95","1.35"]
+},
+"H":{
+  teams:[{n:"Espanha",v:"1.22",u:"100.00",t2:"1.01",t3:"1.001",sc:"1.01",nsc:"85.00"},{n:"Uruguai",v:"4.70",u:"12.00",t2:"1.32",t3:"1.07",sc:"1.13",nsc:"6.20"},{n:"Arábia Saudita",v:"25.00",u:"2.20",t2:"4.50",t3:"1.60",sc:"2.07",nsc:"1.52"},{n:"Cabo Verde",v:"50.00",u:"1.80",t2:"7.00",t3:"1.90",sc:"3.50",nsc:"1.35"}],
+  e12:[["1º Espanha - 2º Uruguai","1.78"],["1º Espanha - 2º Arábia Saudita","4.45"],["1º Uruguai - 2º Espanha","4.65"],["1º Espanha - 2º Cabo Verde","14.00"],["1º Arábia Saudita - 2º Espanha","21.00"],["1º Uruguai - 2º Arábia Saudita","26.00"],["1º Arábia Saudita - 2º Uruguai","40.00"],["1º Uruguai - 2º Cabo Verde","85.00"],["1º Cabo Verde - 2º Espanha","90.00"],["1º Cabo Verde - 2º Uruguai","275.00"],["1º Arábia Saudita - 2º Cabo Verde","325.00"],["1º Cabo Verde - 2º Arábia Saudita","450.00"]],
+  e14:[["1º Espanha - 4º Cabo Verde","1.78"],["1º Espanha - 4º Arábia Saudita","4.65"],["1º Uruguai - 4º Cabo Verde","5.45"],["1º Uruguai - 4º Arábia Saudita","11.00"],["1º Arábia Saudita - 4º Cabo Verde","14.00"],["1º Espanha - 4º Uruguai","14.00"],["1º Arábia Saudita - 4º Uruguai","90.00"],["1º Cabo Verde - 4º Arábia Saudita","100.00"],["1º Uruguai - 4º Espanha","125.00"],["1º Cabo Verde - 4º Uruguai","200.00"],["1º Arábia Saudita - 4º Espanha","250.00"],["1º Cabo Verde - 4º Espanha","500.00"]],
+  ecl:[["1º Espanha - 2º Uruguai - 3º Arábia Saudita - 4º Cabo Verde","2.72"],["1º Espanha - 2º Uruguai - 3º Cabo Verde - 4º Arábia Saudita","3.55"],["1º Uruguai - 2º Espanha - 3º Arábia Saudita - 4º Cabo Verde","7.90"],["1º Espanha - 2º Arábia Saudita - 3º Uruguai - 4º Cabo Verde","8.10"],["1º Uruguai - 2º Espanha - 3º Cabo Verde - 4º Arábia Saudita","9.90"],["1º Espanha - 2º Cabo Verde - 3º Uruguai - 4º Arábia Saudita","11.00"],["1º Espanha - 2º Arábia Saudita - 3º Cabo Verde - 4º Uruguai","24.00"],["1º Espanha - 2º Cabo Verde - 3º Arábia Saudita - 4º Uruguai","29.00"],["1º Uruguai - 2º Arábia Saudita - 3º Espanha - 4º Cabo Verde","55.00"],["1º Arábia Saudita - 2º Espanha - 3º Uruguai - 4º Cabo Verde","65.00"],["1º Arábia Saudita - 2º Uruguai - 3º Espanha - 4º Cabo Verde","90.00"],["1º Uruguai - 2º Cabo Verde - 3º Espanha - 4º Arábia Saudita","90.00"],["1º Cabo Verde - 2º Espanha - 3º Uruguai - 4º Arábia Saudita","100.00"],["1º Arábia Saudita - 2º Espanha - 3º Cabo Verde - 4º Uruguai","175.00"],["1º Cabo Verde - 2º Uruguai - 3º Espanha - 4º Arábia Saudita","200.00"],["1º Cabo Verde - 2º Espanha - 3º Arábia Saudita - 4º Uruguai","275.00"],["1º Uruguai - 2º Cabo Verde - 3º Arábia Saudita - 4º Espanha","400.00"],["1º Cabo Verde - 2º Arábia Saudita - 3º Espanha - 4º Uruguai","475.00"],["1º Cabo Verde - 2º Arábia Saudita - 3º Uruguai - 4º Espanha","475.00"],["1º Cabo Verde - 2º Uruguai - 3º Arábia Saudita - 4º Espanha","475.00"],["1º Arábia Saudita - 2º Cabo Verde - 3º Espanha - 4º Uruguai","475.00"],["1º Arábia Saudita - 2º Cabo Verde - 3º Uruguai - 4º Espanha","475.00"],["1º Arábia Saudita - 2º Uruguai - 3º Cabo Verde - 4º Espanha","475.00"],["1º Uruguai - 2º Arábia Saudita - 3º Cabo Verde - 4º Espanha","475.00"]],
+  evnp:[["Cabo Verde - Sim","2.32"],["Cabo Verde - Não","1.54"],["Arábia Saudita - Sim","1.78"],["Arábia Saudita - Não","1.92"],["Espanha - Sim","1.001"],["Espanha - Não","12.00"],["Uruguai - Sim","1.06"],["Uruguai - Não","7.30"]],
+  einv:[["Espanha","1.20"],["Uruguai","2.80"],["Arábia Saudita","13.00"],["Cabo Verde","35.00"]],
+  tgols:["17.5","1.80","1.90"],
+  emais:[["Espanha","1.26"],["Uruguai","4.45"],["Arábia Saudita","27.00"],["Cabo Verde","40.00"]],
+  emenos:[["Cabo Verde","1.85"],["Arábia Saudita","2.22"],["Uruguai","8.90"],["Espanha","55.00"]],
+  e9p:["1.73","2.00"],e0p:["2.12","1.65"]
+},
+"I":{
+  teams:[{n:"França",v:"1.35",u:"45.00",t2:"1.10",t3:"1.01",sc:"1.02",nsc:"25.00"},{n:"Noruega",v:"5.00",u:"12.00",t2:"1.55",t3:"1.07",sc:"1.17",nsc:"5.50"},{n:"Senegal",v:"7.50",u:"5.30",t2:"2.37",t3:"1.20",sc:"1.45",nsc:"2.95"},{n:"Iraque",v:"30.00",u:"1.28",t2:"9.00",t3:"2.95",sc:"4.50",nsc:"1.17"}],
+  e12:[["1º França - 2º Noruega","2.57"],["1º França - 2º Senegal","3.90"],["1º Noruega - 2º França","4.90"],["1º Senegal - 2º França","8.90"],["1º França - 2º Iraque","11.00"],["1º Noruega - 2º Senegal","11.00"],["1º Senegal - 2º Noruega","16.00"],["1º Noruega - 2º Iraque","40.00"],["1º Iraque - 2º França","55.00"],["1º Iraque - 2º Noruega","85.00"],["1º Senegal - 2º Iraque","85.00"],["1º Iraque - 2º Senegal","125.00"]],
+  e14:[["1º França - 4º Iraque","1.80"],["1º Noruega - 4º Iraque","4.65"],["1º França - 4º Senegal","5.90"],["1º Senegal - 4º Iraque","7.40"],["1º França - 4º Noruega","9.90"],["1º Noruega - 4º Senegal","11.00"],["1º Senegal - 4º Noruega","36.00"],["1º Noruega - 4º França","50.00"],["1º Iraque - 4º Senegal","55.00"],["1º Senegal - 4º França","70.00"],["1º Iraque - 4º Noruega","85.00"],["1º Iraque - 4º França","150.00"]],
+  ecl:[["1º França - 2º Noruega - 3º Senegal - 4º Iraque","3.00"],["1º França - 2º Senegal - 3º Noruega - 4º Iraque","4.45"],["1º Noruega - 2º França - 3º Senegal - 4º Iraque","5.20"],["1º França - 2º Noruega - 3º Iraque - 4º Senegal","9.40"],["1º Senegal - 2º França - 3º Noruega - 4º Iraque","13.00"],["1º Noruega - 2º Senegal - 3º França - 4º Iraque","14.00"],["1º Noruega - 2º França - 3º Iraque - 4º Senegal","16.00"],["1º França - 2º Senegal - 3º Iraque - 4º Noruega","19.00"],["1º Senegal - 2º Noruega - 3º França - 4º Iraque","21.00"],["1º França - 2º Iraque - 3º Noruega - 4º Senegal","34.00"],["1º França - 2º Iraque - 3º Senegal - 4º Noruega","45.00"],["1º Senegal - 2º França - 3º Iraque - 4º Noruega","75.00"],["1º Noruega - 2º Iraque - 3º França - 4º Senegal","90.00"],["1º Noruega - 2º Senegal - 3º Iraque - 4º França","90.00"],["1º Senegal - 2º Noruega - 3º Iraque - 4º França","150.00"],["1º Noruega - 2º Iraque - 3º Senegal - 4º França","200.00"],["1º Iraque - 2º França - 3º Noruega - 4º Senegal","225.00"],["1º Iraque - 2º França - 3º Senegal - 4º Noruega","300.00"],["1º Iraque - 2º Noruega - 3º França - 4º Senegal","325.00"],["1º Senegal - 2º Iraque - 3º França - 4º Noruega","325.00"],["1º Senegal - 2º Iraque - 3º Noruega - 4º França","375.00"],["1º Iraque - 2º Noruega - 3º Senegal - 4º França","475.00"],["1º Iraque - 2º Senegal - 3º França - 4º Noruega","475.00"],["1º Iraque - 2º Senegal - 3º Noruega - 4º França","475.00"]],
+  evnp:[["França - Sim","1.001"],["França - Não","12.00"],["Iraque - Sim","3.75"],["Iraque - Não","1.23"],["Noruega - Sim","1.06"],["Noruega - Não","7.30"],["Senegal - Sim","1.23"],["Senegal - Não","3.75"]],
+  einv:[["França","1.40"],["Noruega","2.60"],["Senegal","4.50"],["Iraque","45.00"]],
+  tgols:["17.5","2.00","1.72"],
+  emais:[["França","1.59"],["Noruega","2.95"],["Senegal","7.40"],["Iraque","65.00"]],
+  emenos:[["Iraque","1.30"],["Senegal","4.60"],["Noruega","10.00"],["França","24.00"]],
+  e9p:["2.20","1.60"],e0p:["1.95","1.76"]
+},
+"J":{
+  teams:[{n:"Argentina",v:"1.27",u:"40.00",t2:"1.05",t3:"1.01",sc:"1.01",nsc:"35.00"},{n:"Áustria",v:"5.50",u:"7.70",t2:"1.55",t3:"1.10",sc:"1.20",nsc:"4.70"},{n:"Argélia",v:"9.00",u:"4.50",t2:"2.60",t3:"1.25",sc:"1.55",nsc:"2.60"},{n:"Jordânia",v:"40.00",u:"1.40",t2:"8.00",t3:"2.75",sc:"4.20",nsc:"1.25"}],
+  e12:[["1º Argentina - 2º Áustria","2.27"],["1º Argentina - 2º Argélia","3.50"],["1º Áustria - 2º Argentina","5.45"],["1º Argentina - 2º Jordânia","9.40"],["1º Argélia - 2º Argentina","11.00"],["1º Áustria - 2º Argélia","17.00"],["1º Argélia - 2º Áustria","26.00"],["1º Áustria - 2º Jordânia","50.00"],["1º Jordânia - 2º Argentina","55.00"],["1º Argélia - 2º Jordânia","90.00"],["1º Jordânia - 2º Áustria","90.00"],["1º Jordânia - 2º Argélia","175.00"]],
+  e14:[["1º Argentina - 4º Jordânia","1.80"],["1º Argentina - 4º Argélia","4.90"],["1º Áustria - 4º Jordânia","5.90"],["1º Argentina - 4º Áustria","8.40"],["1º Argélia - 4º Jordânia","9.90"],["1º Áustria - 4º Argélia","11.00"],["1º Argélia - 4º Áustria","39.00"],["1º Jordânia - 4º Argélia","60.00"],["1º Áustria - 4º Argentina","75.00"],["1º Argélia - 4º Argentina","90.00"],["1º Jordânia - 4º Áustria","90.00"],["1º Jordânia - 4º Argentina","200.00"]],
+  ecl:[["1º Argentina - 2º Áustria - 3º Argélia - 4º Jordânia","3.10"],["1º Argentina - 2º Argélia - 3º Áustria - 4º Jordânia","3.70"],["1º Argentina - 2º Áustria - 3º Jordânia - 4º Argélia","8.40"],["1º Áustria - 2º Argentina - 3º Argélia - 4º Jordânia","8.40"],["1º Argélia - 2º Argentina - 3º Áustria - 4º Jordânia","12.00"],["1º Argentina - 2º Argélia - 3º Jordânia - 4º Áustria","13.00"],["1º Áustria - 2º Argélia - 3º Argentina - 4º Jordânia","23.00"],["1º Argentina - 2º Jordânia - 3º Áustria - 4º Argélia","24.00"],["1º Áustria - 2º Argentina - 3º Jordânia - 4º Argélia","24.00"],["1º Argélia - 2º Áustria - 3º Argentina - 4º Jordânia","27.00"],["1º Argentina - 2º Jordânia - 3º Argélia - 4º Áustria","27.00"],["1º Argélia - 2º Argentina - 3º Jordânia - 4º Áustria","45.00"],["1º Áustria - 2º Jordânia - 3º Argentina - 4º Argélia","90.00"],["1º Áustria - 2º Argélia - 3º Jordânia - 4º Argentina","100.00"],["1º Jordânia - 2º Argentina - 3º Áustria - 4º Argélia","100.00"],["1º Argélia - 2º Áustria - 3º Jordânia - 4º Argentina","125.00"],["1º Jordânia - 2º Argentina - 3º Argélia - 4º Áustria","125.00"],["1º Argélia - 2º Jordânia - 3º Argentina - 4º Áustria","150.00"],["1º Áustria - 2º Jordânia - 3º Argélia - 4º Argentina","225.00"],["1º Jordânia - 2º Áustria - 3º Argentina - 4º Argélia","225.00"],["1º Argélia - 2º Jordânia - 3º Áustria - 4º Argentina","325.00"],["1º Jordânia - 2º Argélia - 3º Argentina - 4º Áustria","325.00"],["1º Jordânia - 2º Argélia - 3º Áustria - 4º Argentina","475.00"],["1º Jordânia - 2º Áustria - 3º Argélia - 4º Argentina","475.00"]],
+  evnp:[["Argélia - Sim","1.23"],["Argélia - Não","3.75"],["Argentina - Sim","1.001"],["Argentina - Não","12.00"],["Áustria - Sim","1.11"],["Áustria - Não","5.60"],["Jordânia - Sim","3.20"],["Jordânia - Não","1.30"]],
+  einv:[["Argentina","1.27"],["Áustria","3.30"],["Argélia","4.75"],["Jordânia","33.00"]],
+  tgols:["16.5","1.85","1.85"],
+  emais:[["Argentina","1.46"],["Áustria","4.10"],["Argélia","6.40"],["Jordânia","39.00"]],
+  emenos:[["Jordânia","1.49"],["Argélia","4.10"],["Áustria","6.10"],["Argentina","24.00"]],
+  e9p:["2.30","1.55"],e0p:["2.12","1.64"]
+},
+"K":{
+  teams:[{n:"Portugal",v:"1.45",u:"35.00",t2:"1.10",t3:"1.01",sc:"1.02",nsc:"22.00"},{n:"Colômbia",v:"3.25",u:"12.00",t2:"1.30",t3:"1.05",sc:"1.08",nsc:"8.50"},{n:"RD do Congo",v:"10.00",u:"3.20",t2:"3.55",t3:"1.35",sc:"1.85",nsc:"2.00"},{n:"Uzbequistão",v:"40.00",u:"1.55",t2:"8.50",t3:"2.60",sc:"4.00",nsc:"1.25"}],
+  e12:[["1º Portugal - 2º Colômbia","2.27"],["1º Colômbia - 2º Portugal","3.50"],["1º Portugal - 2º RD do Congo","5.90"],["1º Portugal - 2º Uzbequistão","11.00"],["1º Colômbia - 2º RD do Congo","12.00"],["1º RD do Congo - 2º Portugal","16.00"],["1º RD do Congo - 2º Colômbia","24.00"],["1º Colômbia - 2º Uzbequistão","31.00"],["1º Uzbequistão - 2º Portugal","60.00"],["1º Uzbequistão - 2º Colômbia","75.00"],["1º RD do Congo - 2º Uzbequistão","125.00"],["1º Uzbequistão - 2º RD do Congo","150.00"]],
+  e14:[["1º Portugal - 4º Uzbequistão","2.30"],["1º Colômbia - 4º Uzbequistão","3.90"],["1º Portugal - 4º RD do Congo","4.65"],["1º Colômbia - 4º RD do Congo","7.40"],["1º RD do Congo - 4º Uzbequistão","11.00"],["1º Portugal - 4º Colômbia","15.00"],["1º Colômbia - 4º Portugal","40.00"],["1º Uzbequistão - 4º RD do Congo","50.00"],["1º RD do Congo - 4º Colômbia","60.00"],["1º RD do Congo - 4º Portugal","85.00"],["1º Uzbequistão - 4º Colômbia","85.00"],["1º Uzbequistão - 4º Portugal","150.00"]],
+  ecl:[["1º Portugal - 2º Colômbia - 3º RD do Congo - 4º Uzbequistão","3.40"],["1º Portugal - 2º Colômbia - 3º Uzbequistão - 4º RD do Congo","4.90"],["1º Colômbia - 2º Portugal - 3º RD do Congo - 4º Uzbequistão","5.45"],["1º Colômbia - 2º Portugal - 3º Uzbequistão - 4º RD do Congo","7.60"],["1º Portugal - 2º RD do Congo - 3º Colômbia - 4º Uzbequistão","8.40"],["1º Portugal - 2º Uzbequistão - 3º Colômbia - 4º RD do Congo","14.00"],["1º Colômbia - 2º RD do Congo - 3º Portugal - 4º Uzbequistão","21.00"],["1º Portugal - 2º RD do Congo - 3º Uzbequistão - 4º Colômbia","24.00"],["1º Portugal - 2º Uzbequistão - 3º RD do Congo - 4º Colômbia","31.00"],["1º Colômbia - 2º Uzbequistão - 3º Portugal - 4º RD do Congo","39.00"],["1º RD do Congo - 2º Portugal - 3º Colômbia - 4º Uzbequistão","39.00"],["1º RD do Congo - 2º Colômbia - 3º Portugal - 4º Uzbequistão","40.00"],["1º Uzbequistão - 2º Portugal - 3º Colômbia - 4º RD do Congo","75.00"],["1º Colômbia - 2º RD do Congo - 3º Uzbequistão - 4º Portugal","90.00"],["1º Uzbequistão - 2º Colômbia - 3º Portugal - 4º RD do Congo","90.00"],["1º Colômbia - 2º Uzbequistão - 3º RD do Congo - 4º Portugal","100.00"],["1º RD do Congo - 2º Portugal - 3º Uzbequistão - 4º Colômbia","100.00"],["1º Uzbequistão - 2º Portugal - 3º RD do Congo - 4º Colômbia","150.00"],["1º RD do Congo - 2º Colômbia - 3º Uzbequistão - 4º Portugal","225.00"],["1º Uzbequistão - 2º Colômbia - 3º RD do Congo - 4º Portugal","300.00"],["1º Uzbequistão - 2º RD do Congo - 3º Portugal - 4º Colômbia","400.00"],["1º RD do Congo - 2º Uzbequistão - 3º Colômbia - 4º Portugal","475.00"],["1º RD do Congo - 2º Uzbequistão - 3º Portugal - 4º Colômbia","475.00"],["1º Uzbequistão - 2º RD do Congo - 3º Colômbia - 4º Portugal","475.00"]],
+  evnp:[["Colômbia - Sim","1.04"],["Colômbia - Não","8.40"],["RD do Congo - Sim","1.67"],["RD do Congo - Não","2.07"],["Portugal - Sim","1.001"],["Portugal - Não","12.00"],["Uzbequistão - Sim","2.37"],["Uzbequistão - Não","1.52"]],
+  einv:[["Portugal","1.40"],["Colômbia","2.20"],["RD do Congo","8.50"],["Uzbequistão","16.00"]],
+  tgols:["16.5","1.85","1.85"],
+  emais:[["Portugal","1.44"],["Colômbia","3.30"],["RD do Congo","16.00"],["Uzbequistão","27.00"]],
+  emenos:[["Uzbequistão","1.78"],["RD do Congo","2.42"],["Colômbia","8.90"],["Portugal","29.00"]],
+  e9p:["2.47","1.48"],e0p:["2.30","1.55"]
+},
+"L":{
+  teams:[{n:"Inglaterra",v:"1.30",u:"50.00",t2:"1.05",t3:"1.01",sc:"1.01",nsc:"45.00"},{n:"Croácia",v:"5.00",u:"10.00",t2:"1.35",t3:"1.05",sc:"1.18",nsc:"5.75"},{n:"Gana",v:"10.00",u:"2.95",t2:"4.00",t3:"1.40",sc:"1.75",nsc:"2.15"},{n:"Panamá",v:"40.00",u:"1.55",t2:"8.50",t3:"2.50",sc:"4.00",nsc:"1.28"}],
+  e12:[["1º Inglaterra - 2º Croácia","1.88"],["1º Croácia - 2º Inglaterra","4.45"],["1º Inglaterra - 2º Gana","4.90"],["1º Inglaterra - 2º Panamá","9.40"],["1º Croácia - 2º Gana","22.00"],["1º Gana - 2º Inglaterra","22.00"],["1º Gana - 2º Croácia","40.00"],["1º Croácia - 2º Panamá","50.00"],["1º Panamá - 2º Inglaterra","65.00"],["1º Panamá - 2º Croácia","125.00"],["1º Gana - 2º Panamá","225.00"],["1º Panamá - 2º Gana","325.00"]],
+  e14:[["1º Inglaterra - 4º Panamá","2.12"],["1º Inglaterra - 4º Gana","3.90"],["1º Croácia - 4º Panamá","5.45"],["1º Croácia - 4º Gana","8.90"],["1º Inglaterra - 4º Croácia","11.00"],["1º Gana - 4º Panamá","17.00"],["1º Panamá - 4º Gana","70.00"],["1º Croácia - 4º Inglaterra","85.00"],["1º Gana - 4º Croácia","85.00"],["1º Panamá - 4º Croácia","125.00"],["1º Gana - 4º Inglaterra","175.00"],["1º Panamá - 4º Inglaterra","275.00"]],
+  ecl:[["1º Inglaterra - 2º Croácia - 3º Gana - 4º Panamá","3.10"],["1º Inglaterra - 2º Gana - 3º Croácia - 4º Panamá","5.25"],["1º Inglaterra - 2º Croácia - 3º Panamá - 4º Gana","5.70"],["1º Croácia - 2º Inglaterra - 3º Gana - 4º Panamá","7.20"],["1º Croácia - 2º Inglaterra - 3º Panamá - 4º Gana","12.00"],["1º Inglaterra - 2º Gana - 3º Panamá - 4º Croácia","17.00"],["1º Inglaterra - 2º Panamá - 3º Croácia - 4º Gana","17.00"],["1º Gana - 2º Inglaterra - 3º Croácia - 4º Panamá","19.00"],["1º Croácia - 2º Gana - 3º Inglaterra - 4º Panamá","22.00"],["1º Inglaterra - 2º Panamá - 3º Gana - 4º Croácia","25.00"],["1º Gana - 2º Croácia - 3º Inglaterra - 4º Panamá","34.00"],["1º Croácia - 2º Panamá - 3º Inglaterra - 4º Gana","55.00"],["1º Gana - 2º Inglaterra - 3º Panamá - 4º Croácia","65.00"],["1º Panamá - 2º Inglaterra - 3º Croácia - 4º Gana","85.00"],["1º Croácia - 2º Gana - 3º Panamá - 4º Inglaterra","90.00"],["1º Panamá - 2º Inglaterra - 3º Gana - 4º Croácia","100.00"],["1º Gana - 2º Croácia - 3º Panamá - 4º Inglaterra","125.00"],["1º Panamá - 2º Croácia - 3º Inglaterra - 4º Gana","150.00"],["1º Croácia - 2º Panamá - 3º Gana - 4º Inglaterra","175.00"],["1º Gana - 2º Panamá - 3º Inglaterra - 4º Croácia","175.00"],["1º Gana - 2º Panamá - 3º Croácia - 4º Inglaterra","375.00"],["1º Panamá - 2º Croácia - 3º Gana - 4º Inglaterra","375.00"],["1º Panamá - 2º Gana - 3º Inglaterra - 4º Croácia","375.00"],["1º Panamá - 2º Gana - 3º Croácia - 4º Inglaterra","475.00"]],
+  evnp:[["Croácia - Sim","1.09"],["Croácia - Não","6.20"],["Inglaterra - Sim","1.001"],["Inglaterra - Não","12.00"],["Gana - Sim","1.44"],["Gana - Não","2.60"],["Panamá - Sim","2.67"],["Panamá - Não","1.42"]],
+  einv:[["Inglaterra","1.32"],["Croácia","2.80"],["Gana","7.00"],["Panamá","22.00"]],
+  tgols:["16.5","1.90","1.80"],
+  emais:[["Inglaterra","1.44"],["Croácia","3.70"],["Gana","9.90"],["Panamá","29.00"]],
+  emenos:[["Panamá","1.65"],["Gana","3.05"],["Croácia","6.90"],["Inglaterra","24.00"]],
+  e9p:["2.07","1.67"],e0p:["2.35","1.53"]
+}
 };
 
-const recordes = [
-  ["Mais Gols por uma Equipe no Torneio","27","30.00"],["Maior Margem de Vitória em uma Partida","9","30.00"],["Mais Gols por um Jogador em uma Partida","5","50.00"],["Mais Assistências por um Jogador em uma Partida","3","30.00"],["Mais Defesas por um Goleiro em uma Partida","16","50.00"],["Número de Assistências do Melhor Assistente","6","7.00"],["Mais Gols em Uma Única Partida","12","100.00"],["Gol Mais Rápido","11s","20.00"],["Cartão Vermelho Mais Rápido","56s","12.00"],["Jogador Mais Velho em uma Final","40a 133d","4.00"],["Artilheiro Mais Velho em uma Final","35a 263d","4.00"],["Empate com Mais Gols","4-4","100.00"],["Jogador Mais Velho a Marcar um Hat-trick","33a 130d","3.00"],["Número de Gols do Artilheiro","13","30.00"],["Mais Gols por um Jogador em uma Final","3","50.00"],["Mais Gols Sofridos por uma Equipe em uma Partida","10","30.00"],["Maior Margem de Vitória em uma Final","3","18.00"],["Hat-trick Mais Rápido","7m","100.00"]
-];
-recordes.forEach(r => {
-  const kr = k('rec', r[0]);
-  document.getElementById('b-recordes').innerHTML += `<tr>
-    <td class="td-player">${r[0]}</td>
-    <td style="text-align:center;color:var(--text-muted);font-size:.82rem">${r[1]}</td>
-    <td class="td-odd">${r[2]}</td>
-    ${statusCell(kr)}${idCell(kr)}
-  </tr>`;
+const container=document.getElementById('groups-container');
+Object.keys(groupData).forEach(id=>{
+  const g=groupData[id];
+  let html=`<div class="tab-panel" id="tab-g${id}"><div class="page-title">Grupo ${id}</div>`;
+
+  // Vencedor
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Vencedor do Grupo</div></div><div class="table-wrap"><table><thead><tr><th>Seleção</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  g.teams.forEach(t=>{const kk=k('gvenc',id,t.n);html+=row2(t.n,t.v,kk);});
+  html+=`</tbody></table></div></div>`;
+
+  // Último
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Equipe a Terminar em Último</div></div><div class="table-wrap"><table><thead><tr><th>Seleção</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  g.teams.forEach(t=>{const kk=k('gulti',id,t.n);html+=row2(t.n,t.u,kk);});
+  html+=`</tbody></table></div></div>`;
+
+  // Top 2
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Equipe no Top 2</div></div><div class="table-wrap"><table><thead><tr><th>Seleção</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  g.teams.forEach(t=>{const kk=k('gtop2',id,t.n);html+=row2(t.n,t.t2,kk);});
+  html+=`</tbody></table></div></div>`;
+
+  // Top 3
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Equipe no Top 3</div></div><div class="table-wrap"><table><thead><tr><th>Seleção</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  g.teams.forEach(t=>{const kk=k('gtop3',id,t.n);html+=row2(t.n,t.t3,kk);});
+  html+=`</tbody></table></div></div>`;
+
+  // Se Classifica
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Se Classifica</div></div><div class="table-wrap"><table><thead><tr><th>Seleção</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  g.teams.forEach(t=>{const kk=k('gsc',id,t.n);html+=row2(t.n,t.sc,kk);});
+  html+=`</tbody></table></div></div>`;
+
+  // Não se Classifica
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Para Não se Classificar</div></div><div class="table-wrap"><table><thead><tr><th>Seleção</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  g.teams.forEach(t=>{const kk=k('gnsc',id,t.n);html+=row2(t.n,t.nsc,kk);});
+  html+=`</tbody></table></div></div>`;
+
+  // 1x2
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">1º Lugar & 2º Lugar em Ordem Exata</div></div><div class="table-wrap"><table><thead><tr><th>Combinação</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  g.e12.forEach(c=>{const kk=k('g12',id,c[0]);html+=row2(c[0],c[1],kk);});
+  html+=`</tbody></table></div></div>`;
+
+  // 1x4
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">1º Lugar & 4º Lugar em Ordem Exata</div></div><div class="table-wrap"><table><thead><tr><th>Combinação</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  g.e14.forEach(c=>{const kk=k('g14',id,c[0]);html+=row2(c[0],c[1],kk);});
+  html+=`</tbody></table></div></div>`;
+
+  // Classificação exata 1-4
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Classificação Exata Posições 1-4</div></div><div class="table-wrap"><table><thead><tr><th>Combinação</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  g.ecl.forEach(c=>{const kk=k('gcl',id,c[0]);html+=row2(c[0],c[1],kk);});
+  html+=`</tbody></table></div></div>`;
+
+  // Vencerá pelo menos uma partida
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Equipe Vencerá Pelo Menos uma Partida</div></div><div class="table-wrap"><table><thead><tr><th>Seleção / Resultado</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  g.evnp.forEach(c=>{const kk=k('gevnp',id,c[0]);html+=row2(c[0],c[1],kk);});
+  html+=`</tbody></table></div></div>`;
+
+  // Terminar invicta
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Equipe para Terminar Invicta</div></div><div class="table-wrap"><table><thead><tr><th>Seleção</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  g.einv.forEach(c=>{const kk=k('ginv',id,c[0]);html+=row2(c[0],c[1],kk);});
+  html+=`</tbody></table></div></div>`;
+
+  // Total de gols
+  const tg=g.tgols;
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Total de Gols (${tg[0]})</div></div><div class="table-wrap"><table><thead><tr><th>Mercado</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  html+=row2(`Mais de ${tg[0]}`,tg[1],k('gtgm',id));
+  html+=row2(`Menos de ${tg[0]}`,tg[2],k('gtgme',id));
+  html+=`</tbody></table></div></div>`;
+
+  // Marcar mais gols
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Equipe a Marcar Mais Gols</div></div><div class="table-wrap"><table><thead><tr><th>Seleção</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  g.emais.forEach(c=>{const kk=k('gemais',id,c[0]);html+=row2(c[0],c[1],kk);});
+  html+=`</tbody></table></div></div>`;
+
+  // Marcar menos gols
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Equipe a Marcar Menos Gols</div></div><div class="table-wrap"><table><thead><tr><th>Seleção</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  g.emenos.forEach(c=>{const kk=k('gemenos',id,c[0]);html+=row2(c[0],c[1],kk);});
+  html+=`</tbody></table></div></div>`;
+
+  // 9 pontos
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Qualquer Equipe irá Fazer 9 Pontos</div></div><div class="table-wrap"><table><thead><tr><th>Resultado</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  html+=row2('Sim',g.e9p[0],k('g9ps',id));
+  html+=row2('Não',g.e9p[1],k('g9pn',id));
+  html+=`</tbody></table></div></div>`;
+
+  // 0 pontos
+  html+=`<div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Qualquer Equipe irá Fazer 0 Pontos</div></div><div class="table-wrap"><table><thead><tr><th>Resultado</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>`;
+  html+=row2('Sim',g.e0p[0],k('g0ps',id));
+  html+=row2('Não',g.e0p[1],k('g0pn',id));
+  html+=`</tbody></table></div></div>`;
+
+  html+=`</div>`;
+  container.innerHTML+=html;
 });
-
-const container = document.getElementById('groups-container');
-Object.keys(groupData).forEach(id => {
-  const g = groupData[id];
-  let tBodyPos='', tBodyTop='', tBody12='', tBody14='';
-  g.teams.forEach(t => {
-    const kp=k('gpos',id,t.nome), kt=k('gtop',id,t.nome);
-    tBodyPos+=`<tr><td class="td-player">${t.nome}</td><td class="td-odd-c">${t.vence}</td><td class="td-odd-c">${t.ultimo}</td>${statusCell(kp)}${idCell(kp)}</tr>`;
-    tBodyTop+=`<tr><td class="td-player">${t.nome}</td><td class="td-odd-c">${t.top2}</td><td class="td-odd-c">${t.top3}</td><td class="td-odd-c">${t.classifica}</td><td class="td-odd-c">${t.nclassifica}</td>${statusCell(kt)}${idCell(kt)}</tr>`;
-  });
-  g.e12.forEach(c=>{const ke=k('g12',id,c[0]);tBody12+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(ke)}${idCell(ke)}</tr>`;});
-  g.e14.forEach(c=>{const ke=k('g14',id,c[0]);tBody14+=`<tr><td class="td-player">${c[0]}</td><td class="td-odd">${c[1]}</td>${statusCell(ke)}${idCell(ke)}</tr>`;});
-
-  container.innerHTML+=`
-  <div class="tab-panel" id="tab-g${id}">
-    <div class="page-title">Grupo ${id}</div>
-    <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Posição Final (Vencedor e Último)</div></div>
-      <div class="table-wrap"><table><thead><tr><th>Seleção</th><th class="center">Vencedor</th><th class="center">Terminar em Último</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>${tBodyPos}</tbody></table></div>
-    </div>
-    <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Top 2 / Top 3 / Classificação</div></div>
-      <div class="table-wrap"><table><thead><tr><th>Seleção</th><th class="center">Top 2</th><th class="center">Top 3</th><th class="center">Se Classifica</th><th class="center">Não se Classifica</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>${tBodyTop}</tbody></table></div>
-    </div>
-    <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">Primeiros 2 Lugares em Ordem Exata</div></div>
-      <div class="table-wrap"><table><thead><tr><th>Combinação (1º - 2º)</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>${tBody12}</tbody></table></div>
-    </div>
-    <div class="section"><div class="section-header"><div class="section-accent"></div><div class="section-title">1º Lugar & 4º Lugar em Ordem Exata</div></div>
-      <div class="table-wrap"><table><thead><tr><th>Combinação (1º - 4º)</th><th class="right">Odd</th><th class="th-status">Status</th><th class="th-id">ID do Evento</th></tr></thead><tbody>${tBody14}</tbody></table></div>
-    </div>
-  </div>`;
-});
-
-} // end renderAll
-
+}
 loadDb();
 </script>
-</body>
-</html>
-
+</body></html>
